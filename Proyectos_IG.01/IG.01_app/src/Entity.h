@@ -32,6 +32,7 @@ protected:
 	// transfers modelViewMat to the GPU
 	virtual void upload(glm::dmat4 const& mModelViewMat) const; 
 };
+
 //-------------------------------------------------------------------------
 
 class EjesRGB : public Abs_Entity 
@@ -39,6 +40,26 @@ class EjesRGB : public Abs_Entity
 public:
 	explicit EjesRGB(GLdouble l);
 	~EjesRGB();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+
+//-------------------------------------------------------------------------
+
+class Circle : public Abs_Entity
+{
+public:
+	explicit Circle(GLuint numL, GLdouble rd);
+	~Circle();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+
+//-------------------------------------------------------------------------
+
+class Triangle : public Abs_Entity
+{
+public:
+	explicit Triangle(GLuint numL, GLdouble rd);
+	~Triangle();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 

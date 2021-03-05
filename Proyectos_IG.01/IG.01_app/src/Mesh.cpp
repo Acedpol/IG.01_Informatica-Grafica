@@ -31,6 +31,48 @@ void Mesh::render() const
 }
 //-------------------------------------------------------------------------
 
+Mesh* Mesh::generaCircle(GLuint numL, GLdouble rd)
+{
+    // variables iniciales:
+    Mesh* mesh = new Mesh();
+    mesh->mPrimitive = GL_LINE_LOOP;
+    mesh->mNumVertices = numL;
+    mesh->vVertices.reserve(mesh->mNumVertices);
+    // construccion del circulo:
+    double ang = 0.0;
+    for (uint i = 0; i < mesh->mNumVertices; ++i) 
+    {
+        double x = 0 + rd * cos(radians(ang));
+        double y = 0 + rd * sin(radians(ang));
+        ang = ang + (360 / mesh->mNumVertices);
+        mesh->vVertices.emplace_back(x, y, 0.0);
+        mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+    }
+    return mesh;
+}
+//-------------------------------------------------------------------------
+
+Mesh* Mesh::generaTriangle(GLuint numL, GLdouble rd)
+{
+    // variables iniciales:
+    Mesh* mesh = new Mesh();
+    mesh->mPrimitive = GL_LINE_LOOP;
+    mesh->mNumVertices = numL;
+    mesh->vVertices.reserve(mesh->mNumVertices);
+    // construccion del circulo:
+    double ang = 0.0;
+    for (uint i = 0; i < mesh->mNumVertices; ++i)
+    {
+        double x = 0 + rd * cos(radians(ang));
+        double y = 0 + rd * sin(radians(ang));
+        ang = ang + (360 / mesh->mNumVertices);
+        mesh->vVertices.emplace_back(x, y, 0.0);
+        mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+    }
+    return mesh;
+}
+//-------------------------------------------------------------------------
+
 Mesh * Mesh::createRGBAxes(GLdouble l)
 {
   Mesh* mesh = new Mesh();
