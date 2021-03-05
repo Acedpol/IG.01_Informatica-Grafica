@@ -18,6 +18,28 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\IG1App.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\Pixmap32RGBA.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\Viewport.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\CheckML.h" />
+    <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\IG1App.h" />
+    <ClInclude Include="src\Mesh.h" />
+    <ClInclude Include="src\Pixmap32RGBA.h" />
+    <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\Viewport.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{C72F3A79-DA8E-4EC6-A14F-6C59650E8A7E}</ProjectGuid>
@@ -119,24 +141,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CheckML.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="IG1App.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Viewport.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="IG1App.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Viewport.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
