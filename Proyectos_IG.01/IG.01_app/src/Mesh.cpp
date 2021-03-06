@@ -111,7 +111,7 @@ Mesh* Mesh::generaPoligono(GLuint numL, GLdouble rd, glm::dvec4 const& color)
 Mesh* Mesh::generaTriangleRGB(GLdouble rd)
 {
 	Mesh* mesh = generaPoligono(3, rd, { 1.0,1.0,1.0,1.0 });
-	mesh->mPrimitive = GL_LINE_LOOP;
+	mesh->mPrimitive = GL_TRIANGLES;
 	mesh->vColors.reserve(mesh->mNumVertices); 
 	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
 	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
