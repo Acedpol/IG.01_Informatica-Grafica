@@ -40,52 +40,9 @@ void EjesRGB::render(dmat4 const& modelViewMat) const
 
 //-------------------------------------------------------------------------
 
-//Circle::Circle(GLuint numL, GLdouble rd)
-//{
-//	mMesh = Mesh::generaCircle(numL, rd);
-//}
-//
-//Circle::~Circle()
-//{
-//	delete mMesh; mMesh = nullptr;
-//}
-//
-//void Circle::render(glm::dmat4 const& modelViewMat) const
-//{
-//	if (mMesh != nullptr) {
-//		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-//		upload(aMat);
-//		glLineWidth(2);
-//		mMesh->render();
-//		glLineWidth(1);
-//	}
-//}
-
-//-------------------------------------------------------------------------
-
-//Triangle::Triangle(GLuint numL, GLdouble rd)
-//{
-//	mMesh = Mesh::generaTriangle(numL, rd);
-//}
-//
-//Triangle::~Triangle()
-//{
-//	delete mMesh; mMesh = nullptr;
-//}
-//
-//void Triangle::render(glm::dmat4 const& modelViewMat) const
-//{
-//	if (mMesh != nullptr) {
-//		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-//		upload(aMat);
-//		glLineWidth(2);
-//		mMesh->render();
-//		glLineWidth(1);
-//	}
-//}
-
 Sierpinski::Sierpinski(GLuint numL, GLdouble rd, glm::dvec4 const& color)
 {
+	mColor = color;
 	mMesh = Mesh::generaSierpinski(numL, rd, color);
 }
 
@@ -107,8 +64,11 @@ void Sierpinski::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
+//-------------------------------------------------------------------------
+
 Poligono::Poligono(GLuint numL, GLdouble rd, glm::dvec4 const& color)
 {
+	mColor = color;
 	mMesh = Mesh::generaPoligono(numL, rd, color);
 }
 
@@ -130,6 +90,8 @@ void Poligono::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
+//-------------------------------------------------------------------------
+
 TrianguloRGB::TrianguloRGB(GLdouble rd)
 {
 	mMesh = Mesh::generaTriangleRGB(rd);
@@ -147,6 +109,33 @@ void TrianguloRGB::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		
+		glColor3d(0.0, 1.0, 1.0); // value_ptr(mColor));
+		glLineWidth(2);
+		mMesh->render();
+		glColor3d(1.0, 1.0, 1.0);
+		glLineWidth(1);
+	}
+}
+
+//-------------------------------------------------------------------------
+
+RectanguloRGB::RectanguloRGB(GLdouble w, GLdouble h)
+{
+	mMesh = Mesh::generaRectanguloRGB(w, h);
+}
+
+RectanguloRGB::~RectanguloRGB()
+{
+	delete mMesh; mMesh = nullptr;
+}
+
+void RectanguloRGB::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+
 		glColor3d(0.0, 1.0, 1.0); // value_ptr(mColor));
 		glLineWidth(2);
 		mMesh->render();
