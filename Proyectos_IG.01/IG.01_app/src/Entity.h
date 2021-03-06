@@ -53,7 +53,7 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
-//-------------------------------------------------------------------------
+/*-------------------------------------------------------------------------
 
 class Circle : public Abs_Entity
 {
@@ -71,7 +71,7 @@ public:
 	explicit Triangle(GLuint numL, GLdouble rd);
 	~Triangle();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
-};
+};*/
 
 //-------------------------------------------------------------------------
 class Sierpinski : public Abs_Entity
@@ -79,6 +79,16 @@ class Sierpinski : public Abs_Entity
 public:
 	explicit Sierpinski(GLuint numL, GLdouble rd, glm::dvec4 const& color);
 	~Sierpinski();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+
+//-------------------------------------------------------------------------
+
+class TrianguloRGB : public Abs_Entity
+{
+public:
+	explicit TrianguloRGB(GLdouble rd);
+	~TrianguloRGB();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 #endif //_H_Entities_H_
