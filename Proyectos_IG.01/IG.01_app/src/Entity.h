@@ -64,5 +64,11 @@ public:
 };
 
 //-------------------------------------------------------------------------
-
+class Sierpinski : public Abs_Entity
+{
+public:
+	explicit Sierpinski(GLuint numL, GLdouble rd);
+	~Sierpinski();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
 #endif //_H_Entities_H_

@@ -14,6 +14,8 @@ class Mesh
 public:
 	static Mesh* generaCircle(GLuint numL, GLdouble rd);
 	static Mesh* generaTriangle(GLuint numL, GLdouble rd);
+	static Mesh* generaTriangleRGB(GLdouble rd);
+	static Mesh* generaSierpinski(GLdouble rd, GLuint numP);
 	static Mesh* createRGBAxes(GLdouble l); // creates a new 3D-RGB axes mesh
 	
 	Mesh() {};

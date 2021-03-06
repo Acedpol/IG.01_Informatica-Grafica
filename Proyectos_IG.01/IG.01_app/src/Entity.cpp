@@ -83,3 +83,24 @@ void Triangle::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(1);
 	}
 }
+
+Sierpinski::Sierpinski(GLuint numL, GLdouble rd)
+{
+	mMesh = Mesh::generaSierpinski(numL, rd);
+}
+
+Sierpinski::~Sierpinski()
+{
+	delete mMesh; mMesh = nullptr;
+}
+
+void Sierpinski::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glLineWidth(2);
+		mMesh->render();
+		glLineWidth(1);
+	}
+}

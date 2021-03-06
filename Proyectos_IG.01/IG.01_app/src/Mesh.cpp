@@ -42,11 +42,11 @@ Mesh* Mesh::generaCircle(GLuint numL, GLdouble rd)
     double ang = 0.0;
     for (uint i = 0; i < mesh->mNumVertices; ++i) 
     {
-        double x = 0 + rd * cos(radians(ang));
-        double y = 0 + rd * sin(radians(ang));
+        double y = 0 + rd * cos(radians(ang));
+        double x = 0 + rd * sin(radians(ang));
         ang = ang + (360 / mesh->mNumVertices);
         mesh->vVertices.emplace_back(x, y, 0.0);
-        mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+        mesh->vColors.emplace_back(1.0, 0.0, 1.0, 0.0);
     }
     return mesh;
 }
@@ -59,17 +59,59 @@ Mesh* Mesh::generaTriangle(GLuint numL, GLdouble rd)
     mesh->mPrimitive = GL_LINE_LOOP;
     mesh->mNumVertices = numL;
     mesh->vVertices.reserve(mesh->mNumVertices);
-    // construccion del circulo:
+    // construccion del triangulo:
     double ang = 0.0;
     for (uint i = 0; i < mesh->mNumVertices; ++i)
     {
-        double x = 0 + rd * cos(radians(ang));
-        double y = 0 + rd * sin(radians(ang));
+        double y = 0 + rd * cos(radians(ang));
+        double x = 0 + rd * sin(radians(ang));
         ang = ang + (360 / mesh->mNumVertices);
         mesh->vVertices.emplace_back(x, y, 0.0);
-        mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+        mesh->vColors.emplace_back(1.0, 1.0, 0.0, 0.0);
     }
     return mesh;
+}
+
+Mesh* Mesh::generaTriangleRGB(GLdouble rd)
+{
+	// variables iniciales:
+	Mesh* mesh = generaTriangle(3, rd);
+	mesh->mPrimitive = GL_TRIANGLES;
+
+
+	return mesh;
+}
+
+Mesh* Mesh::generaSierpinski(GLdouble rd, GLuint numP) {
+	Mesh* triangulo = generaTriangle(3, rd);
+
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_POINTS;
+
+	mesh->mNumVertices = numP;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	dvec3 p = triangulo->vertices()[rand() % 3];
+	dvec3 p1;
+
+	dvec3 vertices[3] = { triangulo->vertices()[0], triangulo->vertices()[1], triangulo->vertices()[2] };
+
+	// An arbitrary initial point inside the triangle
+	mesh->vVertices.emplace_back(p);
+	// compute and store N-1 new points
+	for (uint i = 0; i < numP; i++) {
+		int j = rand() % 3; // pick a vertex at random
+		// Compute the point halfway between the selected vertex
+		// and the previous point
+		p1 = (p + vertices[j]) / 2.0;
+		mesh->vVertices.emplace_back(p1);
+		mesh->vColors.emplace_back(1.0, 0.0, 1.0, 0.0);
+		p = p1;
+	}
+
+	delete triangulo; triangulo = nullptr;
+	return mesh;
 }
 //-------------------------------------------------------------------------
 

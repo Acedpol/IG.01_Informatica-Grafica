@@ -16,7 +16,9 @@ void Scene::init()
 
     // Graphics objects (entities) of the scene
 	gObjects.push_back(new EjesRGB(400.0));
-	gObjects.push_back(new Circle(50, 200));
+	//gObjects.push_back(new Circle(50, 50));
+	//gObjects.push_back(new Triangle(3, 50));
+	gObjects.push_back(new Sierpinski(200, 4000));
 	
 }
 //-------------------------------------------------------------------------
