@@ -18,9 +18,12 @@ void Scene::init()
 	gObjects.push_back(new EjesRGB(400.0));
 	//gObjects.push_back(new Circle(50, 50));
 	//gObjects.push_back(new Triangle(3, 50));
-	gObjects.push_back(new Sierpinski(200, 4000));
-	
+	//gObjects.push_back(new Sierpinski(200, 4000));
+	gObjects.push_back(new Poligono(50, 50, { 1.0,0.0,0.0,1.0 }));
+	gObjects.push_back(new Poligono(3, 50, { 0.0,1.0,0.0,1.0 }));
+	gObjects.push_back(new Sierpinski(200, 4000, { 0.0,0.0,1.0,1.0 }));
 }
+
 //-------------------------------------------------------------------------
 void Scene::free() 
 { // release memory and resources   

@@ -12,23 +12,23 @@
 class Abs_Entity  // abstract class
 {
 public:
-	Abs_Entity(): mModelMat(1.0) {};  // 4x4 identity matrix
+	Abs_Entity(): mModelMat(1.0), mColor(1) {};  // 4x4 identity matrix
 	virtual ~Abs_Entity() {};
 
 	Abs_Entity(const Abs_Entity& e) = delete;  // no copy constructor
 	Abs_Entity& operator=(const Abs_Entity& e) = delete;  // no copy assignment
 
 	virtual void render(glm::dmat4 const& modelViewMat) const = 0;  // abstract method
-
+	
 	// modeling matrix
 	glm::dmat4 const& modelMat() const { return mModelMat; };
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
-	
+	void setColor(glm::dvec4 const& color) { mColor = color; };
 protected:
 
-	Mesh* mMesh = nullptr;   // the mesh
-	glm::dmat4 mModelMat;    // modeling matrix
-	
+	Mesh* mMesh = nullptr;		// the mesh
+	glm::dmat4 mModelMat;		// modeling matrix
+	glm::dvec4 mColor;			// mesh color
 	// transfers modelViewMat to the GPU
 	virtual void upload(glm::dmat4 const& mModelViewMat) const; 
 };
@@ -40,6 +40,16 @@ class EjesRGB : public Abs_Entity
 public:
 	explicit EjesRGB(GLdouble l);
 	~EjesRGB();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+
+//-------------------------------------------------------------------------
+
+class Poligono : public Abs_Entity
+{
+public:
+	explicit Poligono(GLuint numL, GLdouble rd, glm::dvec4 const& color);
+	~Poligono();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
@@ -67,7 +77,7 @@ public:
 class Sierpinski : public Abs_Entity
 {
 public:
-	explicit Sierpinski(GLuint numL, GLdouble rd);
+	explicit Sierpinski(GLuint numL, GLdouble rd, glm::dvec4 const& color);
 	~Sierpinski();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };

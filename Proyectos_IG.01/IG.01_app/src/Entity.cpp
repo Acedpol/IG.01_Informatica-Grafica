@@ -40,53 +40,53 @@ void EjesRGB::render(dmat4 const& modelViewMat) const
 
 //-------------------------------------------------------------------------
 
-Circle::Circle(GLuint numL, GLdouble rd)
-{
-	mMesh = Mesh::generaCircle(numL, rd);
-}
-
-Circle::~Circle()
-{
-	delete mMesh; mMesh = nullptr;
-}
-
-void Circle::render(glm::dmat4 const& modelViewMat) const
-{
-	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		upload(aMat);
-		glLineWidth(2);
-		mMesh->render();
-		glLineWidth(1);
-	}
-}
+//Circle::Circle(GLuint numL, GLdouble rd)
+//{
+//	mMesh = Mesh::generaCircle(numL, rd);
+//}
+//
+//Circle::~Circle()
+//{
+//	delete mMesh; mMesh = nullptr;
+//}
+//
+//void Circle::render(glm::dmat4 const& modelViewMat) const
+//{
+//	if (mMesh != nullptr) {
+//		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+//		upload(aMat);
+//		glLineWidth(2);
+//		mMesh->render();
+//		glLineWidth(1);
+//	}
+//}
 
 //-------------------------------------------------------------------------
 
-Triangle::Triangle(GLuint numL, GLdouble rd)
-{
-	mMesh = Mesh::generaTriangle(numL, rd);
-}
+//Triangle::Triangle(GLuint numL, GLdouble rd)
+//{
+//	mMesh = Mesh::generaTriangle(numL, rd);
+//}
+//
+//Triangle::~Triangle()
+//{
+//	delete mMesh; mMesh = nullptr;
+//}
+//
+//void Triangle::render(glm::dmat4 const& modelViewMat) const
+//{
+//	if (mMesh != nullptr) {
+//		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+//		upload(aMat);
+//		glLineWidth(2);
+//		mMesh->render();
+//		glLineWidth(1);
+//	}
+//}
 
-Triangle::~Triangle()
+Sierpinski::Sierpinski(GLuint numL, GLdouble rd, glm::dvec4 const& color)
 {
-	delete mMesh; mMesh = nullptr;
-}
-
-void Triangle::render(glm::dmat4 const& modelViewMat) const
-{
-	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		upload(aMat);
-		glLineWidth(2);
-		mMesh->render();
-		glLineWidth(1);
-	}
-}
-
-Sierpinski::Sierpinski(GLuint numL, GLdouble rd)
-{
-	mMesh = Mesh::generaSierpinski(numL, rd);
+	mMesh = Mesh::generaSierpinski(numL, rd, color);
 }
 
 Sierpinski::~Sierpinski()
@@ -101,6 +101,29 @@ void Sierpinski::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 		glLineWidth(2);
 		mMesh->render();
+		glLineWidth(1);
+	}
+}
+
+Poligono::Poligono(GLuint numL, GLdouble rd, glm::dvec4 const& color)
+{
+	mMesh = Mesh::generaPoligono(numL, rd, color);
+}
+
+Poligono::~Poligono()
+{
+	delete mMesh; mMesh = nullptr;
+}
+
+void Poligono::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glColor3d(mColor.r, mColor.g, mColor.b);
+		glLineWidth(2);
+		mMesh->render();
+		glColor3d(1.0, 1.0, 1.0);
 		glLineWidth(1);
 	}
 }

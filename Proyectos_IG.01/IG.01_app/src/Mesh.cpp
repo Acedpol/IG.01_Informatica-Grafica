@@ -31,7 +31,7 @@ void Mesh::render() const
 }
 //-------------------------------------------------------------------------
 
-Mesh* Mesh::generaCircle(GLuint numL, GLdouble rd)
+Mesh* Mesh::generaPoligono(GLuint numL, GLdouble rd, glm::dvec4 const& color)
 {
     // variables iniciales:
     Mesh* mesh = new Mesh();
@@ -40,50 +40,76 @@ Mesh* Mesh::generaCircle(GLuint numL, GLdouble rd)
     mesh->vVertices.reserve(mesh->mNumVertices);
     // construccion del circulo:
     double ang = 0.0;
-    for (uint i = 0; i < mesh->mNumVertices; ++i) 
-    {
-        double y = 0 + rd * cos(radians(ang));
-        double x = 0 + rd * sin(radians(ang));
-        ang = ang + (360 / mesh->mNumVertices);
-        mesh->vVertices.emplace_back(x, y, 0.0);
-        mesh->vColors.emplace_back(1.0, 0.0, 1.0, 0.0);
-    }
-    return mesh;
-}
-//-------------------------------------------------------------------------
-
-Mesh* Mesh::generaTriangle(GLuint numL, GLdouble rd)
-{
-    // variables iniciales:
-    Mesh* mesh = new Mesh();
-    mesh->mPrimitive = GL_LINE_LOOP;
-    mesh->mNumVertices = numL;
-    mesh->vVertices.reserve(mesh->mNumVertices);
-    // construccion del triangulo:
-    double ang = 0.0;
     for (uint i = 0; i < mesh->mNumVertices; ++i)
     {
         double y = 0 + rd * cos(radians(ang));
         double x = 0 + rd * sin(radians(ang));
         ang = ang + (360 / mesh->mNumVertices);
         mesh->vVertices.emplace_back(x, y, 0.0);
-        mesh->vColors.emplace_back(1.0, 1.0, 0.0, 0.0);
+        mesh->vColors.emplace_back(color);
     }
     return mesh;
 }
 
-Mesh* Mesh::generaTriangleRGB(GLdouble rd)
-{
-	// variables iniciales:
-	Mesh* mesh = generaTriangle(3, rd);
-	mesh->mPrimitive = GL_TRIANGLES;
+/*-------------------------------------------------------------------------
 
+//Mesh* Mesh::generaCircle(GLuint numL, GLdouble rd)
+//{
+//    // variables iniciales:
+//    Mesh* mesh = new Mesh();
+//    mesh->mPrimitive = GL_LINE_LOOP;
+//    mesh->mNumVertices = numL;
+//    mesh->vVertices.reserve(mesh->mNumVertices);
+//    // construccion del circulo:
+//    double ang = 0.0;
+//    for (uint i = 0; i < mesh->mNumVertices; ++i) 
+//    {
+//        double y = 0 + rd * cos(radians(ang));
+//        double x = 0 + rd * sin(radians(ang));
+//        ang = ang + (360 / mesh->mNumVertices);
+//        mesh->vVertices.emplace_back(x, y, 0.0);
+//        mesh->vColors.emplace_back(1.0, 0.0, 1.0, 0.0);
+//    }
+//    return mesh;
+//}
+//-------------------------------------------------------------------------
 
-	return mesh;
-}
+//Mesh* Mesh::generaTriangle(GLuint numL, GLdouble rd)
+//{
+//    // variables iniciales:
+//    Mesh* mesh = new Mesh();
+//    mesh->mPrimitive = GL_LINE_LOOP;
+//    mesh->mNumVertices = numL;
+//    mesh->vVertices.reserve(mesh->mNumVertices);
+//    // construccion del triangulo:
+//    double ang = 0.0;
+//    for (uint i = 0; i < mesh->mNumVertices; ++i)
+//    {
+//        double y = 0 + rd * cos(radians(ang));
+//        double x = 0 + rd * sin(radians(ang));
+//        ang = ang + (360 / mesh->mNumVertices);
+//        mesh->vVertices.emplace_back(x, y, 0.0);
+//        mesh->vColors.emplace_back(1.0, 1.0, 0.0, 0.0);
+//    }
+//    return mesh;
+//}
 
-Mesh* Mesh::generaSierpinski(GLdouble rd, GLuint numP) {
-	Mesh* triangulo = generaTriangle(3, rd);
+//Mesh* Mesh::generaTriangleRGB(GLdouble rd)
+//{
+//	// variables iniciales:
+//	Mesh* mesh = generaTriangle(3, rd);
+//	mesh->mPrimitive = GL_TRIANGLES;
+//
+//
+//	return mesh;
+//}
+
+//-------------------------------------------------------------------------*/
+
+//-------------------------------------------------------------------------
+
+Mesh* Mesh::generaSierpinski(GLdouble rd, GLuint numP, glm::dvec4 const& color) {
+	Mesh* triangulo = generaPoligono(3, rd, color);
 
 	Mesh* mesh = new Mesh();
 
