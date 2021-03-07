@@ -43,7 +43,7 @@ void EjesRGB::render(dmat4 const& modelViewMat) const
 Sierpinski::Sierpinski(GLuint numL, GLdouble rd, glm::dvec4 const& color)
 {
 	mColor = color;
-	mMesh = Mesh::generaSierpinski(numL, rd, color);
+	mMesh = Mesh::generaSierpinski(numL, rd);
 }
 
 Sierpinski::~Sierpinski()
@@ -69,7 +69,7 @@ void Sierpinski::render(glm::dmat4 const& modelViewMat) const
 Poligono::Poligono(GLuint numL, GLdouble rd, glm::dvec4 const& color)
 {
 	mColor = color;
-	mMesh = Mesh::generaPoligono(numL, rd, color);
+	mMesh = Mesh::generaPoligono(numL, rd);
 }
 
 Poligono::~Poligono()
@@ -109,10 +109,10 @@ void TrianguloRGB::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		
-		glColor3d(0.0, 1.0, 1.0); // value_ptr(mColor));
 		glLineWidth(2);
+		//glPolygonMode(GL_FRONT, GL_LINE);
 		mMesh->render();
-		glColor3d(1.0, 1.0, 1.0);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glLineWidth(1);
 	}
 }
@@ -136,10 +136,8 @@ void RectanguloRGB::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 
-		glColor3d(0.0, 1.0, 1.0); // value_ptr(mColor));
 		glLineWidth(2);
 		mMesh->render();
-		glColor3d(1.0, 1.0, 1.0);
 		glLineWidth(1);
 	}
 }

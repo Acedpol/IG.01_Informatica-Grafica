@@ -12,8 +12,8 @@
 class Mesh 
 {
 public:
-	static Mesh* generaPoligono(GLuint numL, GLdouble rd, glm::dvec4 const& color);
-	static Mesh* generaSierpinski(GLdouble rd, GLuint numP, glm::dvec4 const& color);
+	static Mesh* generaPoligono(GLuint numL, GLdouble rd);
+	static Mesh* generaSierpinski(GLdouble rd, GLuint numP);
 	static Mesh* generaTriangleRGB(GLdouble rd);
 	static Mesh* generaRectangulo(GLdouble w, GLdouble h);
 	static Mesh* generaRectanguloRGB(GLdouble w, GLdouble h);

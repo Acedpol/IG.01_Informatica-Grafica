@@ -17,10 +17,10 @@ void Scene::init()
     // Graphics objects (entities) of the scene
 	gObjects.push_back(new EjesRGB(400.0));
 	//gObjects.push_back(new Poligono(3, 50, { 1.0,1.0,0.0,1.0 })); // triangulo amarillo
-	//gObjects.push_back(new Poligono(50, 50, { 1.0,0.0,0.0,1.0 })); // circulo magenta
+	gObjects.push_back(new Poligono(50, 50, { 1.0,0.0,0.0,1.0 })); // circulo magenta
 	//gObjects.push_back(new Sierpinski(200, 4000, { 0.5,0.5,0.5,1.0 })); // sierpinski gris
-	//gObjects.push_back(new TrianguloRGB(50)); // triangulo RGB
-	gObjects.push_back(new RectanguloRGB(500, 250)); // triangulo RGB
+	gObjects.push_back(new TrianguloRGB(250)); // triangulo RGB
+	//gObjects.push_back(new RectanguloRGB(500, 250)); // rectangulo RGB
 }
 
 //-------------------------------------------------------------------------
