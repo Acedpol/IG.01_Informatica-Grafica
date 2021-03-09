@@ -24,6 +24,7 @@ public:
 	glm::dmat4 const& modelMat() const { return mModelMat; };
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
 	void setColor(glm::dvec4 const& color) { mColor = color; };
+	virtual void update() {}
 protected:
 
 	Mesh* mMesh = nullptr;		// the mesh
@@ -70,6 +71,10 @@ public:
 	explicit TrianguloRGB(GLdouble rd);
 	~TrianguloRGB();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void update() const;
+private:
+	float rotAngle=0, transAngle=0;
+
 };
 
 //-------------------------------------------------------------------------

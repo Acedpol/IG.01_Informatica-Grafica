@@ -117,6 +117,14 @@ void TrianguloRGB::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
+void TrianguloRGB::update() const
+{
+	if (mMesh != nullptr) {
+		rotate(dmat4(1), (25.0), dvec3(0, 0, 1));
+
+	}
+}
+
 //-------------------------------------------------------------------------
 
 RectanguloRGB::RectanguloRGB(GLdouble w, GLdouble h)
@@ -141,3 +149,5 @@ void RectanguloRGB::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(1);
 	}
 }
+
+
