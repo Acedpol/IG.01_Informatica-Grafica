@@ -71,7 +71,7 @@ Mesh* Mesh::generaTriangleRGB(GLdouble rd)
 Mesh* Mesh::generaRectangulo(GLdouble w, GLdouble h)
 {
 	Mesh* mesh = new Mesh();
-	GLuint numP = 6;
+	GLuint numP = 6; //
 	mesh->mPrimitive = GL_TRIANGLE_STRIP;
 	mesh->mNumVertices = numP;
 	mesh->vVertices.reserve(mesh->mNumVertices);
@@ -85,12 +85,14 @@ Mesh* Mesh::generaRectangulo(GLdouble w, GLdouble h)
 	p.x = p.x + w;
 	mesh->vVertices.emplace_back(p); // V2
 	// segundo triangulo
-	mesh->vVertices.emplace_back(p); // V2
+	
 	p.y = p.y - h;
 	p.x = p.x - w;
 	mesh->vVertices.emplace_back(p); // V1
 	p.x = p.x + w;
 	mesh->vVertices.emplace_back(p); // V3
+	p.y = p.y + h;
+	mesh->vVertices.emplace_back(p); // V2
 	return mesh;
 }
 
@@ -105,9 +107,10 @@ Mesh* Mesh::generaRectanguloRGB(GLdouble w, GLdouble h)
 	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0); // V1
 	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); // V2
 	// segundo triangulo
-	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); // V2
+	
 	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0); // V1
 	mesh->vColors.emplace_back(0.0, 1.0, 1.0, 1.0); // V3
+	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); // V2
 	return mesh;
 }
 

@@ -21,7 +21,6 @@ void Scene::init()
 		gObjects.push_back(new Sierpinski(200.0, 4000.0, { 1.0,1.0,0.0,0.0 })); // sierpinski gris
 		auto t = (new TrianguloRGB(25));
 		gObjects.push_back(t); // triangulo RGB
-
 		t->setModelMat(translate(dmat4(1), dvec3(200, 0, 0)));
 		auto r = new RectanguloRGB(1000, 500);
 		gObjects.push_back(r); // rectangulo RGB
@@ -49,7 +48,7 @@ void Scene::free()
 void Scene::setGL() 
 {
 	// OpenGL basic setting
-	glClearColor(1.0, 1.0, 1.0, 1.0);  // background color (alpha=1 -> opaque)
+	glClearColor(0.0, 0.0, 0.0, 1.0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test 
 
 }

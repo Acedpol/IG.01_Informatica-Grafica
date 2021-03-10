@@ -110,9 +110,13 @@ void TrianguloRGB::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 		
 		glLineWidth(2);
-		//glPolygonMode(GL_FRONT, GL_LINE);
+		/*glEnable(GL_CULL_FACE);
+		glFrontFace(GL_CCW);*/
+		glPolygonMode(GL_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT, GL_LINE);
 		mMesh->render();
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//glDisable(GL_CULL_FACE);
 		glLineWidth(1);
 	}
 }
@@ -145,7 +149,13 @@ void RectanguloRGB::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 
 		glLineWidth(2);
+		/*glEnable(GL_CULL_FACE);
+		glFrontFace(GL_CCW);*/
+		glPolygonMode(GL_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT, GL_FILL);
 		mMesh->render();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//glDisable(GL_CULL_FACE);
 		glLineWidth(1);
 	}
 }
