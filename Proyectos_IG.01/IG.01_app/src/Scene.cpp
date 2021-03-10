@@ -21,7 +21,8 @@ void Scene::init()
 		gObjects.push_back(new Sierpinski(200.0, 4000.0, { 1.0,1.0,0.0,0.0 })); // sierpinski gris
 		auto t = (new TrianguloRGB(25));
 		gObjects.push_back(t); // triangulo RGB
-		t->setModelMat(translate(dmat4(1), dvec3(200, 0, 0)));
+		t->setModelMat(rotate(dmat4(1), (25.0), dvec3(0, 0, 1)));
+		t->setModelMat(translate(t->modelMat(), dvec3(200, 0, 0)));
 		auto r = new RectanguloRGB(1000, 500);
 		gObjects.push_back(r); // rectangulo RGB
 		r->setModelMat(translate(dmat4(1), dvec3(0, 0, -100)));
