@@ -121,10 +121,11 @@ void TrianguloRGB::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
-void TrianguloRGB::update() const
+void TrianguloRGB::update()
 {
 	if (mMesh != nullptr) {
-		rotate(dmat4(1), (25.0), dvec3(0, 0, 1));
+		rotAngle = rotAngle + 25.0;
+		rotate(dmat4(1), (rotAngle), dvec3(0, 0, 1));
 
 	}
 }

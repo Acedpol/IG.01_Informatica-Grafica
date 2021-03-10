@@ -20,8 +20,9 @@ public:
 	// view matrix 
 	glm::dmat4 const& viewMat() const { return mViewMat; };
 	
-	void set2D();
+	void set2D_front();
 	void set3D();
+	void set2D_back();
 	
 	void pitch(GLdouble a); // rotates a degrees on the X axis
 	void yaw(GLdouble a);   // rotates a degrees on the Y axis

@@ -43,7 +43,7 @@ void IG1App::init()
 	mCamera = new Camera(mViewPort);
 	mScene = new Scene;
 	
-	mCamera->set2D();
+	mCamera->set2D_front();
 	mScene->init();
 }
 //-------------------------------------------------------------------------
@@ -126,7 +126,10 @@ void IG1App::key(unsigned char key, int x, int y)
 		mCamera->set3D();
 		break;
 	case 'o':
-		mCamera->set2D();
+		mCamera->set2D_front();
+		break;
+	case 'b':
+		mCamera->set2D_back();
 		break;
 	case 'u':
 		mScene->update();

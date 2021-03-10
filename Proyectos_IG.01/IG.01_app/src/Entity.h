@@ -71,9 +71,9 @@ public:
 	explicit TrianguloRGB(GLdouble rd);
 	~TrianguloRGB();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
-	virtual void update() const;
+	virtual void update();
 private:
-	float rotAngle=0, transAngle=0;
+	double rotAngle=0, transAngle=0;
 
 };
 
