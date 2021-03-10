@@ -125,7 +125,7 @@ void TrianguloRGB::update()
 {
 	if (mMesh != nullptr) {
 		rotAngle = rotAngle + 25.0;
-		rotate(dmat4(1), (rotAngle), dvec3(0, 0, 1));
+		mModelMat = rotate(dmat4(1), (rotAngle), dvec3(0, 0, 1));
 
 	}
 }
