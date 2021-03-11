@@ -71,7 +71,7 @@ Mesh* Mesh::generaTriangleRGB(GLdouble rd)
 Mesh* Mesh::generaRectangulo(GLdouble w, GLdouble h)
 {
 	Mesh* mesh = new Mesh();
-	GLuint numP = 6; //
+	GLuint numP = 5; //
 	mesh->mPrimitive = GL_TRIANGLE_STRIP;
 	mesh->mNumVertices = numP;
 	mesh->vVertices.reserve(mesh->mNumVertices);

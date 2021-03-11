@@ -1,0 +1,6 @@
+Autores:
+Pedro Pablo Cubells Talavera
+David Rodríguez Gómez
+
+Partes opcionales:
+Hemos realizado el ejercicio 7. También hemos puesto la tecla 'b', para ver la parte trasera del render.
