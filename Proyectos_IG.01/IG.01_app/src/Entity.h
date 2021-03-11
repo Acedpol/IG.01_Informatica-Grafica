@@ -49,7 +49,7 @@ public:
 class Poligono : public Abs_Entity
 {
 public:
-	explicit Poligono(GLuint numL, GLdouble rd, glm::dvec4 const& color);
+	explicit Poligono(GLdouble rd, GLuint numL, glm::dvec4 const& color);
 	~Poligono();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
@@ -58,7 +58,7 @@ public:
 class Sierpinski : public Abs_Entity
 {
 public:
-	explicit Sierpinski(GLuint numL, GLdouble rd, glm::dvec4 const& color);
+	explicit Sierpinski(GLdouble rd, GLuint numP, glm::dvec4 const& color);
 	~Sierpinski();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };

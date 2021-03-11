@@ -32,7 +32,7 @@ void Mesh::render() const
 
 //-------------------------------------------------------------------------
 
-Mesh* Mesh::generaPoligono(GLuint numL, GLdouble rd)
+Mesh* Mesh::generaPoligono(GLdouble rd, GLuint numL)
 {
     // variables iniciales:
     Mesh* mesh = new Mesh();
@@ -55,7 +55,7 @@ Mesh* Mesh::generaPoligono(GLuint numL, GLdouble rd)
 
 Mesh* Mesh::generaTriangleRGB(GLdouble rd)
 {
-	Mesh* mesh = generaPoligono(3, rd);
+	Mesh* mesh = generaPoligono(rd, 3);
 	mesh->mPrimitive = GL_TRIANGLES;
 	
 	mesh->vColors.clear();
@@ -71,28 +71,21 @@ Mesh* Mesh::generaTriangleRGB(GLdouble rd)
 Mesh* Mesh::generaRectangulo(GLdouble w, GLdouble h)
 {
 	Mesh* mesh = new Mesh();
-	GLuint numP = 5; //
+	GLuint numP = 4; //
 	mesh->mPrimitive = GL_TRIANGLE_STRIP;
 	mesh->mNumVertices = numP;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 
 	dvec3 p = { w / -2, h / 2, 0.0 };
-	// primer triangulo
+
 	mesh->vVertices.emplace_back(p); // V0
 	p.y = p.y - h;
 	mesh->vVertices.emplace_back(p); // V1
 	p.y = p.y + h;
 	p.x = p.x + w;
 	mesh->vVertices.emplace_back(p); // V2
-	// segundo triangulo
-	
 	p.y = p.y - h;
-	p.x = p.x - w;
-	mesh->vVertices.emplace_back(p); // V1
-	p.x = p.x + w;
 	mesh->vVertices.emplace_back(p); // V3
-	p.y = p.y + h;
-	mesh->vVertices.emplace_back(p); // V2
 	return mesh;
 }
 
@@ -102,22 +95,18 @@ Mesh* Mesh::generaRectanguloRGB(GLdouble w, GLdouble h)
 {
 	Mesh* mesh = generaRectangulo(w, h);
 	dvec3 p = { w / -2, h / 2, 0.0 };
-	// primer triangulo
+
 	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0); // V0
 	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0); // V1
 	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); // V2
-	// segundo triangulo
-	
-	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0); // V1
 	mesh->vColors.emplace_back(0.0, 1.0, 1.0, 1.0); // V3
-	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); // V2
 	return mesh;
 }
 
 //-------------------------------------------------------------------------
 
 Mesh* Mesh::generaSierpinski(GLdouble rd, GLuint numP) {
-	Mesh* triangulo = generaPoligono(3, rd);
+	Mesh* triangulo = generaPoligono(rd, 3);
 
 	Mesh* mesh = new Mesh();
 

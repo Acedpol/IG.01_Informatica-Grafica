@@ -17,8 +17,8 @@ void Scene::init()
 		gObjects.push_back(new EjesRGB(400.0));
 
 		//gObjects.push_back(new Poligono(3, 50, { 1.0,1.0,0.0,1.0 })); // triangulo amarillo
-		gObjects.push_back(new Poligono(200, 200, { 1.0,0.0,1.0,1.0 })); // circulo magenta
-		gObjects.push_back(new Sierpinski(200.0, 4000.0, { 1.0,1.0,0.0,0.0 })); // sierpinski gris
+		gObjects.push_back(new Poligono(200.0, 200, { 1.0,0.0,1.0,1.0 })); // circulo magenta
+		gObjects.push_back(new Sierpinski(200.0, 4000, { 1.0,1.0,0.0,0.0 })); // sierpinski gris
 		auto t = (new TrianguloRGB(25));
 		gObjects.push_back(t); // triangulo RGB
 		t->setModelMat(rotate(dmat4(1), (25.0), dvec3(0, 0, 1)));

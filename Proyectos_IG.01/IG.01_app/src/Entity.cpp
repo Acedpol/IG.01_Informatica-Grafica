@@ -40,10 +40,10 @@ void EjesRGB::render(dmat4 const& modelViewMat) const
 
 //-------------------------------------------------------------------------
 
-Sierpinski::Sierpinski(GLuint numL, GLdouble rd, glm::dvec4 const& color)
+Sierpinski::Sierpinski(GLdouble rd, GLuint numP, glm::dvec4 const& color)
 {
 	mColor = color;
-	mMesh = Mesh::generaSierpinski(numL, rd);
+	mMesh = Mesh::generaSierpinski(rd, numP);
 }
 
 Sierpinski::~Sierpinski()
@@ -66,10 +66,10 @@ void Sierpinski::render(glm::dmat4 const& modelViewMat) const
 
 //-------------------------------------------------------------------------
 
-Poligono::Poligono(GLuint numL, GLdouble rd, glm::dvec4 const& color)
+Poligono::Poligono(GLdouble rd, GLuint numL, glm::dvec4 const& color)
 {
 	mColor = color;
-	mMesh = Mesh::generaPoligono(numL, rd);
+	mMesh = Mesh::generaPoligono(rd, numL);
 }
 
 Poligono::~Poligono()
@@ -125,7 +125,7 @@ void TrianguloRGB::update()
 {
 	if (mMesh != nullptr) {
 		rotAngle = rotAngle + 25.0;
-		transAngle = transAngle++;
+		++transAngle;
 		mModelMat = rotate(dmat4(1), radians(transAngle), dvec3(0, 0, 1));
 		mModelMat = translate(mModelMat, dvec3(200, 0, 0));
 		mModelMat = rotate(mModelMat, (rotAngle), dvec3(0, 0, 1));

@@ -12,7 +12,7 @@
 class Mesh 
 {
 public:
-	static Mesh* generaPoligono(GLuint numL, GLdouble rd);
+	static Mesh* generaPoligono(GLdouble rd, GLuint numL);
 	static Mesh* generaSierpinski(GLdouble rd, GLuint numP);
 	static Mesh* generaTriangleRGB(GLdouble rd);
 	static Mesh* generaRectangulo(GLdouble w, GLdouble h);
