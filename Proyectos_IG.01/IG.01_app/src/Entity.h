@@ -6,6 +6,7 @@
 #include <glm.hpp>
 
 #include "Mesh.h"
+#include "Texture.h"
 
 //-------------------------------------------------------------------------
 
@@ -24,9 +25,10 @@ public:
 	glm::dmat4 const& modelMat() const { return mModelMat; };
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
 	void setColor(glm::dvec4 const& color) { mColor = color; };
+	void setTexture(Texture* tex) { mTexture = tex; };
 	virtual void update() {};
 protected:
-
+	Texture* mTexture = nullptr;
 	Mesh* mMesh = nullptr;		// the mesh
 	glm::dmat4 mModelMat;		// modeling matrix
 	glm::dvec4 mColor;			// mesh color
@@ -85,6 +87,7 @@ public:
 	explicit RectanguloRGB(GLdouble w, GLdouble h);
 	~RectanguloRGB();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+	
 };
 
 //-------------------------------------------------------------------------
@@ -96,6 +99,9 @@ public:
 	explicit Estrella3D(GLdouble re, GLuint np, GLdouble h);
 	~Estrella3D();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void update();
+	private:
+	double rotAngleY=0, rotAngleZ=0;
 };
 
 //-------------------------------------------------------------------------

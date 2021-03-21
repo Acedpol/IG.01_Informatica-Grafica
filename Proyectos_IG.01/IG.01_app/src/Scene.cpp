@@ -9,7 +9,7 @@ using namespace glm;
 void Scene::init()
 { 
 	setGL();  // OpenGL settings
-
+	
 	// allocate memory and load resources
     // Lights
     // Textures
@@ -28,8 +28,9 @@ void Scene::init()
 		r->setModelMat(translate(dmat4(1), dvec3(0, 0, -100)));
 	}
 	else if (mId == 1) {
-		//gObjects.push_back(new EjesRGB(400.0));
-		gObjects.push_back(new Estrella3D(100.0, 6, 100.0));
+		gObjects.push_back(new EjesRGB(400.0));
+		//gObjects.push_back(new Estrella3D(100.0, 6, 50.0));
+		gObjects.push_back(new Caja(50.0));
 	}
     // Graphics objects (entities) of the scene
 	
@@ -44,6 +45,11 @@ void Scene::free()
 	{
 		delete el;  el = nullptr;
 	}
+	for (Texture* txt : gTextures)
+	{
+		delete txt;  txt = nullptr;
+	}
+	gTextures.clear();
 	gObjects.clear();
 }
 //-------------------------------------------------------------------------
@@ -51,7 +57,8 @@ void Scene::setGL()
 {
 	// OpenGL basic setting
 	glClearColor(0.0, 0.0, 0.0, 1.0);  // background color (alpha=1 -> opaque)
-	glEnable(GL_DEPTH_TEST);  // enable Depth test 
+	glEnable(GL_DEPTH_TEST);  // enable Depth test
+	glEnable(GL_TEXTURE_2D);
 
 }
 //-------------------------------------------------------------------------
@@ -59,6 +66,7 @@ void Scene::resetGL()
 {
 	glClearColor(.0, .0, .0, .0);  // background color (alpha=1 -> opaque)
 	glDisable(GL_DEPTH_TEST);  // disable Depth test 	
+	glDisable(GL_TEXTURE_2D);
 }
 //-------------------------------------------------------------------------
 

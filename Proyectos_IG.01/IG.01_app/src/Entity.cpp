@@ -177,19 +177,26 @@ Estrella3D::~Estrella3D()
 void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
-
+		glLineWidth(1);
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
+		mMesh->render();
+		aMat = rotate(aMat, radians(180.0), dvec3(1, 0, 0));
+		upload(aMat);
 
-		glLineWidth(2);
 		/*glEnable(GL_CULL_FACE);
 		glFrontFace(GL_CCW);*/
-		glPolygonMode(GL_BACK, GL_LINE);
-		glPolygonMode(GL_FRONT, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//glDisable(GL_CULL_FACE);
-		glLineWidth(1);
+	}
+}
+void Estrella3D::update()
+{
+	if (mMesh != nullptr) {
+		rotAngleZ = rotAngleZ++;
+		mModelMat = rotate(dmat4(1), radians(rotAngleZ), dvec3(0, 1, 1));
+
 	}
 }
 //-------------------------------------------------------------------------
@@ -214,10 +221,8 @@ void Caja::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(2);
 		/*glEnable(GL_CULL_FACE);
 		glFrontFace(GL_CCW);*/
-		glPolygonMode(GL_BACK, GL_LINE);
-		glPolygonMode(GL_FRONT, GL_FILL);
 		mMesh->render();
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		//glDisable(GL_CULL_FACE);
 		glLineWidth(1);
 	}

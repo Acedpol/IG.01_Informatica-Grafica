@@ -23,10 +23,15 @@ void Mesh::render() const
       glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
     }
 
+	if (vTexCoords.size()>0){
+	  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+      glTexCoordPointer(2, GL_DOUBLE, 0, vColors.data());  // components number (rgba=2), type of each component, stride, pointer 
+	}
 	draw();
 
     glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   }
 }
 
@@ -175,20 +180,68 @@ Mesh* Mesh:: generaEstrella3D(GLdouble re, GLuint np, GLdouble h) {
 	Mesh* mesh = new Mesh();
 
 	mesh->mPrimitive = GL_TRIANGLE_FAN;
-	mesh->mNumVertices = 2*np+2;
+	mesh->mNumVertices = 2 * np + 2;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 	mesh->vVertices.emplace_back(0.0, 0.0, 0.0); //V0
-	mesh->vVertices.emplace_back(0, 0, h); //V0
-
-
-
-
+	// construccion del circulo:
+	double ang = 0.0;
+	double incremento = 360.0 / (np * 2);
+	for (uint i = 0; i < np; ++i)
+	{
+		// vertice interior
+		double x = 0 + re / 2 * cos(radians(ang));
+		double y = 0 + re / 2 * sin(radians(ang));
+		mesh->vVertices.emplace_back(x, y, h);
+		ang = ang + incremento;
+		// vertice exterior
+		x = 0 + re * cos(radians(ang));
+		y = 0 + re * sin(radians(ang));
+		mesh->vVertices.emplace_back(x, y, h);
+		ang = ang + incremento;
+	}
+	ang = 0.0;
+	// vertice interior
+	double x = 0 + re/2 * cos(radians(ang));
+	double y = 0 + re/2 * sin(radians(ang));
+	mesh->vVertices.emplace_back(x, y, h);
 
 	return mesh;
 }
 
 Mesh* Mesh::generaContCubo(GLdouble ld) {
+	Mesh* mesh = new Mesh();
+	GLuint numP = 8 + 2; //
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+	mesh->mNumVertices = numP;
+	mesh->vVertices.reserve(mesh->mNumVertices);
 
+	dvec3 p = { 0.0, ld, ld };
+
+	mesh->vVertices.emplace_back(p); // V0
+	p.y = p.y - ld;
+	mesh->vVertices.emplace_back(p); // V1
+	p.y = p.y + ld;
+	p.x = p.x + ld;
+	mesh->vVertices.emplace_back(p); // V2
+	p.y = p.y - ld;
+	mesh->vVertices.emplace_back(p); // V3
+	p.z = p.z - ld;
+	p.y = p.y + ld;
+	mesh->vVertices.emplace_back(p); // V4
+	p.y = p.y - ld;
+	mesh->vVertices.emplace_back(p); // V5
+	p.y = p.y + ld;
+	p.x = p.x - ld;
+	mesh->vVertices.emplace_back(p); // V6
+	p.y = p.y - ld;
+	mesh->vVertices.emplace_back(p); // V7
+	p.y = p.y + ld;
+	p.z = p.z + ld;
+	mesh->vVertices.emplace_back(p); // V0
+	p.y = p.y - ld;
+	mesh->vVertices.emplace_back(p); // V1
+	return mesh;
 }
+
 //-------------------------------------------------------------------------
 
