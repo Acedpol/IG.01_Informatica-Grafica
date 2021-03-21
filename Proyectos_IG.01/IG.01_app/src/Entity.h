@@ -86,4 +86,25 @@ public:
 	~RectanguloRGB();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
+
+//-------------------------------------------------------------------------
+
+
+class Estrella3D : public Abs_Entity
+{
+public:
+	explicit Estrella3D(GLdouble re, GLuint np, GLdouble h);
+	~Estrella3D();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+
+//-------------------------------------------------------------------------
+
+class Caja : public Abs_Entity
+{
+public:
+	explicit Caja(GLdouble ld);
+	~Caja();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
 #endif //_H_Entities_H_

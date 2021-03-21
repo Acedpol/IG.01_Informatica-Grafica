@@ -162,5 +162,65 @@ void RectanguloRGB::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(1);
 	}
 }
+	//-------------------------------------------------------------------------
+
+Estrella3D::Estrella3D(GLdouble re, GLuint np, GLdouble h)
+{
+	mMesh = Mesh::generaEstrella3D(re, np, h);
+}
+
+Estrella3D::~Estrella3D()
+{
+	delete mMesh; mMesh = nullptr;
+}
+
+void Estrella3D::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+
+		glLineWidth(2);
+		/*glEnable(GL_CULL_FACE);
+		glFrontFace(GL_CCW);*/
+		glPolygonMode(GL_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT, GL_FILL);
+		mMesh->render();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//glDisable(GL_CULL_FACE);
+		glLineWidth(1);
+	}
+}
+//-------------------------------------------------------------------------
+
+Caja::Caja(GLdouble ld)
+{
+	mMesh = Mesh::generaContCubo(ld);
+}
+
+Caja::~Caja()
+{
+	delete mMesh; mMesh = nullptr;
+}
+
+void Caja::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+
+		glLineWidth(2);
+		/*glEnable(GL_CULL_FACE);
+		glFrontFace(GL_CCW);*/
+		glPolygonMode(GL_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT, GL_FILL);
+		mMesh->render();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//glDisable(GL_CULL_FACE);
+		glLineWidth(1);
+	}
+}
 
 

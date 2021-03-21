@@ -28,7 +28,8 @@ void Scene::init()
 		r->setModelMat(translate(dmat4(1), dvec3(0, 0, -100)));
 	}
 	else if (mId == 1) {
-		gObjects.push_back(new EjesRGB(400.0));
+		//gObjects.push_back(new EjesRGB(400.0));
+		gObjects.push_back(new Estrella3D(100.0, 6, 100.0));
 	}
     // Graphics objects (entities) of the scene
 	

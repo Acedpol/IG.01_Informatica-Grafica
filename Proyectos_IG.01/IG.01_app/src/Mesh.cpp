@@ -170,5 +170,25 @@ Mesh * Mesh::createRGBAxes(GLdouble l)
  
   return mesh;
 }
+
+Mesh* Mesh:: generaEstrella3D(GLdouble re, GLuint np, GLdouble h) {
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_FAN;
+	mesh->mNumVertices = 2*np+2;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vVertices.emplace_back(0.0, 0.0, 0.0); //V0
+	mesh->vVertices.emplace_back(0, 0, h); //V0
+
+
+
+
+
+	return mesh;
+}
+
+Mesh* Mesh::generaContCubo(GLdouble ld) {
+
+}
 //-------------------------------------------------------------------------
 
