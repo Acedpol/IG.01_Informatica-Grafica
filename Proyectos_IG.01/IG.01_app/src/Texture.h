@@ -9,19 +9,19 @@
 
 //-------------------------------------------------------------------------
 
-class Texture
+class Texture // utiliza la clase PixMap32RGBA para el método load
 {
 public:
   Texture(){};
-  ~Texture();
+  ~Texture() { if (mId != 0) glDeleteTextures(1, &mId); };
 
   Texture(const Texture & tex) = delete;  // no copy constructor
   Texture & operator=(const Texture & tex) = delete;  // no copy assignment
 
   void load(const std::string & BMP_Name, GLubyte alpha = 255); // load from file and upload to GPU
   
-  void bind(GLuint mixMode);   // GL_REPLACE, GL_MODULATE, GL_ADD, ...
-  void unbind() const { glBindTexture(GL_TEXTURE_2D, 0); };
+  void bind(GLuint mixMode); // mixMode: GL_REPLACE / MODULATE / ADD
+  void unbind() { glBindTexture(GL_TEXTURE_2D, 0); };
 
   GLuint width() const { return mWidth; };
   GLuint height() const { return mHeight; };
@@ -32,9 +32,10 @@ protected:
 
   void init();
   
-  GLuint mWidth = 0;
-  GLuint mHeight = 0;
-  GLuint mId = 0;
+  GLuint mWidth = 0;	// dimensiones de la imagen
+  GLuint mHeight = 0;	
+  GLuint mId = 0;		// identificador interno (GPU) de la textura
+						// 0 significa NULL, no es un identificador válido
   
 };
 

@@ -19,6 +19,7 @@ public:
 	static Mesh* generaRectanguloRGB(GLdouble w, GLdouble h);
 	static Mesh* generaEstrella3D(GLdouble re, GLuint np, GLdouble h);
 	static Mesh* generaContCubo(GLdouble ld);
+	static Mesh* generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
 	static Mesh* createRGBAxes(GLdouble l); // creates a new 3D-RGB axes mesh
 	
 	Mesh() {};
@@ -30,16 +31,19 @@ public:
 	virtual void render() const;
 	
 	GLuint size() const { return mNumVertices; };   // number of elements
+	std::vector<glm::dvec2> const& texCoords() const { return vTexCoords; };
 	std::vector<glm::dvec3> const& vertices() const { return vVertices; };
 	std::vector<glm::dvec4> const& colors() const { return vColors; };
-		
+
+	void setTexCoords(std::vector<glm::dvec2> texCoords) { vTexCoords = texCoords; };
+
 protected:
 	
 	GLuint mPrimitive = GL_TRIANGLES;   // graphic primitive: GL_POINTS, GL_LINES, GL_TRIANGLES, ...
 	GLuint mNumVertices = 0;  // number of elements ( = vVertices.size())
 	std::vector<glm::dvec3> vVertices;  // vertex array
 	std::vector<glm::dvec4> vColors;    // color array
-	std::vector<dvec2> vTexCoords;		// texture coords array
+	std::vector<glm::dvec2> vTexCoords;		// texture coords array
 	virtual void draw() const;
 };
 //-------------------------------------------------------------------------

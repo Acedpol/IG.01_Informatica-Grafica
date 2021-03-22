@@ -228,4 +228,41 @@ void Caja::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
+//-------------------------------------------------------------------------
+
+Suelo::Suelo(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
+{
+	Mesh::generaRectanguloTexCor(w, h, rw, rh);
+}
+
+Suelo::~Suelo()
+{
+	delete mMesh; mMesh = nullptr;
+	delete mTexture; mTexture = nullptr;
+}
+
+typedef glm::u8vec4 rgba_color;
+void Suelo::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		mTexture->load("Bmps/baldosaC.bmp");
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+
+		glEnable(GL_TEXTURE_2D);
+		mTexture->bind(GL_REPLACE);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glTexCoordPointer(2, GL_DOUBLE, 0, mMesh->texCoords().data());
+		
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+		rgba_color* pixels = new rgba_color[mMesh->size()];
+		glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+
+		mMesh->render();
+
+		mTexture->unbind();
+		glDisable(GL_TEXTURE_2D);
+	}
+}
+
 

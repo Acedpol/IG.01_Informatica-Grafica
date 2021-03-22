@@ -25,7 +25,7 @@ void Mesh::render() const
 
 	if (vTexCoords.size()>0){
 	  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-      glTexCoordPointer(2, GL_DOUBLE, 0, vColors.data());  // components number (rgba=2), type of each component, stride, pointer 
+      glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());  // components number (rgba=2), type of each component, stride, pointer 
 	}
 	draw();
 
@@ -176,6 +176,29 @@ Mesh * Mesh::createRGBAxes(GLdouble l)
   return mesh;
 }
 
+Mesh* Mesh::generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
+{
+	Mesh* m = generaRectangulo(w, h);
+	m->vTexCoords.reserve(m->mNumVertices);
+	m->vTexCoords.emplace_back(0, h * rh);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(w * rw, h * rh);
+	m->vTexCoords.emplace_back(w * rw, 0);
+	return m;
+	/*Mesh* m = new Mesh();
+	int numV = 4 * rw * rh;
+	m->vTexCoords.reserve(numV);
+	for (int i = 1; i <= rw; ++i) {
+		for (int j = 1; j <= rh; ++j) {
+			m->vTexCoords.emplace_back(0, h * j);
+			m->vTexCoords.emplace_back(0, 0);
+			m->vTexCoords.emplace_back(w * i, h * j);
+			m->vTexCoords.emplace_back(w * i, 0);
+		}
+	}
+	return m;*/
+}
+
 Mesh* Mesh:: generaEstrella3D(GLdouble re, GLuint np, GLdouble h) {
 	Mesh* mesh = new Mesh();
 
@@ -185,7 +208,7 @@ Mesh* Mesh:: generaEstrella3D(GLdouble re, GLuint np, GLdouble h) {
 	mesh->vVertices.emplace_back(0.0, 0.0, 0.0); //V0
 	// construccion del circulo:
 	double ang = 0.0;
-	double incremento = 360.0 / (np * 2);
+	double incremento = 360.0 / (np * 2.0);
 	for (uint i = 0; i < np; ++i)
 	{
 		// vertice interior

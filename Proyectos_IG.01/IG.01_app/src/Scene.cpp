@@ -28,9 +28,22 @@ void Scene::init()
 		r->setModelMat(translate(dmat4(1), dvec3(0, 0, -100)));
 	}
 	else if (mId == 1) {
-		gObjects.push_back(new EjesRGB(400.0));
+		auto ejes = new EjesRGB(400.0); // ...trataba ponerlos con perspectiva isométrica
+		//ejes->setModelMat(rotate(dmat4(1), (-30.0), dvec3(1, 0, 0)));
+		//ejes->setModelMat(rotate(ejes->modelMat(), (30.0), dvec3(0, 1, 0)));
+		gObjects.push_back(ejes);
+
+		/*Texture* t = nullptr;
+		t->load("Bmps/baldosaC.bmp");
+		gTextures.push_back(t);*/
+		gObjects.push_back(new Suelo(100.0, 80.0, 5, 10));
+		/*Abs_Entity* obj = gObjects.back();
+		obj->setTexture(t);*/
+
 		//gObjects.push_back(new Estrella3D(100.0, 6, 50.0));
-		gObjects.push_back(new Caja(50.0));
+		//gObjects.push_back(new Caja(50.0));
+		
+
 	}
     // Graphics objects (entities) of the scene
 	
