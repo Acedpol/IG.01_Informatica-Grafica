@@ -37,7 +37,7 @@ void Scene::init()
 		Texture* t = nullptr;
 
 		//gObjects.push_back(new Suelo(600.0, 600.0, 10, 10));
-		gObjects.push_back(new Estrella3D(100.0, 8, 50.0));
+		gObjects.push_back(new Estrella3D(100.0, 6, 50.0));
 		t = new Texture();
 		//t->load("..\\IG.01_app\\Bmps\\baldosaC.bmp");
 		t->load("..\\IG.01_app\\Bmps\\baldosaP.bmp");

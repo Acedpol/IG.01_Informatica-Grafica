@@ -198,13 +198,15 @@ Mesh* Mesh::generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h)
 	m->vTexCoords.emplace_back(x, y);
 	// recorrido circular de vertices:
 	double ang = 0.0;
-	double incremento = 360.0 / (np * 2.0);
+	double incremento = 45.0;//360.0 / (np * 2.0);
 	double hipotenusa = sqrt(pow(0.5, 2) + pow(0.5, 2));
 	for (uint i = 0; i < np; ++i)
 	{
 		// vertice interior
-		x = 0.5 + 1 / 2 * cos(radians(ang));
-		y = 0.5 + 1 / 2 * sin(radians(ang));
+		x = 0.5 + 0.5 * cos(radians(ang));
+		y = 0.5 + 0.5 * sin(radians(ang));
+		x = round(x * 10) / 10;
+		y = round(y * 10) / 10;
 		m->vTexCoords.emplace_back(x, y);
 		ang = ang + incremento;
 		// vertice exterior
@@ -214,8 +216,10 @@ Mesh* Mesh::generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h)
 		ang = ang + incremento;
 	}
 	// vertice interior
-	x = 0.5 + 1 / 2 * cos(radians(ang));
-	y = 0.5 + 1 / 2 * sin(radians(ang));
+	x = 0.5 + 0.5 * cos(radians(ang));
+	y = 0.5 + 0.5 * sin(radians(ang));
+	x = round(x * 10) / 10;
+	y = round(y * 10) / 10;
 	m->vTexCoords.emplace_back(x, y);
 	return m;
 }

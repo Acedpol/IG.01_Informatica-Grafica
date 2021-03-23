@@ -186,13 +186,8 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 
 		mMesh->render();
 
-		mTexture->unbind();
-		glColor3d(1, 1, 1);
-
 		aMat = rotate(aMat, radians(180.0), dvec3(1, 0, 0));
 		upload(aMat);
-		glColor4dv(value_ptr(mColor));
-		mTexture->bind(GL_REPLACE);
 
 		mMesh->render();
 		
