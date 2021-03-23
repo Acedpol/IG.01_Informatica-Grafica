@@ -21,17 +21,18 @@ void Mesh::render() const
     if (vColors.size() > 0) { // transfer colors
       glEnableClientState(GL_COLOR_ARRAY);
       glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
+
     }
-
-	if (vTexCoords.size()>0){
-	  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-      glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());  // components number (rgba=2), type of each component, stride, pointer 
+	if (vTexCoords.size() > 0) {
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());  // components number (rgba=2), type of each component, stride, pointer 
 	}
+	
 	draw();
-
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
   }
 }
 
@@ -78,10 +79,10 @@ Mesh* Mesh::generaRectangulo(GLdouble w, GLdouble h)
 	Mesh* mesh = new Mesh();
 	GLuint numP = 4; //
 	mesh->mPrimitive = GL_TRIANGLE_STRIP;
-	mesh->mNumVertices = numP;
+	mesh->mNumVertices = 4;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 
-	dvec3 p = { w / -2, h / 2, 0.0 };
+	dvec3 p = { -w / 2, h / 2, 0.0 };
 
 	mesh->vVertices.emplace_back(p); // V0
 	p.y = p.y - h;
@@ -180,10 +181,10 @@ Mesh* Mesh::generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 {
 	Mesh* m = generaRectangulo(w, h);
 	m->vTexCoords.reserve(m->mNumVertices);
-	m->vTexCoords.emplace_back(0, h * rh);
+	m->vTexCoords.emplace_back(0, rh);
 	m->vTexCoords.emplace_back(0, 0);
-	m->vTexCoords.emplace_back(w * rw, h * rh);
-	m->vTexCoords.emplace_back(w * rw, 0);
+	m->vTexCoords.emplace_back(rw, rh);
+	m->vTexCoords.emplace_back(rw, 0);
 	return m;
 	/*Mesh* m = new Mesh();
 	int numV = 4 * rw * rh;

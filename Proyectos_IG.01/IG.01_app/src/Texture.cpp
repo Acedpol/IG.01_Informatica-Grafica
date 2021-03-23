@@ -44,6 +44,7 @@ void Texture::load(const std::string & BMP_Name, GLubyte alpha)
 	
 	glBindTexture(GL_TEXTURE_2D, mId);
     glTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, mWidth, mHeight, border, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());	// transferir a GPU
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 //-------------------------------------------------------------------------
 
