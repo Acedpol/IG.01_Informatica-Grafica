@@ -166,7 +166,7 @@ void RectanguloRGB::render(glm::dmat4 const& modelViewMat) const
 
 Estrella3D::Estrella3D(GLdouble re, GLuint np, GLdouble h)
 {
-	mMesh = Mesh::generaEstrella3D(re, np, h);
+	mMesh = Mesh::generaEstrellaTexCor(re, np, h);
 }
 
 Estrella3D::~Estrella3D()
@@ -177,18 +177,27 @@ Estrella3D::~Estrella3D()
 void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
-		glLineWidth(1);
+		//glLineWidth(1);
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
 		upload(aMat);
+		glColor4dv(value_ptr(mColor));
+		mTexture->bind(GL_REPLACE);
+
 		mMesh->render();
+
+		mTexture->unbind();
+		glColor3d(1, 1, 1);
+
 		aMat = rotate(aMat, radians(180.0), dvec3(1, 0, 0));
 		upload(aMat);
+		glColor4dv(value_ptr(mColor));
+		mTexture->bind(GL_REPLACE);
 
-		/*glEnable(GL_CULL_FACE);
-		glFrontFace(GL_CCW);*/
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
-		//glDisable(GL_CULL_FACE);
+		
+		mTexture->unbind();
+		glColor3d(1, 1, 1);
 	}
 }
 void Estrella3D::update()

@@ -20,6 +20,7 @@ public:
 	static Mesh* generaEstrella3D(GLdouble re, GLuint np, GLdouble h);
 	static Mesh* generaContCubo(GLdouble ld);
 	static Mesh* generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
+	static Mesh* generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h);
 	static Mesh* createRGBAxes(GLdouble l); // creates a new 3D-RGB axes mesh
 	
 	Mesh() {};

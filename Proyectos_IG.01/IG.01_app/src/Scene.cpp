@@ -36,14 +36,15 @@ void Scene::init()
 
 		Texture* t = nullptr;
 
-		gObjects.push_back(new Suelo(600.0, 600.0, 10, 10));
-		//gObjects.push_back(new Estrella3D(100.0, 6, 50.0));
+		//gObjects.push_back(new Suelo(600.0, 600.0, 10, 10));
+		gObjects.push_back(new Estrella3D(100.0, 8, 50.0));
 		t = new Texture();
-		t->load("..\\IG.01_app\\Bmps\\baldosaC.bmp");
+		//t->load("..\\IG.01_app\\Bmps\\baldosaC.bmp");
+		t->load("..\\IG.01_app\\Bmps\\baldosaP.bmp");
 		gTextures.push_back(t);
 		gObjects.back()->setTexture(t);
-		gObjects.back()->setColor(dvec4(1.0, 0.5, 1.0, 1));
-		gObjects.back()->setModelMat(glm::rotate(dmat4(1), radians(-90.0), dvec3(1, 0, 0)));
+		//gObjects.back()->setColor(dvec4(1.0, 0.5, 1.0, 1));
+		//gObjects.back()->setModelMat(glm::rotate(dmat4(1), radians(-90.0), dvec3(1, 0, 0)));
 		//gObjects.push_back(new Suelo(100.0, 80.0, 5, 10));
 
 

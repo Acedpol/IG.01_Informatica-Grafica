@@ -186,21 +186,42 @@ Mesh* Mesh::generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 	m->vTexCoords.emplace_back(rw, rh);
 	m->vTexCoords.emplace_back(rw, 0);
 	return m;
-	/*Mesh* m = new Mesh();
-	int numV = 4 * rw * rh;
-	m->vTexCoords.reserve(numV);
-	for (int i = 1; i <= rw; ++i) {
-		for (int j = 1; j <= rh; ++j) {
-			m->vTexCoords.emplace_back(0, h * j);
-			m->vTexCoords.emplace_back(0, 0);
-			m->vTexCoords.emplace_back(w * i, h * j);
-			m->vTexCoords.emplace_back(w * i, 0);
-		}
-	}
-	return m;*/
 }
 
-Mesh* Mesh:: generaEstrella3D(GLdouble re, GLuint np, GLdouble h) {
+Mesh* Mesh::generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h)
+{
+	Mesh* m = generaEstrella3D(re, np, h);
+	m->vTexCoords.reserve(m->mNumVertices);
+	// primer vertice (vertice central)
+	double x = 0.5;
+	double y = 0.5;
+	m->vTexCoords.emplace_back(x, y);
+	// recorrido circular de vertices:
+	double ang = 0.0;
+	double incremento = 360.0 / (np * 2.0);
+	double hipotenusa = sqrt(pow(0.5, 2) + pow(0.5, 2));
+	for (uint i = 0; i < np; ++i)
+	{
+		// vertice interior
+		x = 0.5 + 1 / 2 * cos(radians(ang));
+		y = 0.5 + 1 / 2 * sin(radians(ang));
+		m->vTexCoords.emplace_back(x, y);
+		ang = ang + incremento;
+		// vertice exterior
+		x = round(0.5 + hipotenusa * cos(radians(ang)));
+		y = round(0.5 + hipotenusa * sin(radians(ang)));
+		m->vTexCoords.emplace_back(x, y);
+		ang = ang + incremento;
+	}
+	// vertice interior
+	x = 0.5 + 1 / 2 * cos(radians(ang));
+	y = 0.5 + 1 / 2 * sin(radians(ang));
+	m->vTexCoords.emplace_back(x, y);
+	return m;
+}
+
+Mesh* Mesh::generaEstrella3D(GLdouble re, GLuint np, GLdouble h) 
+{
 	Mesh* mesh = new Mesh();
 
 	mesh->mPrimitive = GL_TRIANGLE_FAN;
@@ -223,7 +244,6 @@ Mesh* Mesh:: generaEstrella3D(GLdouble re, GLuint np, GLdouble h) {
 		mesh->vVertices.emplace_back(x, y, h);
 		ang = ang + incremento;
 	}
-	ang = 0.0;
 	// vertice interior
 	double x = 0 + re/2 * cos(radians(ang));
 	double y = 0 + re/2 * sin(radians(ang));
