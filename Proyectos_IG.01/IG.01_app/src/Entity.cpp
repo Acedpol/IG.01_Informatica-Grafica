@@ -179,6 +179,7 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		//glLineWidth(1);
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		aMat = translate(aMat, dvec3(0, 200.0, 0));
 
 		upload(aMat);
 		glColor4dv(value_ptr(mColor));
@@ -207,7 +208,7 @@ void Estrella3D::update()
 
 Caja::Caja(GLdouble ld)
 {
-	mMesh = Mesh::generaContCubo(ld);
+	mMesh = Mesh::generaContCuboTexCor(ld);
 }
 
 Caja::~Caja()
@@ -220,15 +221,24 @@ void Caja::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		
 		upload(aMat);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glColor4dv(value_ptr(mColor));
+		mTexture->bind(GL_REPLACE);
 
-		glLineWidth(2);
-		/*glEnable(GL_CULL_FACE);
-		glFrontFace(GL_CCW);*/
 		mMesh->render();
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		//glDisable(GL_CULL_FACE);
-		glLineWidth(1);
+
+		mTexture->unbind();
+		glCullFace(GL_FRONT);
+		mTexture2->bind(GL_REPLACE);
+
+		mMesh->render();
+
+		mTexture2->unbind();
+		glColor3d(1, 1, 1);
+		glDisable(GL_CULL_FACE);
 	}
 }
 
@@ -236,13 +246,13 @@ void Caja::render(glm::dmat4 const& modelViewMat) const
 
 Suelo::Suelo(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 {
-	mMesh=Mesh::generaRectanguloTexCor(w, h, rw, rh);
+	mMesh = Mesh::generaRectanguloTexCor(w, h, rw, rh);
+	setModelMat(glm::rotate(dmat4(1), radians(-90.0), dvec3(1, 0, 0)));
 }
 
 Suelo::~Suelo()
 {
 	delete mMesh; mMesh = nullptr;
-
 }
 
 
@@ -263,4 +273,32 @@ void Suelo::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
+//-------------------------------------------------------------------------
 
+Image::Image(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
+{
+	mMesh = Mesh::generaRectanguloTexCor(w, h, rw, rh);
+	setModelMat(glm::rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0)));
+	setModelMat(glm::translate(mModelMat, dvec3(0, 100.0, -0.1)));
+}
+
+Image::~Image()
+{
+	delete mMesh; mMesh = nullptr;
+}
+
+void Image::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glColor4dv(value_ptr(mColor));
+		mTexture->bind(GL_REPLACE);
+
+
+		mMesh->render();
+
+		mTexture->unbind();
+		glColor3d(1, 1, 1);
+	}
+}

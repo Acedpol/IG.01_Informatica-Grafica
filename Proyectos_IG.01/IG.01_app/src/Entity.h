@@ -26,9 +26,11 @@ public:
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
 	void setColor(glm::dvec4 const& color) { mColor = color; };
 	void setTexture(Texture* tex) { mTexture = tex; };
+	void setTexture2(Texture* tex) { mTexture2 = tex; };
 	virtual void update() {};
 protected:
 	Texture* mTexture = nullptr;
+	Texture* mTexture2 = nullptr;
 	Mesh* mMesh = nullptr;		// the mesh
 	glm::dmat4 mModelMat;		// modeling matrix
 	glm::dvec4 mColor;			// mesh color
@@ -100,7 +102,7 @@ public:
 	~Estrella3D();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	virtual void update();
-	private:
+private:
 	double rotAngleY=0, rotAngleZ=0;
 };
 
@@ -121,6 +123,16 @@ class Suelo : public Abs_Entity
 public:
 	explicit Suelo(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
 	~Suelo();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+
+//-------------------------------------------------------------------------
+
+class Image : public Abs_Entity
+{
+public:
+	explicit Image(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
+	~Image();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 #endif //_H_Entities_H_

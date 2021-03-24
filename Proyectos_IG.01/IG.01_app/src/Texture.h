@@ -19,6 +19,8 @@ public:
   Texture & operator=(const Texture & tex) = delete;  // no copy assignment
 
   void load(const std::string & BMP_Name, GLubyte alpha = 255); // load from file and upload to GPU
+  void loadColorBuffer(const GLubyte width, const GLubyte height, const GLenum buffer);
+  void save(const std::string& BMP_Name);
   
   void bind(GLuint mixMode); // mixMode: GL_REPLACE / MODULATE / ADD
   void unbind() { glBindTexture(GL_TEXTURE_2D, 0); };

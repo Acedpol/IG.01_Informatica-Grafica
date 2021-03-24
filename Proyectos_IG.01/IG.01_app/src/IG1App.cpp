@@ -136,9 +136,11 @@ void IG1App::key(unsigned char key, int x, int y)
 		movement = !movement;
 		break;
 	case '0':
+		mCamera->set2D_front();
 		mScene->changeScene(0);
 		break;
 	case '1':
+		mCamera->set3D();
 		mScene->changeScene(1);
 		break;
 	default:

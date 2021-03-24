@@ -24,6 +24,9 @@ public:
 
 	IG1App(IG1App const & J) = delete; // no copy constructor
 	void operator =(IG1App const & J) = delete; // no copy assignment
+
+	static int winWidth() { return s_ig1app.mWinW; };
+	static int winHeight() { return s_ig1app.mWinH; };
 	
 	// Viewport position and size
 	Viewport const& viewPort() { return *mViewPort; };
