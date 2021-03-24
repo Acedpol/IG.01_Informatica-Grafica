@@ -179,7 +179,7 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		//glLineWidth(1);
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		aMat = translate(aMat, dvec3(0, 200.0, 0));
+		//aMat = translate(aMat, dvec3(0, 200.0, 0));
 
 		upload(aMat);
 		glColor4dv(value_ptr(mColor));
@@ -263,7 +263,6 @@ void Suelo::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 		glColor4dv(value_ptr(mColor));
 		mTexture->bind(GL_REPLACE);
-		
 
 		mMesh->render();
 
@@ -275,6 +274,7 @@ void Suelo::render(glm::dmat4 const& modelViewMat) const
 
 //-------------------------------------------------------------------------
 
+#include "IG1App.h"
 Image::Image(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 {
 	mMesh = Mesh::generaRectanguloTexCor(w, h, rw, rh);
@@ -292,13 +292,16 @@ void Image::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		glColor4dv(value_ptr(mColor));
-		mTexture->bind(GL_REPLACE);
 
+		mTexture->bind(GL_REPLACE);
 
 		mMesh->render();
 
 		mTexture->unbind();
-		glColor3d(1, 1, 1);
 	}
+}
+
+void Image::update()
+{
+	mTexture->loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), GL_FRONT);
 }

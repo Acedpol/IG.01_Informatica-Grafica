@@ -19,7 +19,7 @@ public:
   Texture & operator=(const Texture & tex) = delete;  // no copy assignment
 
   void load(const std::string & BMP_Name, GLubyte alpha = 255); // load from file and upload to GPU
-  void loadColorBuffer(const GLubyte width, const GLubyte height, const GLenum buffer);
+  void loadColorBuffer(GLint width, GLint height, GLint buffer);
   void save(const std::string& BMP_Name);
   
   void bind(GLuint mixMode); // mixMode: GL_REPLACE / MODULATE / ADD

@@ -49,20 +49,29 @@ void Texture::load(const std::string & BMP_Name, GLubyte alpha)
 
 //-------------------------------------------------------------------------
 
-void Texture::loadColorBuffer(const GLubyte width, const GLubyte height, const GLenum buffer)
+void Texture::loadColorBuffer(GLint width, GLint height, GLint buffer)
 {
-	glReadBuffer(GL_FRONT);
+	if (mId == 0) init();
+
+	mWidth = width;
+	mHeight = height;
+
+	GLint level = 0;   //Base image level
+	GLint border = 0;  //No border
+
+	glReadBuffer(buffer);
 	glBindTexture(GL_TEXTURE_2D, mId);
-	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, height, width, height, 1); // TRANSFERIR A GPU -> TEXTURA ACTIVA
-	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glCopyTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, 0, 0, mWidth, mHeight, border); // TRANSFERIR A GPU -> TEXTURA ACTIVA (!!!)
+	//glBindTexture(GL_TEXTURE_2D, 0);
 	glReadBuffer(GL_BACK);
 }
 
 void Texture::save(const std::string& BMP_Name)
 {
 	PixMap32RGBA pixMap;
-	pixMap.save_bmp24BGR(BMP_Name);
 	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, &pixMap); // Obtener la imagen de la textura activa ( GPU -> CPU )
+	pixMap.save_bmp24BGR(BMP_Name);
 }
 
 //-------------------------------------------------------------------------

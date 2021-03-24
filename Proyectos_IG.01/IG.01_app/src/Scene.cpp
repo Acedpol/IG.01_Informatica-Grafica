@@ -62,9 +62,11 @@ void Scene::init()
 		// foto
 		Texture* tf = new Texture();
 		gObjects.push_back(new Image(100.0, 100.0, 1, 1));
-		/*tf->loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), GL_FRONT);
-		tf->save("..\\IG.01_app\\Bmps\\bitmap.bmp");*/
-		tf->load("..\\IG.01_app\\Bmps\\container.bmp");
+		tf->loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), GL_FRONT);
+		//tf->loadColorBuffer(tf->width(), tf->height(), GL_FRONT);
+		//tf->load("..\\IG.01_app\\Bmps\\container.bmp");
+		gTextures.push_back(tf);
+		//tf->save("..\\IG.01_app\\Bmps\\bitmap.bmp");
 		gObjects.back()->setTexture(tf);
 	}
     // Graphics objects (entities) of the scene

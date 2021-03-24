@@ -134,5 +134,6 @@ public:
 	explicit Image(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
 	~Image();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void update();
 };
 #endif //_H_Entities_H_
