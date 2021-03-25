@@ -70,7 +70,7 @@ void Scene::init()
 		Texture* tc = new Texture();
 		Celda* s = new Celda(600.0, 600.0, 1, 1);
 		gObjects.push_back(s);
-		tc->load("..\\IG.01_app\\Bmps\\windowV.bmp", 25);
+		tc->load("..\\IG.01_app\\Bmps\\windowV.bmp", 100);
 		gTextures.push_back(tc);
 		gObjects.back()->setTexture(tc);
 	}

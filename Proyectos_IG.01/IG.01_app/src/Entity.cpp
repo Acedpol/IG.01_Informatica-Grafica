@@ -167,6 +167,7 @@ void RectanguloRGB::render(glm::dmat4 const& modelViewMat) const
 Estrella3D::Estrella3D(GLdouble re, GLuint np, GLdouble h)
 {
 	mMesh = Mesh::generaEstrellaTexCor(re, np, h);
+	mModelMat = translate(dmat4(1), dvec3(0, 200.0, 0));
 }
 
 Estrella3D::~Estrella3D()
@@ -195,9 +196,9 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 void Estrella3D::update()
 {
 	if (mMesh != nullptr) {
-		rotAngleZ = rotAngleZ++;
-		mModelMat = rotate(dmat4(1), radians(rotAngleZ), dvec3(0, 1, 1));
-		mModelMat = translate(mModelMat, dvec3(0, 200.0, 0));
+		rotAngleZ = ++rotAngleZ;
+		mModelMat = translate(dmat4(1), dvec3(0, 200.0, 0));
+		mModelMat = rotate(mModelMat, radians(rotAngleZ), dvec3(0, 1, 1));
 	}
 }
 //-------------------------------------------------------------------------
@@ -257,14 +258,12 @@ void Suelo::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		glColor4dv(value_ptr(mColor));
+
 		mTexture->bind(GL_REPLACE);
 
 		mMesh->render();
 
 		mTexture->unbind();
-		glColor3d(1, 1, 1);
-
 	}
 }
 
@@ -288,13 +287,11 @@ void Image::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		glEnable(GL_BLEND);
 		mTexture->bind(GL_REPLACE);
 
 		mMesh->render();
 
 		mTexture->unbind();
-		glDisable(GL_BLEND);
 	}
 }
 
@@ -323,6 +320,8 @@ void Celda::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 
 		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+		
 		mTexture->bind(GL_REPLACE);
 
 		aMat = translate(aMat, dvec3(0, 0, 300));
@@ -344,6 +343,8 @@ void Celda::render(glm::dmat4 const& modelViewMat) const
 		mMesh->render();
 
 		mTexture->unbind();
+
+		glClear(GL_DEPTH_BUFFER_BIT);
 		glDisable(GL_BLEND);
 	} // no se cómo, pero me ha salido a la primera :D
 }
