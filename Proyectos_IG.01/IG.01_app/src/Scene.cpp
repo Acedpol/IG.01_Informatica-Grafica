@@ -63,11 +63,16 @@ void Scene::init()
 		Texture* tf = new Texture();
 		gObjects.push_back(new Image(100.0, 100.0, 1, 1));
 		tf->loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), GL_FRONT);
-		//tf->loadColorBuffer(tf->width(), tf->height(), GL_FRONT);
-		//tf->load("..\\IG.01_app\\Bmps\\container.bmp");
 		gTextures.push_back(tf);
-		//tf->save("..\\IG.01_app\\Bmps\\bitmap.bmp");
 		gObjects.back()->setTexture(tf);
+
+		// celda con blend (traslúcida)
+		Texture* tc = new Texture();
+		Celda* s = new Celda(600.0, 600.0, 1, 1);
+		gObjects.push_back(s);
+		tc->load("..\\IG.01_app\\Bmps\\windowV.bmp", 25);
+		gTextures.push_back(tc);
+		gObjects.back()->setTexture(tc);
 	}
     // Graphics objects (entities) of the scene
 	

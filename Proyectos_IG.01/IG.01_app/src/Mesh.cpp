@@ -100,7 +100,6 @@ Mesh* Mesh::generaRectangulo(GLdouble w, GLdouble h)
 Mesh* Mesh::generaRectanguloRGB(GLdouble w, GLdouble h)
 {
 	Mesh* mesh = generaRectangulo(w, h);
-	dvec3 p = { w / -2, h / 2, 0.0 };
 
 	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0); // V0
 	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0); // V1

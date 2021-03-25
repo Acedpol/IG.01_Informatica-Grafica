@@ -177,12 +177,9 @@ Estrella3D::~Estrella3D()
 void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
-		//glLineWidth(1);
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		//aMat = translate(aMat, dvec3(0, 200.0, 0));
 
 		upload(aMat);
-		glColor4dv(value_ptr(mColor));
 		mTexture->bind(GL_REPLACE);
 
 		mMesh->render();
@@ -193,7 +190,6 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 		mMesh->render();
 		
 		mTexture->unbind();
-		glColor3d(1, 1, 1);
 	}
 }
 void Estrella3D::update()
@@ -201,7 +197,7 @@ void Estrella3D::update()
 	if (mMesh != nullptr) {
 		rotAngleZ = rotAngleZ++;
 		mModelMat = rotate(dmat4(1), radians(rotAngleZ), dvec3(0, 1, 1));
-
+		mModelMat = translate(mModelMat, dvec3(0, 200.0, 0));
 	}
 }
 //-------------------------------------------------------------------------
@@ -292,12 +288,13 @@ void Image::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-
+		glEnable(GL_BLEND);
 		mTexture->bind(GL_REPLACE);
 
 		mMesh->render();
 
 		mTexture->unbind();
+		glDisable(GL_BLEND);
 	}
 }
 
@@ -305,3 +302,50 @@ void Image::update()
 {
 	mTexture->loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), GL_FRONT);
 }
+
+//-------------------------------------------------------------------------
+
+Celda::Celda(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
+{
+	mMesh = Mesh::generaRectanguloTexCor(w, h / 2, rw, rh);
+	setModelMat(glm::translate(mModelMat, dvec3(0, h / 4, 0)));
+}
+
+Celda::~Celda()
+{
+	delete mMesh; mMesh = nullptr;
+}
+
+
+void Celda::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+		glEnable(GL_BLEND);
+		mTexture->bind(GL_REPLACE);
+
+		aMat = translate(aMat, dvec3(0, 0, 300));
+		upload(aMat); // P1
+		mMesh->render();
+
+		aMat = translate(aMat, dvec3(0, 0, -600));
+		upload(aMat); // P2
+		mMesh->render();
+
+		aMat = translate(aMat, dvec3(0, 0, 300));
+		aMat = translate(aMat, dvec3(300, 0, 0));
+		aMat = rotate(aMat, radians(90.0), dvec3(0, 1, 0));
+		upload(aMat); // P3
+		mMesh->render();
+
+		aMat = translate(aMat, dvec3(0, 0, -600));
+		upload(aMat); // P4
+		mMesh->render();
+
+		mTexture->unbind();
+		glDisable(GL_BLEND);
+	} // no se cómo, pero me ha salido a la primera :D
+}
+
+//-------------------------------------------------------------------------

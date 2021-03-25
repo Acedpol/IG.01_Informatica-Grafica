@@ -63,7 +63,6 @@ void Texture::loadColorBuffer(GLint width, GLint height, GLint buffer)
 	glBindTexture(GL_TEXTURE_2D, mId);
 
 	glCopyTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, 0, 0, mWidth, mHeight, border); // TRANSFERIR A GPU -> TEXTURA ACTIVA (!!!)
-	//glBindTexture(GL_TEXTURE_2D, 0);
 	glReadBuffer(GL_BACK);
 }
 
