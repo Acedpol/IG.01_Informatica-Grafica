@@ -49,6 +49,9 @@ protected:
 	void free();   
  
 	void display() const;   // the scene
+	void display_1Vista() const;
+	void display_2Vistas() const;
+
 	void resize(int newWidth, int newHeight);   // the viewport (without changing the scale) 
 	void key(unsigned char key, int x, int y);  // keypress event
 	void specialKey(int key, int x, int y);     // keypress event for special characters
@@ -67,6 +70,7 @@ protected:
 	// Graphics objects of the scene
 	Scene *mScene = nullptr;
 	
+	bool m2Vistas = false; // duplicar las vistas
 	bool mStop = false; // main event processing loop
 	int mWinId = 0;	    // window's identifier
 	int mWinW = 800;    // window's width 

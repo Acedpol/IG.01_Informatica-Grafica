@@ -75,6 +75,9 @@ void Scene::init()
 		gObjects.back()->setTexture(tc);
 	}
     // Graphics objects (entities) of the scene
+	else if (mId == 2) { // Camara
+
+	}
 	
 
 }

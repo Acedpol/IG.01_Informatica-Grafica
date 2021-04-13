@@ -89,11 +89,44 @@ void IG1App::free()
 
 void IG1App::display() const   
 {  // double buffering
+	if (m2Vistas) {
+		display_2Vistas();
+	}
+	else {
+		display_1Vista();
+	}
+}
 
+void IG1App::display_1Vista() const
+{
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
 	mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
-	
+
+	glutSwapBuffers();	// swaps the front and back buffer
+}
+
+void IG1App::display_2Vistas() const
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
+
+	Camera auxCam = *mCamera;
+	Viewport auxVP = *mViewPort;
+
+	mViewPort->setSize(mWinW / 2, mWinH);
+	auxCam.setSize(mViewPort->width(), mViewPort->height());
+
+	//mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
+	//Vista usuario
+	mViewPort->setPos(0, 0);
+	mScene->render(auxCam);
+	//Vista cenital
+	mViewPort->setPos(mWinW / 2, 0);
+	auxCam.setCenital(); 
+	mScene->render(auxCam); 
+
+	*mViewPort = auxVP; // recupera el puerto de vista
+
 	glutSwapBuffers();	// swaps the front and back buffer
 }
 //-------------------------------------------------------------------------
@@ -132,6 +165,15 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'b':
 		mCamera->set2D_back();
 		break;
+	case 'p':
+		mCamera->changePrj();
+		break;
+	case 'k':
+		m2Vistas = !m2Vistas;
+		break;
+	case 'r':
+		s_resize(400, 200);
+		break;
 	case 'u':
 		movement = !movement;
 		break;
@@ -142,6 +184,10 @@ void IG1App::key(unsigned char key, int x, int y)
 	case '1':
 		mCamera->set3D();
 		mScene->changeScene(1);
+		break;
+	case '2':
+		mCamera->set3D(); //
+		mScene->changeScene(2);
 		break;
 	default:
 		need_redisplay = false;
@@ -158,29 +204,29 @@ void IG1App::specialKey(int key, int x, int y)
 	bool need_redisplay = true;
 	int mdf = glutGetModifiers(); // returns the modifiers (Shift, Ctrl, Alt)
 	
-	switch (key) {
-	case GLUT_KEY_RIGHT:
-		if (mdf == GLUT_ACTIVE_CTRL)
-			mCamera->pitch(-1);   // rotates -1 on the X axis
-		else
-			mCamera->pitch(1);    // rotates 1 on the X axis
-		break;
-	case GLUT_KEY_LEFT:
-		if (mdf == GLUT_ACTIVE_CTRL)
-		    mCamera->yaw(1);      // rotates 1 on the Y axis 
-		else 
-			mCamera->yaw(-1);     // rotate -1 on the Y axis 
-		break;
-	case GLUT_KEY_UP:
-		mCamera->roll(1);    // rotates 1 on the Z axis
-		break;
-	case GLUT_KEY_DOWN:
-		mCamera->roll(-1);   // rotates -1 on the Z axis
-		break;
-	default:
-		need_redisplay = false;
-		break;
-	}//switch
+	//switch (key) {
+	//case GLUT_KEY_RIGHT:
+	//	if (mdf == GLUT_ACTIVE_CTRL)
+	//		mCamera->pitch(-1);   // rotates -1 on the X axis
+	//	else
+	//		mCamera->pitch(1);    // rotates 1 on the X axis
+	//	break;
+	//case GLUT_KEY_LEFT:
+	//	if (mdf == GLUT_ACTIVE_CTRL)
+	//	    mCamera->yaw(1);      // rotates 1 on the Y axis 
+	//	else 
+	//		mCamera->yaw(-1);     // rotate -1 on the Y axis 
+	//	break;
+	//case GLUT_KEY_UP:
+	//	mCamera->roll(1);    // rotates 1 on the Z axis
+	//	break;
+	//case GLUT_KEY_DOWN:
+	//	mCamera->roll(-1);   // rotates -1 on the Z axis
+	//	break;
+	//default:
+	//	need_redisplay = false;
+	//	break;
+	//}//switch
 
 	if (need_redisplay)
 		glutPostRedisplay(); // marks the window as needing to be redisplayed -> calls to display()
