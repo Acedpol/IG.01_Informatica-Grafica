@@ -32,8 +32,6 @@ void Scene::init()
 		auto ejes = new EjesRGB(400.0);
 		gObjects.push_back(ejes);
 
-		
-
 		// suelo
 		Texture* ts = new Texture();
 		gObjects.push_back(new Suelo(600.0, 600.0, 10, 10));
@@ -76,7 +74,7 @@ void Scene::init()
 	}
     // Graphics objects (entities) of the scene
 	else if (mId == 2) { // Camara
-
+		// en inputhandler de IG1App
 	}
 	
 

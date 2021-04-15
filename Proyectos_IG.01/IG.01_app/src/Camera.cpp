@@ -57,11 +57,16 @@ void Camera::set2D_back()
 	mUp = dvec3(0, 1, 0);
 	setVM();
 }
-void Camera::orbit(GLdouble incAng, GLdouble incY)
+void Camera::orbit(GLdouble ax)
 {
-	mAng += incAng;
+	mAng += ax;
 	mEye.x = mLook.x + cos(radians(mAng)) * mRadio;
 	mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
+	setVM();
+}
+void Camera::orbit(GLdouble incAng, GLdouble incY)
+{
+	orbit(incAng);
 	mEye.y += incY;
 	setVM();
 }
@@ -80,6 +85,7 @@ void Camera::setCenital()
 	mRadio = 50;
 	setVM();
 }
+
 //-------------------------------------------------------------------------
 
 //void Camera::pitch(GLdouble a) 
@@ -102,28 +108,43 @@ void Camera::setCenital()
 //	// glm::rotate returns mViewMat * rotationMatrix
 //}
 
-//-------------------------------------------------------------------------
+//--- Move Eye -------------------------------------------------------------
 
-void Camera::moveLR(GLdouble cs)
+void Camera::moveFB(GLdouble cs) // mFront = eje N
 {
-	mEye += mRight* cs;
+	mEye += -mFront * cs; 
+	setVM(); 
+}
+
+void Camera::moveLR(GLdouble cs) // mRight = eje U
+{
+	mEye += mRight * cs; 
 	mLook += mRight * cs;
-	setVM(); 
+	setVM();
 }
 
-void Camera::moveFB(GLdouble cs)
+void Camera::moveUD(GLdouble cs) // mUpward = eje V
 {
-	mEye += mFront* cs;
-	mLook += mFront * cs;
-	setVM(); 
-}
-
-void Camera::moveUD(GLdouble cs)
-{
-	mEye += mUpward * cs;
+	mEye += mUpward * cs; 
 	mLook += mUpward * cs;
-	setVM(); 
+	setVM();
 }
+
+//--- Rotate Look -----------------------------------------------------------
+
+void Camera::lookLR(GLdouble cs) // mRight = eje U
+{
+	mLook += mRight * cs; 
+	setVM();
+}
+
+void Camera::lookUD(GLdouble cs) // mUpward = eje V
+{
+	mLook += mUpward * cs; 
+	setVM();
+}
+
+//--- Setters -----------------------------------------------------------
 
 void Camera::setAxes()
 {

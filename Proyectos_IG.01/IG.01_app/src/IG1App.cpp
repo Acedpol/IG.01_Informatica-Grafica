@@ -73,6 +73,11 @@ void IG1App::iniWinOpenGL()
 	glutSpecialFunc(s_specialKey);
 	glutDisplayFunc(s_display);
 	glutIdleFunc(s_update);
+
+	// mouse events callbacks
+	glutMouseFunc(s_mouse);
+	glutMotionFunc(s_motion);
+	glutMouseWheelFunc(s_mouseWheel);
 	
 	cout << glGetString(GL_VERSION) << '\n';
 	cout << glGetString(GL_VENDOR) << '\n';
@@ -190,7 +195,8 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case '2':
 		mCamera->set3D(); //
-		mScene->changeScene(2);
+		mScene->changeScene(1);
+		mCamera->changePrj();
 		break;
 	default:
 		need_redisplay = false;
@@ -240,6 +246,7 @@ void IG1App::specialKey(int key, int x, int y)
 	if (need_redisplay)
 		glutPostRedisplay(); // marks the window as needing to be redisplayed -> calls to display()
 }
+
 void IG1App::update() {
 	if (movement && glutGet(GLUT_ELAPSED_TIME) - mLastUpdateTime > 45) {
 		mLastUpdateTime = glutGet(GLUT_ELAPSED_TIME);
@@ -250,3 +257,64 @@ void IG1App::update() {
 }
 //-------------------------------------------------------------------------
 
+void IG1App::mouse(int button, int state, int x, int y)
+{
+	mBot = button;
+	y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+	mCoord = { x,y };
+
+	// Save the left button state
+	if (button == GLUT_LEFT_BUTTON)
+	{
+		leftMouseButtonDown = (state == GLUT_DOWN);
+	}
+	
+	else if (button == GLUT_RIGHT_BUTTON)
+	{
+		rightMouseButtonDown = (state == GLUT_DOWN);
+	}
+}
+void IG1App::motion(int x, int y)
+{
+	glm::dvec2 mp = mCoord - glm::dvec2(x, y);
+	mCoord = { x,y };
+
+	int mdf = glutGetModifiers();
+	// click izquierdo mantenido
+	if (leftMouseButtonDown) { 
+		mCamera->orbit(mp.x * 0.05, mp.y); // rotate move: orbit
+	}
+	// click derecho mantenido
+	if (rightMouseButtonDown) { 
+		// UP / DOWN
+		if (mp.y != 0) { 
+			if (mdf == 0) {
+				mCamera->moveUD(mp.y); // move: up / down
+			}
+			else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
+				mCamera->lookUD(mp.y); // look: up / down
+			}
+		}
+		// LEFT / RIGHT
+		if (mp.x != 0) { 
+			if (mdf == 0) {
+				mCamera->moveLR(mp.x); // move: left / right
+			}
+			else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
+				mCamera->lookLR(mp.x); // look: left / right
+			}
+		}
+	}
+	glutPostRedisplay();
+}
+void IG1App::mouseWheel(int n, int d, int x, int y)
+{
+	int mdf = glutGetModifiers();
+	if (mdf == 0) {
+		mCamera->moveFB(d * 5.0); // zoom: farward / backward
+	}
+	else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
+		mCamera->setScale(d * 0.05); // set scale
+	}
+	glutPostRedisplay();
+}
