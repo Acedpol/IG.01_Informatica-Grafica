@@ -20,7 +20,7 @@ private:
 	void showScene_3D();
 public:
 	Scene() {};
-	~Scene() { free(); resetGL(); };
+	~Scene() { free(); resetGL(); }; // al borrar la segunda escena se hacía reseteo y ponía GLColor (global) a color blanco (por defecto)
 
 	Scene(const Scene& s) = delete;  // no copy constructor
 	Scene& operator=(const Scene& s) = delete;  // no copy assignment
@@ -32,9 +32,9 @@ public:
 	void update();
 	void changeScene(int id);
 	
+	void free(); // ahora es público para poder vaciar la memoria de la segunda escena
 	
 protected:
-	void free();
 	void setGL();
 	void resetGL();
 	int mId = 0;

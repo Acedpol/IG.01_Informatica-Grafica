@@ -89,13 +89,20 @@ void IG1App::free()
 	delete mScene; mScene = nullptr;
 	delete mCamera; mCamera = nullptr;
 	delete mViewPort; mViewPort = nullptr;
+	// 2 escena en paralelo:
+	delete mScene2; mScene2 = nullptr;
+	delete mViewPort2; mViewPort2 = nullptr;
+	//delete mCamera2; mCamera2 = nullptr;
 }
 //-------------------------------------------------------------------------
 
 void IG1App::display() const   
 {  // double buffering
 	if (m2Vistas) {
-		display_2Vistas();
+		if (!m2Escenas)
+			display_2Vistas();
+		else
+			display_2Escenas();
 	}
 	else {
 		display_1Vista();
@@ -134,6 +141,30 @@ void IG1App::display_2Vistas() const
 
 	glutSwapBuffers();	// swaps the front and back buffer
 }
+
+void IG1App::display_2Escenas() const
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
+
+	Camera auxCam = *mCamera;
+	Viewport auxVP = *mViewPort;
+
+	mViewPort->setSize(mWinW / 2, mWinH);
+	auxCam.setSize(mViewPort->width(), mViewPort->height());
+
+	//Vista usuario
+	mViewPort->setPos(0, 0);
+	mScene->render(auxCam);
+	//Vista cenital
+	mViewPort->setPos(mWinW / 2, 0);
+	auxCam.set2D_front();
+	mScene2->render(auxCam);
+
+	*mViewPort = auxVP; // recupera el puerto de vista
+
+	glutSwapBuffers();	// swaps the front and back buffer
+}
+
 //-------------------------------------------------------------------------
 
 void IG1App::resize(int newWidth, int newHeight) 
@@ -178,6 +209,21 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case 'k':
 		m2Vistas = !m2Vistas;
+		break;
+	case 'j':
+		m2Vistas = !m2Vistas;
+		if (!m2Escenas) {
+			m2Escenas = true;
+			mScene2 = new Scene;
+			mScene2->changeScene(0);
+			//mCamera2 = new Camera(mViewPort);
+			//mCamera2->set2D_front();
+		}
+		else {
+			m2Escenas = false;
+			mScene2->free(); mScene2 = nullptr;
+			//delete mCamera2; mCamera2 = nullptr;
+		}
 		break;
 	case 'r':
 		s_resize(400, 200);

@@ -51,6 +51,7 @@ protected:
 	void display() const;   // the scene
 	void display_1Vista() const;
 	void display_2Vistas() const;
+	void display_2Escenas() const;
 
 	void resize(int newWidth, int newHeight);   // the viewport (without changing the scale) 
 	void key(unsigned char key, int x, int y);  // keypress event
@@ -83,10 +84,13 @@ protected:
 	Viewport *mViewPort = nullptr;
 	// Camera position, view volume and projection
 	Camera *mCamera = nullptr;
+	//Camera *mCamera2 = nullptr;
 	// Graphics objects of the scene
 	Scene *mScene = nullptr;
+	Scene *mScene2 = nullptr;
 	
 	bool m2Vistas = false; // duplicar las vistas
+	bool m2Escenas = false; // duplicar las vistas
 	glm::dvec2 mCoord; // mouse coords
 	int mBot; // button clicked
 	bool mStop = false; // main event processing loop
