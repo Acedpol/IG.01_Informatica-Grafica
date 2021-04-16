@@ -183,29 +183,37 @@ void IG1App::key(unsigned char key, int x, int y)
 {
 	bool need_redisplay = true;
 	
+	Camera* cam = mCamera;
+	if (scene01) cam = mCamera;
+	else if (scene02) cam = mCamera2;
+	
+	Scene* scene = mScene;
+	if (scene01) scene = mScene;
+	else if (scene02) scene = mScene2;
+
 	switch (key) {
 	case 27:  // Escape key 
 		glutLeaveMainLoop();  // stops main loop and destroy the OpenGL context
 	case '+':
-		mCamera->setScale(+0.01);  // zoom in  (increases the scale)
+		cam->setScale(+0.01);  // zoom in  (increases the scale)
 		break;
 	case '-':
-		mCamera->setScale(-0.01);  // zoom out (decreases the scale)
+		cam->setScale(-0.01);  // zoom out (decreases the scale)
 		break;
 	case 'l':
-		mCamera->set3D();
+		cam->set3D();
 		break;
 	case 'o':
-		mCamera->set2D_front();
+		cam->set2D_front();
 		break;
 	case 'b':
-		mCamera->set2D_back();
+		cam->set2D_back();
 		break;
 	case 'p':
-		mCamera->changePrj();
+		cam->changePrj();
 		break;
 	case 'q':
-		mCamera->orbit(1.0, 1.0);
+		cam->orbit(1.0, 1.0);
 		break;
 	case 'k':
 		m2Vistas = !m2Vistas;
@@ -237,15 +245,15 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case '0':
 		mScene->changeScene(0);
-		mCamera->set2D_front();
+		cam->set2D_front();
 		break;
 	case '1':
-		mScene->changeScene(1);
-		mCamera->setOrtogonal();
+		scene->changeScene(1);
+		cam->setOrtogonal();
 		break;
 	case '2':
-		mScene->changeScene(2);
-		mCamera->setPerspective();
+		scene->changeScene(2);
+		cam->setPerspective();
 		break;
 	default:
 		need_redisplay = false;
