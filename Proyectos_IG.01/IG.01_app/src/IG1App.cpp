@@ -91,8 +91,7 @@ void IG1App::free()
 	delete mViewPort; mViewPort = nullptr;
 	// 2 escena en paralelo:
 	delete mScene2; mScene2 = nullptr;
-	delete mViewPort2; mViewPort2 = nullptr;
-	//delete mCamera2; mCamera2 = nullptr;
+	delete mCamera2; mCamera2 = nullptr;
 }
 //-------------------------------------------------------------------------
 
@@ -147,18 +146,19 @@ void IG1App::display_2Escenas() const
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
 	Camera auxCam = *mCamera;
+	Camera auxCam2 = *mCamera2; //
 	Viewport auxVP = *mViewPort;
 
 	mViewPort->setSize(mWinW / 2, mWinH);
 	auxCam.setSize(mViewPort->width(), mViewPort->height());
+	auxCam2.setSize(mViewPort->width(), mViewPort->height()); //
 
 	//Vista usuario
 	mViewPort->setPos(0, 0);
 	mScene->render(auxCam);
 	//Vista cenital
 	mViewPort->setPos(mWinW / 2, 0);
-	auxCam.set2D_front();
-	mScene2->render(auxCam);
+	mScene2->render(auxCam2);
 
 	*mViewPort = auxVP; // recupera el puerto de vista
 
@@ -209,20 +209,24 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case 'k':
 		m2Vistas = !m2Vistas;
+		if (!m2Vistas && m2Escenas) disableDoubleScene();
 		break;
 	case 'j':
-		m2Vistas = !m2Vistas;
-		if (!m2Escenas) {
-			m2Escenas = true;
-			mScene2 = new Scene;
-			mScene2->changeScene(0);
-			//mCamera2 = new Camera(mViewPort);
-			//mCamera2->set2D_front();
+		if (!m2Vistas && !m2Escenas) {
+			chargeDoubleScene(0);
+			mCamera2->set2D_front();
 		}
-		else {
-			m2Escenas = false;
-			mScene2->free(); mScene2 = nullptr;
-			//delete mCamera2; mCamera2 = nullptr;
+		else if (m2Escenas) {
+			disableDoubleScene();
+		}
+		break;
+	case 'h':
+		if (!m2Vistas && !m2Escenas) {
+			chargeDoubleScene(1);
+			mCamera2->set3D();
+		}
+		else if (m2Escenas) {
+			disableDoubleScene();
 		}
 		break;
 	case 'r':
@@ -307,46 +311,67 @@ void IG1App::mouse(int button, int state, int x, int y)
 	{
 		leftMouseButtonDown = (state == GLUT_DOWN);
 	}
-	
+
 	else if (button == GLUT_RIGHT_BUTTON)
 	{
 		rightMouseButtonDown = (state == GLUT_DOWN);
 	}
+
+	if (m2Escenas) {
+		glm::dvec2 marco = { mWinW / 2, mWinH }; // repectivos "mViewPort->width(), mViewPort->height()" cuando se muestran
+		if (mCoord.x < marco.x) {
+			scene01 = true;
+			scene02 = false;
+		}
+		else if (mCoord.x > marco.x && mCoord.x < marco.x * 2.0) {
+			scene01 = false;
+			scene02 = true;
+		}
+	}
 }
 void IG1App::motion(int x, int y)
 {
-	glm::dvec2 mp = mCoord - glm::dvec2(x, y);
+	glm::dvec2 mp_ = mCoord - glm::dvec2(x, y);
 	mCoord = { x,y };
 
+	if (scene01) {
+		motionCamera(mCamera, mp_);
+	}
+	else if (scene02) {
+		motionCamera(mCamera2, mp_);
+	}
+}
+void IG1App::motionCamera(Camera* cam, glm::dvec2 mp)
+{
 	int mdf = glutGetModifiers();
 	// click izquierdo mantenido
-	if (leftMouseButtonDown) { 
+	if (leftMouseButtonDown) {
 		if (mdf == 0) {
-			mCamera->orbit(mp.x * 0.25, mp.y + 0.25); // rotate move: orbit
+			cam->orbit(mp.x * 0.25, mp.y + 0.25); // rotate move: orbit
 		}
 		else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
 			int k = glutGet(GLUT_WINDOW_HEIGHT) - mp.y;
-			mCamera->orbitBalloon(mp.x * 0.25, k + 0.05); // rotate move: orbit en forma de globo, no funciona bien, no me ha dado tiempo (extra)
-		}		
+			cam->orbitBalloon(mp.x * 0.25, k + 0.05); // rotate move: orbit en forma de globo, no funciona bien, no me ha dado tiempo (extra)
+		}
 	}
 	// click derecho mantenido
-	if (rightMouseButtonDown) { 
+	if (rightMouseButtonDown) {
 		// UP / DOWN
-		if (mp.y != 0) { 
+		if (mp.y != 0) {
 			if (mdf == 0) {
-				mCamera->moveUD(mp.y); // move: up / down
+				cam->moveUD(mp.y); // move: up / down
 			}
 			else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
-				mCamera->lookUD(mp.y); // look: up / down (extra)
+				cam->lookUD(mp.y); // look: up / down (extra)
 			}
 		}
 		// LEFT / RIGHT
-		if (mp.x != 0) { 
+		if (mp.x != 0) {
 			if (mdf == 0) {
-				mCamera->moveLR(mp.x); // move: left / right
+				cam->moveLR(mp.x); // move: left / right
 			}
 			else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
-				mCamera->lookLR(mp.x); // look: left / right (extra)
+				cam->lookLR(mp.x); // look: left / right (extra)
 			}
 		}
 	}
@@ -354,12 +379,42 @@ void IG1App::motion(int x, int y)
 }
 void IG1App::mouseWheel(int n, int d, int x, int y)
 {
+	glm::dvec2 mp_ = { x,y };
+	if (scene01) {
+		mouseWheelCamera(mCamera, n, d, mp_);
+	}
+	else if (scene02) {
+		mouseWheelCamera(mCamera2, n, d, mp_);
+	}
+}
+
+void IG1App::mouseWheelCamera(Camera* cam, int n, int d, glm::dvec2 mp)
+{
 	int mdf = glutGetModifiers();
 	if (mdf == 0) {
-		mCamera->moveFB(d * 10.0); // zoom: farward / backward
+		cam->moveFB(d * 10.0); // zoom: farward / backward
 	}
 	else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
-		mCamera->setScale(d * -0.05); // set scale
+		cam->setScale(d * -0.05); // set scale
 	}
 	glutPostRedisplay();
+}
+
+void IG1App::chargeDoubleScene(int n)
+{
+	m2Vistas = true;
+	m2Escenas = true;
+	mScene2 = new Scene;
+	mScene2->changeScene(n);
+	mCamera2 = new Camera(mViewPort);
+}
+
+void IG1App::disableDoubleScene()
+{
+	m2Vistas = false;
+	m2Escenas = false;
+	scene01 = true;
+	scene02 = false;
+	mScene2->free(); mScene2 = nullptr;
+	mCamera2 = nullptr;
 }

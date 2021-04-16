@@ -33,7 +33,6 @@ public:
 	void setOrtogonal();
 	void setPerspective();
 
-
 	//void pitch(GLdouble a); // rotates a degrees on the X axis
 	//void yaw(GLdouble a);   // rotates a degrees on the Y axis
 	//void roll(GLdouble a);  // rotates a degrees on the Z axis

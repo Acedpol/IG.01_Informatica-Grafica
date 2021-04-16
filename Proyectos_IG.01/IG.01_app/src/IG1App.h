@@ -67,7 +67,7 @@ protected:
 	// mouse events callbacks
 	static void s_mouse(int button, int state, int x, int y) { s_ig1app.mouse(button, state, x, y); };
 	static void s_motion(int x, int y) { s_ig1app.motion(x, y); };
-	static void s_mouseWheel(int n, int d, int x, int y) { s_ig1app.mouseWheel(n, d, x, y); };	
+	static void s_mouseWheel(int n, int d, int x, int y) { s_ig1app.mouseWheel(n, d, x, y); };
 
 	// captura, en mCoord, las coordenadas del ratón (x, y), y en mBot el botón pulsado.
 	void mouse(int button, int state, int x, int y);
@@ -75,16 +75,21 @@ protected:
 	// y, si el botón pulsado es el derecho, mueve la cámara en sus ejes mRight (horizontal) y mUpward (vertical),
 	// mientras que si es el botón izquierdo, rota la cámara alrededor de la escena.
 	void motion(int x, int y);
+	void motionCamera(Camera *c, glm::dvec2 mp);
 	// Si no está pulsada ninguna tecla modificadora, desplaza la cámara en su dirección de vista (eje mFront), 
 	// hacia delante o hacia atrás según 'd' sea positivo o no; 
 	// si se pulsa la tecla Ctrl, escala la escena de nuevo según el valor de 'd'.
 	void mouseWheel(int n, int d, int x, int y);
+	void mouseWheelCamera(Camera *c, int n, int d, glm::dvec2 mp);
+
+	void chargeDoubleScene(int n);
+	void disableDoubleScene();
 
 	// Viewport position and size
 	Viewport *mViewPort = nullptr;
 	// Camera position, view volume and projection
 	Camera *mCamera = nullptr;
-	//Camera *mCamera2 = nullptr;
+	Camera *mCamera2 = nullptr;
 	// Graphics objects of the scene
 	Scene *mScene = nullptr;
 	Scene *mScene2 = nullptr;
@@ -101,6 +106,8 @@ protected:
 	GLuint mLastUpdateTime;
 	bool leftMouseButtonDown = false;
 	bool rightMouseButtonDown = false;
+	bool scene01 = true;
+	bool scene02 = false;
 };
 //-------------------------------------------------------------------------
 
