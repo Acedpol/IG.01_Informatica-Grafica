@@ -15,6 +15,9 @@
 
 class Scene	
 { 
+private:
+	void showScene_2D();
+	void showScene_3D();
 public:
 	Scene() {};
 	~Scene() { free(); resetGL(); };

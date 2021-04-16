@@ -46,15 +46,16 @@ void Camera::set3D()
 	mUp = dvec3(0, 1, 0);
 	mAng = -45;
 	mRadio = 500;
+	mScaleFact = 1;
 	setVM();
 }
 //-------------------------------------------------------------------------
 
 void Camera::set2D_back()
 {
-	mEye = dvec3(0, 0, -500);
-	mLook = dvec3(0, 0, 0);
-	mUp = dvec3(0, 1, 0);
+	mEye = dvec3(0, 0, -500); // camera position
+	mLook = dvec3(0, 0, 0);	// view direction
+	mUp = dvec3(0, 1, 0); // vector 'normal' de la camara
 	setVM();
 }
 void Camera::orbit(GLdouble ax)
@@ -71,11 +72,19 @@ void Camera::orbit(GLdouble incAng, GLdouble incY)
 	setVM();
 }
 
+void Camera::orbitBalloon(GLdouble incAng, GLdouble incY)
+{
+	orbit(incAng);
+	//mEye.y += (mLook.y - 10) - sin(radians(mAng)) * mRadio;
+	setVM();
+}
+
 void Camera::changePrj()
 {
 	bOrto = !bOrto;
 	setPM();
 }
+
 void Camera::setCenital()
 {
 	mEye = dvec3(0, 500, 0);
@@ -84,6 +93,21 @@ void Camera::setCenital()
 	mAng = 180;
 	mRadio = 50;
 	setVM();
+}
+
+//-------------------------------------------------------------------------
+
+void Camera::setOrtogonal()
+{
+	set3D();
+	bOrto = true;
+	setPM();
+}
+void Camera::setPerspective()
+{
+	set3D();
+	bOrto = false;
+	setPM();
 }
 
 //-------------------------------------------------------------------------
@@ -118,8 +142,8 @@ void Camera::moveFB(GLdouble cs) // mFront = eje N
 
 void Camera::moveLR(GLdouble cs) // mRight = eje U
 {
-	mEye += mRight * cs; 
-	mLook += mRight * cs;
+	mEye += mRight * -cs; 
+	mLook += mRight * -cs;
 	setVM();
 }
 
@@ -134,7 +158,7 @@ void Camera::moveUD(GLdouble cs) // mUpward = eje V
 
 void Camera::lookLR(GLdouble cs) // mRight = eje U
 {
-	mLook += mRight * cs; 
+	mLook += mRight * -cs; 
 	setVM();
 }
 

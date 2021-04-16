@@ -186,17 +186,16 @@ void IG1App::key(unsigned char key, int x, int y)
 		movement = !movement;
 		break;
 	case '0':
-		mCamera->set2D_front();
 		mScene->changeScene(0);
+		mCamera->set2D_front();
 		break;
 	case '1':
-		mCamera->set3D();
 		mScene->changeScene(1);
+		mCamera->setOrtogonal();
 		break;
 	case '2':
-		mCamera->set3D(); //
-		mScene->changeScene(1);
-		mCamera->changePrj();
+		mScene->changeScene(2);
+		mCamera->setPerspective();
 		break;
 	default:
 		need_redisplay = false;
@@ -217,26 +216,20 @@ void IG1App::specialKey(int key, int x, int y)
 	case GLUT_KEY_RIGHT:
 		if (mdf == GLUT_ACTIVE_CTRL)
 			//mCamera->pitch(-1);   // rotates -1 on the X axis
-			mCamera->moveUD(-1);   // rotates -1 on the X axis
-		else
+		//else
 			//mCamera->pitch(1);    // rotates 1 on the X axis
-			mCamera->moveUD(1);    // rotates 1 on the X axis
 		break;
 	case GLUT_KEY_LEFT:
 		if (mdf == GLUT_ACTIVE_CTRL)
 		    //mCamera->yaw(1);      // rotates 1 on the Y axis 
-		    mCamera->moveLR(10);      // rotates 1 on the Y axis 
-		else 
+		//else 
 			//mCamera->yaw(-1);     // rotate -1 on the Y axis 
-			mCamera->moveLR(-10);     // rotate -1 on the Y axis 
 		break;
 	case GLUT_KEY_UP:
 		//mCamera->roll(1);    // rotates 1 on the Z axis
-		mCamera->moveFB(1);    // rotates 1 on the Z axis
 		break;
 	case GLUT_KEY_DOWN:
 		//mCamera->roll(-1);   // rotates -1 on the Z axis
-		mCamera->moveFB(-1);   // rotates -1 on the Z axis
 		break;
 	default:
 		need_redisplay = false;
@@ -282,7 +275,13 @@ void IG1App::motion(int x, int y)
 	int mdf = glutGetModifiers();
 	// click izquierdo mantenido
 	if (leftMouseButtonDown) { 
-		mCamera->orbit(mp.x * 0.05, mp.y); // rotate move: orbit
+		if (mdf == 0) {
+			mCamera->orbit(mp.x * 0.25, mp.y + 0.25); // rotate move: orbit
+		}
+		else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
+			int k = glutGet(GLUT_WINDOW_HEIGHT) - mp.y;
+			mCamera->orbitBalloon(mp.x * 0.25, k + 0.05); // rotate move: orbit en forma de globo, no funciona bien, no me ha dado tiempo (extra)
+		}		
 	}
 	// click derecho mantenido
 	if (rightMouseButtonDown) { 
@@ -292,7 +291,7 @@ void IG1App::motion(int x, int y)
 				mCamera->moveUD(mp.y); // move: up / down
 			}
 			else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
-				mCamera->lookUD(mp.y); // look: up / down
+				mCamera->lookUD(mp.y); // look: up / down (extra)
 			}
 		}
 		// LEFT / RIGHT
@@ -301,7 +300,7 @@ void IG1App::motion(int x, int y)
 				mCamera->moveLR(mp.x); // move: left / right
 			}
 			else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
-				mCamera->lookLR(mp.x); // look: left / right
+				mCamera->lookLR(mp.x); // look: left / right (extra)
 			}
 		}
 	}
@@ -311,10 +310,10 @@ void IG1App::mouseWheel(int n, int d, int x, int y)
 {
 	int mdf = glutGetModifiers();
 	if (mdf == 0) {
-		mCamera->moveFB(d * 5.0); // zoom: farward / backward
+		mCamera->moveFB(d * 10.0); // zoom: farward / backward
 	}
 	else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
-		mCamera->setScale(d * 0.05); // set scale
+		mCamera->setScale(d * -0.05); // set scale
 	}
 	glutPostRedisplay();
 }

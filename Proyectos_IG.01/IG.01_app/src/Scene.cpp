@@ -5,6 +5,71 @@
 #include "IG1App.h"
 
 using namespace glm;
+
+//-------------------------------------------------------------------------
+
+void Scene::showScene_2D()
+{
+	gObjects.push_back(new EjesRGB(400.0));
+
+	//gObjects.push_back(new Poligono(3, 50, { 1.0,1.0,0.0,1.0 })); // triangulo amarillo
+	gObjects.push_back(new Poligono(200.0, 200, { 1.0,0.0,1.0,1.0 })); // circulo magenta
+	gObjects.push_back(new Sierpinski(200.0, 4000, { 1.0,1.0,0.0,0.0 })); // sierpinski gris
+	auto t = (new TrianguloRGB(25));
+	gObjects.push_back(t); // triangulo RGB
+	t->setModelMat(rotate(dmat4(1), (25.0), dvec3(0, 0, 1)));
+	t->setModelMat(translate(t->modelMat(), dvec3(200, 0, 0)));
+	auto r = new RectanguloRGB(1000, 500);
+	gObjects.push_back(r); // rectangulo RGB
+	r->setModelMat(translate(dmat4(1), dvec3(0, 0, -100)));
+}
+
+void Scene::showScene_3D()
+{
+	auto ejes = new EjesRGB(400.0);
+	gObjects.push_back(ejes);
+
+	// suelo
+	Texture* ts = new Texture();
+	gObjects.push_back(new Suelo(600.0, 600.0, 10, 10));
+	ts->load("..\\IG.01_app\\Bmps\\baldosaC.bmp");
+	gTextures.push_back(ts);
+	gObjects.back()->setTexture(ts);
+
+	// estrella 3D
+	Texture* te = new Texture();
+	gObjects.push_back(new Estrella3D(100.0, 6, 50.0));
+	te->load("..\\IG.01_app\\Bmps\\baldosaP.bmp");
+	gTextures.push_back(te);
+	gObjects.back()->setTexture(te);
+
+	// caja
+	Texture* t = new Texture();
+	Texture* t2 = new Texture();
+	gObjects.push_back(new Caja(100.0));
+	t->load("..\\IG.01_app\\Bmps\\container.bmp");
+	t2->load("..\\IG.01_app\\Bmps\\papelC.bmp");
+	gTextures.push_back(t);
+	gTextures.push_back(t2);
+	gObjects.back()->setTexture(t);
+	gObjects.back()->setTexture2(t2);
+
+	// foto
+	Texture* tf = new Texture();
+	gObjects.push_back(new Image(100.0, 100.0, 1, 1));
+	tf->loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), GL_FRONT);
+	gTextures.push_back(tf);
+	gObjects.back()->setTexture(tf);
+
+	// celda con blend (traslúcida)
+	Texture* tc = new Texture();
+	Celda* s = new Celda(600.0, 600.0, 1, 1);
+	gObjects.push_back(s);
+	tc->load("..\\IG.01_app\\Bmps\\windowV.bmp", 100);
+	gTextures.push_back(tc);
+	gObjects.back()->setTexture(tc);
+}
+
 //-------------------------------------------------------------------------
 
 void Scene::init()
@@ -14,70 +79,17 @@ void Scene::init()
 	// allocate memory and load resources
     // Lights
     // Textures
+
+	// Graphics objects (entities) of the scene
 	if (mId == 0) { // 2D
-		gObjects.push_back(new EjesRGB(400.0));
-
-		//gObjects.push_back(new Poligono(3, 50, { 1.0,1.0,0.0,1.0 })); // triangulo amarillo
-		gObjects.push_back(new Poligono(200.0, 200, { 1.0,0.0,1.0,1.0 })); // circulo magenta
-		gObjects.push_back(new Sierpinski(200.0, 4000, { 1.0,1.0,0.0,0.0 })); // sierpinski gris
-		auto t = (new TrianguloRGB(25));
-		gObjects.push_back(t); // triangulo RGB
-		t->setModelMat(rotate(dmat4(1), (25.0), dvec3(0, 0, 1)));
-		t->setModelMat(translate(t->modelMat(), dvec3(200, 0, 0)));
-		auto r = new RectanguloRGB(1000, 500);
-		gObjects.push_back(r); // rectangulo RGB
-		r->setModelMat(translate(dmat4(1), dvec3(0, 0, -100)));
+		showScene_2D();
 	}
-	else if (mId == 1) { // 3D
-		auto ejes = new EjesRGB(400.0);
-		gObjects.push_back(ejes);
-
-		// suelo
-		Texture* ts = new Texture();
-		gObjects.push_back(new Suelo(600.0, 600.0, 10, 10));
-		ts->load("..\\IG.01_app\\Bmps\\baldosaC.bmp");
-		gTextures.push_back(ts);
-		gObjects.back()->setTexture(ts);
-
-		// estrella 3D
-		Texture* te = new Texture();
-		gObjects.push_back(new Estrella3D(100.0, 6, 50.0));
-		te->load("..\\IG.01_app\\Bmps\\baldosaP.bmp");
-		gTextures.push_back(te);
-		gObjects.back()->setTexture(te); 
-
-		// caja
-		Texture* t = new Texture();
-		Texture* t2 = new Texture();
-		gObjects.push_back(new Caja(100.0));
-		t->load("..\\IG.01_app\\Bmps\\container.bmp");
-		t2->load("..\\IG.01_app\\Bmps\\papelC.bmp");
-		gTextures.push_back(t);
-		gTextures.push_back(t2);
-		gObjects.back()->setTexture(t); 
-		gObjects.back()->setTexture2(t2);
-
-		// foto
-		Texture* tf = new Texture();
-		gObjects.push_back(new Image(100.0, 100.0, 1, 1));
-		tf->loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), GL_FRONT);
-		gTextures.push_back(tf);
-		gObjects.back()->setTexture(tf);
-
-		// celda con blend (traslúcida)
-		Texture* tc = new Texture();
-		Celda* s = new Celda(600.0, 600.0, 1, 1);
-		gObjects.push_back(s);
-		tc->load("..\\IG.01_app\\Bmps\\windowV.bmp", 100);
-		gTextures.push_back(tc);
-		gObjects.back()->setTexture(tc);
+	else if (mId == 1) { // 3D -> Ortogonal
+		showScene_3D();
 	}
-    // Graphics objects (entities) of the scene
-	else if (mId == 2) { // Camara
-		// en inputhandler de IG1App
-	}
-	
-
+	else if (mId == 2) { // 3D -> Perspectiva (Testing Camara)
+		showScene_3D();
+	} // el cambio de camara se hace en "void IG1App::key(unsigned char key, int x, int y)"
 }
 
 //-------------------------------------------------------------------------

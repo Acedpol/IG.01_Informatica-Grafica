@@ -26,8 +26,13 @@ public:
 	
 	void orbit(GLdouble ax);
 	void orbit(GLdouble incAng, GLdouble incY);
+	void orbitBalloon(GLdouble incAng, GLdouble incY);
 	void changePrj();
 	void setCenital();
+
+	void setOrtogonal();
+	void setPerspective();
+
 
 	//void pitch(GLdouble a); // rotates a degrees on the X axis
 	//void yaw(GLdouble a);   // rotates a degrees on the Y axis
