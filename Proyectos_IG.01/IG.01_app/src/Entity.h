@@ -147,4 +147,98 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
+//-------------------------------------------------------------------------
+
+class QuadricEntity : public Abs_Entity 
+{
+public:
+	QuadricEntity();
+	~QuadricEntity() { gluDeleteQuadric(q); };
+protected:
+	GLUquadricObj* q;
+};
+
+inline QuadricEntity::QuadricEntity() {
+	q = gluNewQuadric();
+}
+
+//-------------------------------------------------------------------------
+
+class Sphere : public QuadricEntity 
+{ 
+public:
+	Sphere(GLdouble r); // r es el radio de la esfera 
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble r;
+};
+
+inline Sphere::Sphere(GLdouble rr) {
+	r = rr;
+}
+
+//-------------------------------------------------------------------------
+
+class Cylinder : public QuadricEntity
+{
+public:
+	Cylinder(GLdouble rBase, GLdouble rTop, GLdouble height); // r es el radio de la esfera 
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble rBase;
+	GLdouble rTop;
+	GLdouble height;
+
+};
+
+inline Cylinder::Cylinder(GLdouble rrBase, GLdouble rrTop, GLdouble hheight) {
+	rBase = rrBase;
+	rTop = rrTop;
+	height = hheight;
+}
+
+//-------------------------------------------------------------------------
+
+class Disk : public QuadricEntity
+{
+public:
+	Disk(GLdouble rInner, GLdouble rOutter, GLdouble slices); // r es el radio de la esfera 
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble rInner;
+	GLdouble rOutter;
+	GLdouble slices;
+};
+
+inline Disk::Disk(GLdouble rrInner, GLdouble rrOuter, GLdouble sslices) {
+	rInner = rrInner;
+	rOutter = rrOuter;
+	slices = sslices;
+}
+
+//-------------------------------------------------------------------------
+
+class PartialDisk : public QuadricEntity
+{
+public:
+	PartialDisk(GLdouble rInner, GLdouble rOutter, GLdouble slices); // r es el radio de la esfera 
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble rInner;
+	GLdouble rOutter;
+	GLdouble slices;
+};
+
+inline PartialDisk::PartialDisk(GLdouble rrInner, GLdouble rrOuter, GLdouble sslices) {
+	rInner = rrInner;
+	rOutter = rrOuter;
+	slices = sslices;
+}
+
+//-------------------------------------------------------------------------
+
+
+
+//-------------------------------------------------------------------------
+
 #endif //_H_Entities_H_

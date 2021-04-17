@@ -14,6 +14,7 @@ Camera::Camera(Viewport* vp): mViewPort(vp), mViewMat(1.0), mProjMat(1.0),
 {
     setPM();
 }
+
 //-------------------------------------------------------------------------
 
 void Camera::uploadVM() const 
@@ -21,6 +22,7 @@ void Camera::uploadVM() const
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd(value_ptr(mViewMat)); // transfers view matrix to the GPU 
 }
+
 //-------------------------------------------------------------------------
 
 void Camera::setVM() 
@@ -28,6 +30,7 @@ void Camera::setVM()
 	mViewMat = lookAt(mEye, mLook, mUp);  // glm::lookAt defines the view matrix 
 	setAxes();
 }
+
 //-------------------------------------------------------------------------
 
 void Camera::set2D_front() 
@@ -37,6 +40,7 @@ void Camera::set2D_front()
 	mUp = dvec3(0, 1, 0);
 	setVM();
 }
+
 //-------------------------------------------------------------------------
 
 void Camera::set3D() 
@@ -49,6 +53,7 @@ void Camera::set3D()
 	mScaleFact = 1;
 	setVM();
 }
+
 //-------------------------------------------------------------------------
 
 void Camera::set2D_back()
@@ -58,6 +63,7 @@ void Camera::set2D_back()
 	mUp = dvec3(0, 1, 0); // vector 'normal' de la camara
 	setVM();
 }
+
 void Camera::orbit(GLdouble ax)
 {
 	mAng += ax;
@@ -65,6 +71,7 @@ void Camera::orbit(GLdouble ax)
 	mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
 	setVM();
 }
+
 void Camera::orbit(GLdouble incAng, GLdouble incY)
 {
 	orbit(incAng);
@@ -103,6 +110,7 @@ void Camera::setOrtogonal()
 	bOrto = true;
 	setPM();
 }
+
 void Camera::setPerspective()
 {
 	set3D();
@@ -193,6 +201,7 @@ void Camera::setScale(GLdouble s)
 	if (mScaleFact < 0) mScaleFact = 0.01;
 	setPM();
 }
+
 //-------------------------------------------------------------------------
 
 void Camera::setPM() 
@@ -206,6 +215,7 @@ void Camera::setPM()
 		//mProjMat = frustum(xLeft, xRight, yBot, yTop, mNearVal, mFarVal);
 	}
 }
+
 //-------------------------------------------------------------------------
 
 void Camera::uploadPM() const 
@@ -214,6 +224,7 @@ void Camera::uploadPM() const
 	glLoadMatrixd(value_ptr(mProjMat)); // transfers projection matrix to the GPU
 	glMatrixMode(GL_MODELVIEW);
 }
+
 //-------------------------------------------------------------------------
 
 

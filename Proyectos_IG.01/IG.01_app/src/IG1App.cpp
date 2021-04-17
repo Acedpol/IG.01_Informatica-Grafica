@@ -43,7 +43,9 @@ void IG1App::init()
 	mCamera = new Camera(mViewPort);
 	mScene = new Scene;
 	
-	mCamera->set2D_front();
+	//mCamera->set2D_front();
+	mCamera->set3D();
+	mCamera->setPerspective();
 	mScene->init();
 }
 //-------------------------------------------------------------------------
@@ -85,7 +87,7 @@ void IG1App::iniWinOpenGL()
 //-------------------------------------------------------------------------
 
 void IG1App::free() 
-{  // release memory and resources
+{	// release memory and resources
 	delete mScene; mScene = nullptr;
 	delete mCamera; mCamera = nullptr;
 	delete mViewPort; mViewPort = nullptr;
@@ -255,6 +257,14 @@ void IG1App::key(unsigned char key, int x, int y)
 		scene->changeScene(2);
 		cam->setPerspective();
 		break;
+	case '3':
+		scene->changeScene(3);
+		cam->setPerspective();
+		break;
+	case '4':
+		scene->changeScene(4);
+		cam->setPerspective();
+		break;
 	default:
 		need_redisplay = false;
 		break;
@@ -337,6 +347,7 @@ void IG1App::mouse(int button, int state, int x, int y)
 		}
 	}
 }
+
 void IG1App::motion(int x, int y)
 {
 	glm::dvec2 mp_ = mCoord - glm::dvec2(x, y);
@@ -349,6 +360,7 @@ void IG1App::motion(int x, int y)
 		motionCamera(mCamera2, mp_);
 	}
 }
+
 void IG1App::motionCamera(Camera* cam, glm::dvec2 mp)
 {
 	int mdf = glutGetModifiers();
@@ -385,6 +397,7 @@ void IG1App::motionCamera(Camera* cam, glm::dvec2 mp)
 	}
 	glutPostRedisplay();
 }
+
 void IG1App::mouseWheel(int n, int d, int x, int y)
 {
 	glm::dvec2 mp_ = { x,y };

@@ -18,6 +18,9 @@ class Scene
 private:
 	void showScene_2D();
 	void showScene_3D();
+	void showScene_QuadricObjects();
+	void showScene_imperialTIE();
+	void sceneDirLight(Camera const& cam) const;
 public:
 	Scene() {};
 	~Scene() { free(); resetGL(); }; // al borrar la segunda escena se hacía reseteo y ponía GLColor (global) a color blanco (por defecto)
@@ -37,7 +40,7 @@ public:
 protected:
 	void setGL();
 	void resetGL();
-	int mId = 0;
+	int mId = 3;
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Texture*> gTextures;
 };
