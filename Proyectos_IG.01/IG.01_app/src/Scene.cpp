@@ -100,7 +100,43 @@ void Scene::showScene_QuadricObjects()
 
 void Scene::showScene_imperialTIE()
 {
-	
+	Sphere* esfera = new Sphere(100.0);
+	gObjects.push_back(esfera);
+
+	Cylinder* soporte = new Cylinder(50.0, 50.0, 500.0);
+	glm::dmat4 mAux = soporte->modelMat();
+	mAux = translate(mAux, dvec3(250, 0, 0));
+	mAux = rotate(mAux, radians(-90.0), dvec3(0, 1, 0));
+	soporte->setModelMat(mAux);
+	gObjects.push_back(soporte);
+
+	Cylinder* base = new Cylinder(75.0, 75.0, 100.0);
+	mAux = base->modelMat();
+	mAux = translate(mAux, dvec3(0, 0, 25));
+	mAux = rotate(mAux, radians(0.0), dvec3(0, 1, 0));
+	base->setModelMat(mAux);
+	gObjects.push_back(base);
+
+	Disk* tapa = new Disk(0.0, 75.0, 8.0);
+	mAux = tapa->modelMat();
+	mAux = translate(mAux, dvec3(0, 0, 120));
+	mAux = rotate(mAux, radians(0.0), dvec3(0, 1, 0));
+	tapa->setModelMat(mAux);
+	gObjects.push_back(tapa);
+
+	Disk* ala1 = new Disk(0.0, 200.0, 6.0);
+	mAux = ala1->modelMat();
+	mAux = translate(mAux, dvec3(-250, 0, 0));
+	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
+	ala1->setModelMat(mAux);
+	gObjects.push_back(ala1);
+
+	Disk* ala2 = new Disk(0.0, 200.0, 6.0);
+	mAux = ala2->modelMat();
+	mAux = translate(mAux, dvec3(250, 0, 0));
+	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
+	ala2->setModelMat(mAux);
+	gObjects.push_back(ala2);
 }
 
 //-------------------------------------------------------------------------
