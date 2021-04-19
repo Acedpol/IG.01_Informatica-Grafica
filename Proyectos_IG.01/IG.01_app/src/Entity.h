@@ -182,19 +182,20 @@ inline Sphere::Sphere(GLdouble rr) {
 class Cylinder : public QuadricEntity
 {
 public:
-	Cylinder(GLdouble rBase, GLdouble rTop, GLdouble height); // r es el radio de la esfera 
+	Cylinder(GLdouble rBase, GLdouble rTop, GLdouble height, GLdouble slices); // r es el radio de la esfera 
 	void render(glm::dmat4 const& modelViewMat) const;
 protected:
 	GLdouble rBase;
 	GLdouble rTop;
 	GLdouble height;
-
+	GLdouble slices;
 };
 
-inline Cylinder::Cylinder(GLdouble rrBase, GLdouble rrTop, GLdouble hheight) {
+inline Cylinder::Cylinder(GLdouble rrBase, GLdouble rrTop, GLdouble hheight, GLdouble sslices) {
 	rBase = rrBase;
 	rTop = rrTop;
 	height = hheight;
+	slices = sslices;
 }
 
 //-------------------------------------------------------------------------

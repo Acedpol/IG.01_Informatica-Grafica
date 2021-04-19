@@ -73,10 +73,11 @@ void Scene::showScene_3D()
 void Scene::showScene_QuadricObjects()
 {
 	gObjects.push_back(new EjesRGB(400.0));
+
 	Sphere* esfera = new Sphere(100.0);
 	gObjects.push_back(esfera);
 
-	Cylinder* cono = new Cylinder(50.0, 0, 100.0);
+	Cylinder* cono = new Cylinder(50.0, 0, 100.0, 100.0);
 	glm::dmat4 mAux = cono->modelMat();
 	mAux = translate(mAux, dvec3(0, 85, 0));
 	mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
@@ -100,36 +101,43 @@ void Scene::showScene_QuadricObjects()
 
 void Scene::showScene_imperialTIE()
 {
+	gObjects.push_back(new EjesRGB(400.0));
+
 	Sphere* esfera = new Sphere(100.0);
 	gObjects.push_back(esfera);
 
-	Cylinder* soporte = new Cylinder(50.0, 50.0, 500.0);
+	Cylinder* soporte = new Cylinder(50.0, 50.0, 500.0, 100.0);
 	glm::dmat4 mAux = soporte->modelMat();
 	mAux = translate(mAux, dvec3(250, 0, 0));
 	mAux = rotate(mAux, radians(-90.0), dvec3(0, 1, 0));
 	soporte->setModelMat(mAux);
 	gObjects.push_back(soporte);
 
-	Cylinder* base = new Cylinder(75.0, 75.0, 100.0);
+	Cylinder* base = new Cylinder(75.0, 75.0, 100.0, 100.0);
 	mAux = base->modelMat();
 	mAux = translate(mAux, dvec3(0, 0, 25));
 	mAux = rotate(mAux, radians(0.0), dvec3(0, 1, 0));
 	base->setModelMat(mAux);
 	gObjects.push_back(base);
 
-	Disk* tapa = new Disk(0.0, 75.0, 8.0);
+	Disk* tapa = new Disk(0.0, 75.0, 100.0);
 	mAux = tapa->modelMat();
 	mAux = translate(mAux, dvec3(0, 0, 120));
 	mAux = rotate(mAux, radians(0.0), dvec3(0, 1, 0));
 	tapa->setModelMat(mAux);
 	gObjects.push_back(tapa);
 
+	Texture* t = new Texture();
+	t->load("..\\IG.01_app\\Bmps\\noche.bmp", 200);
+	gTextures.push_back(t);
+
 	Disk* ala1 = new Disk(0.0, 200.0, 6.0);
 	mAux = ala1->modelMat();
 	mAux = translate(mAux, dvec3(-250, 0, 0));
 	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
 	ala1->setModelMat(mAux);
-	gObjects.push_back(ala1);
+	gObjects.push_back(ala1);	
+	gObjects.back()->setTexture(t);
 
 	Disk* ala2 = new Disk(0.0, 200.0, 6.0);
 	mAux = ala2->modelMat();
@@ -137,6 +145,7 @@ void Scene::showScene_imperialTIE()
 	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
 	ala2->setModelMat(mAux);
 	gObjects.push_back(ala2);
+	gObjects.back()->setTexture(t);
 }
 
 //-------------------------------------------------------------------------
