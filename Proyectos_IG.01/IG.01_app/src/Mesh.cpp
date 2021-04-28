@@ -27,8 +27,13 @@ void Mesh::render() const
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());  // components number (rgba=2), type of each component, stride, pointer 
 	}
+	if (vNormals.size() > 0) {
+		glEnableClientState(GL_NORMAL_ARRAY);
+		glNormalPointer(GL_DOUBLE, 0, vNormals.data());
+	}
 	
 	draw();
+	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -301,6 +306,23 @@ Mesh* Mesh::generaContCubo(GLdouble ld) {
 	p.y = p.y - ld;
 	mesh->vVertices.emplace_back(p); // V1
 	return mesh;
+}
+
+void IndexMesh::render() const {
+	//… // Comandos OpenGL para enviar datos de arrays a GPU 
+	// Nuevos comandos para la tabla de índices
+		if (vIndices != nullptr) {
+			glEnableClientState(GL_INDEX_ARRAY);
+			glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
+		}
+	//… // Comandos OpenGL para deshabilitar datos enviados 
+	// Nuevo comando para la tabla de índices:
+		glDisableClientState(GL_INDEX_ARRAY);
+}
+
+void IndexMesh::draw() const {
+	glDrawElements(mPrimitive, nNumIndices,
+		GL_UNSIGNED_INT, vIndices);
 }
 
 //-------------------------------------------------------------------------

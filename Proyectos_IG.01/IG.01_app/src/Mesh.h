@@ -46,8 +46,26 @@ protected:
 	std::vector<glm::dvec3> vVertices;  // vertex array
 	std::vector<glm::dvec4> vColors;    // color array
 	std::vector<glm::dvec2> vTexCoords;		// texture coords array
+	std::vector<glm::dvec3> vNormals;
 	virtual void draw() const;
 };
 //-------------------------------------------------------------------------
+class IndexMesh : public Mesh
+{
+public:
+	IndexMesh() { mPrimitive = GL_TRIANGLES; };
+	virtual ~IndexMesh() { delete[] vIndices; };
+	virtual void render() const;
+	virtual void draw() const;
+
+	static IndexMesh* generaAnilloCuadradoIndexado();
+	static IndexMesh* generaCuboConTapasIndexado(GLdouble l);
+	void buildNormalVectors();
+protected:
+	GLuint* vIndices= nullptr;
+	GLuint nNumIndices = 0;
+
+
+};
 
 #endif //_H_Scene_H_
