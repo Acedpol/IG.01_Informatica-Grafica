@@ -222,7 +222,7 @@ void Scene::resetGL()
 
 void Scene::render(Camera const& cam) const 
 {
-	sceneDirLight(cam);
+	//sceneDirLight(cam);
 	cam.upload();
 
 	for (Abs_Entity* el : gObjects)
