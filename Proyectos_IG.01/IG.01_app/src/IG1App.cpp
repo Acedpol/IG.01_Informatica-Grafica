@@ -265,6 +265,14 @@ void IG1App::key(unsigned char key, int x, int y)
 		scene->changeScene(4);
 		cam->setPerspective();
 		break;
+	case '5':
+		scene->changeScene(5);
+		cam->setPerspective();
+		break;
+	case '6':
+		scene->changeScene(6);
+		cam->setPerspective();
+		break;
 	default:
 		need_redisplay = false;
 		break;

@@ -238,6 +238,53 @@ inline PartialDisk::PartialDisk(GLdouble rrInner, GLdouble rrOuter, GLdouble ssl
 
 //-------------------------------------------------------------------------
 
+class AnilloCuadrado : public Abs_Entity
+{
+public:
+	explicit AnilloCuadrado();
+	~AnilloCuadrado();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+
+//-------------------------------------------------------------------------
+
+class Cubo : public Abs_Entity
+{
+public:
+	explicit Cubo(GLdouble l);
+	~Cubo();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+
+//-------------------------------------------------------------------------
+
+class EntityWithIndexMesh: public Abs_Entity 
+{
+public:
+	EntityWithIndexMesh();
+	~EntityWithIndexMesh() {};
+protected:
+
+};
+
+inline EntityWithIndexMesh::EntityWithIndexMesh() {
+
+}
+
+
+//-------------------------------------------------------------------------
+
+class CompoundEntity: public Abs_Entity 
+{
+public:
+	CompoundEntity();
+	~CompoundEntity() {};
+	void addEntity(Abs_Entity* ae);
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	std::vector<Abs_Entity*> gObjects;
+};
+
 
 
 //-------------------------------------------------------------------------

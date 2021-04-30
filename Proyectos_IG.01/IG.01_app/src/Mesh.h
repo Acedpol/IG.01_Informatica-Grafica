@@ -59,8 +59,8 @@ public:
 	virtual void draw() const;
 
 	static IndexMesh* generaAnilloCuadradoIndexado();
-	static IndexMesh* generaCuboConTapasIndexado(GLdouble l);
-	void buildNormalVectors();
+	//static IndexMesh* generaCuboConTapasIndexado(GLdouble l);
+	//void buildNormalVectors();
 protected:
 	GLuint* vIndices= nullptr;
 	GLuint nNumIndices = 0;

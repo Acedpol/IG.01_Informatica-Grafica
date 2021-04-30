@@ -426,6 +426,49 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const {
 
 //-------------------------------------------------------------------------
 
+AnilloCuadrado::AnilloCuadrado()
+{
+	mMesh = IndexMesh::generaAnilloCuadradoIndexado();
+}
 
+AnilloCuadrado::~AnilloCuadrado()
+{
+	delete mMesh; mMesh = nullptr;
+}
+
+
+void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		IndexMesh* im = dynamic_cast<IndexMesh*>(mMesh);
+		if (im != nullptr) im->render();
+		glClear(GL_DEPTH_BUFFER_BIT);
+	}
+}
+
+//-------------------------------------------------------------------------
+
+Cubo::Cubo(GLdouble l)
+{
+	//mMesh = IndexMesh::generaCuboConTapasIndexado(l);
+}
+
+Cubo::~Cubo()
+{
+	delete mMesh; mMesh = nullptr;
+}
+
+
+void Cubo::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat); // P1
+		mMesh->render();
+		glClear(GL_DEPTH_BUFFER_BIT);
+	} // no se cómo, pero me ha salido a la primera :D
+}
 
 //-------------------------------------------------------------------------

@@ -309,11 +309,25 @@ Mesh* Mesh::generaContCubo(GLdouble ld) {
 }
 
 void IndexMesh::render() const {
+
+	glBegin(GL_TRIANGLE_STRIP);
+	glColor3f(0.0, 0.0, 0.0); glVertex3f(30.0, 30.0, 0.0);
+	glColor3f(1.0, 0.0, 0.0); glVertex3f(10.0, 10.0, 0.0);
+	glColor3f(0.0, 1.0, 0.0); glVertex3f(70.0, 30.0, 0.0);
+	glColor3f(0.0, 0.0, 1.0); glVertex3f(90.0, 10.0, 0.0);
+	glColor3f(1.0, 1.0, 0.0); glVertex3f(70.0, 70.0, 0.0);
+	glColor3f(1.0, 0.0, 1.0); glVertex3f(90.0, 90.0, 0.0);
+	glColor3f(0.0, 1.0, 1.0); glVertex3f(30.0, 70.0, 0.0);
+	glColor3f(1.0, 0.0, 0.0); glVertex3f(10.0, 90.0, 0.0);
+	glColor3f(0.0, 0.0, 0.0); glVertex3f(30.0, 30.0, 0.0);
+	glColor3f(1.0, 0.0, 0.0); glVertex3f(10.0, 10.0, 0.0);
+	glEnd();
 	//… // Comandos OpenGL para enviar datos de arrays a GPU 
 	// Nuevos comandos para la tabla de índices
 		if (vIndices != nullptr) {
 			glEnableClientState(GL_INDEX_ARRAY);
 			glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
+			draw();
 		}
 	//… // Comandos OpenGL para deshabilitar datos enviados 
 	// Nuevo comando para la tabla de índices:
@@ -324,6 +338,26 @@ void IndexMesh::draw() const {
 	glDrawElements(mPrimitive, nNumIndices,
 		GL_UNSIGNED_INT, vIndices);
 }
+
+IndexMesh* IndexMesh::generaAnilloCuadradoIndexado(){
+	IndexMesh* m = new IndexMesh();
+	m->nNumIndices = 10;
+	
+	glBegin(GL_TRIANGLE_STRIP);
+	glColor3f(0.0, 0.0, 0.0); glVertex3f(30.0, 30.0, 0.0);
+	glColor3f(1.0, 0.0, 0.0); glVertex3f(10.0, 10.0, 0.0);
+	glColor3f(0.0, 1.0, 0.0); glVertex3f(70.0, 30.0, 0.0);
+	glColor3f(0.0, 0.0, 1.0); glVertex3f(90.0, 10.0, 0.0);
+	glColor3f(1.0, 1.0, 0.0); glVertex3f(70.0, 70.0, 0.0);
+	glColor3f(1.0, 0.0, 1.0); glVertex3f(90.0, 90.0, 0.0);
+	glColor3f(0.0, 1.0, 1.0); glVertex3f(30.0, 70.0, 0.0);
+	glColor3f(1.0, 0.0, 0.0); glVertex3f(10.0, 90.0, 0.0);
+	glColor3f(0.0, 0.0, 0.0); glVertex3f(30.0, 30.0, 0.0);
+	glColor3f(1.0, 0.0, 0.0); glVertex3f(10.0, 10.0, 0.0);
+	glEnd();
+	return m;
+}
+
 
 //-------------------------------------------------------------------------
 

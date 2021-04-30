@@ -175,6 +175,12 @@ void Scene::init()
 	else if (mId == 4) {
 		showScene_imperialTIE();
 	}
+	else if (mId == 5) {
+		gObjects.push_back(new EjesRGB(400.0));
+
+		AnilloCuadrado* a = new AnilloCuadrado();
+		gObjects.push_back(a);
+	}
 }
 
 //-------------------------------------------------------------------------
