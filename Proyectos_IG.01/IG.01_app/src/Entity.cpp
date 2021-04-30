@@ -442,8 +442,27 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
+
 		IndexMesh* im = dynamic_cast<IndexMesh*>(mMesh);
-		if (im != nullptr) im->render();
+		if (im != nullptr) {
+			static float vertices[8][3] = {
+				{30.0, 30.0, 0.0}, {10.0, 10.0, 0.0}, {70.0, 30.0, 0.0}, {90.0, 10.0, 0.0},
+				{70.0, 70.0, 0.0}, {90.0, 90.0, 0.0}, {30.0, 70.0, 0.0}, {10.0, 90.0, 0.0}
+			};
+			static float colors[8][3] = {
+				{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0},
+				{1.0, 1.0, 0.0}, {1.0, 0.0, 1.0}, {0.0, 1.0, 1.0}, {1.0, 0.0, 0.0}
+			};
+
+			glBegin(GL_TRIANGLE_STRIP);
+			for (int i = 0; i < im->size(); ++i) {
+				glColor3fv(colors[i % 8]);
+				glVertex3fv(vertices[i % 8]);
+			}
+			glEnd();
+
+			im->render();
+		}
 		glClear(GL_DEPTH_BUFFER_BIT);
 	}
 }

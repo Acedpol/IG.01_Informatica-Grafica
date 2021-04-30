@@ -58,6 +58,8 @@ public:
 	virtual void render() const;
 	virtual void draw() const;
 
+	GLuint size() const { return nNumIndices; };   // number of indexs
+
 	static IndexMesh* generaAnilloCuadradoIndexado();
 	//static IndexMesh* generaCuboConTapasIndexado(GLdouble l);
 	//void buildNormalVectors();
