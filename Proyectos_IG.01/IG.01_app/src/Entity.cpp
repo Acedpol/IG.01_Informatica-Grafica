@@ -509,26 +509,11 @@ TIE::TIE()
 	;
 }
 
-void TIE::render(glm::dmat4 const& modelViewMat) const {
-	dmat4 aMat = modelViewMat * mModelMat;
-	upload(aMat);
 
-	if (mTexture != nullptr) {
-		glEnable(GL_BLEND);
-		//gluQuadricTexture(q, GL_TRUE);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		mTexture->bind(GL_REPLACE);
-		mTexture->unbind();
+void TIE::render(glm::dmat4 const& modelViewMat) const {
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat); // P1
 		glClear(GL_DEPTH_BUFFER_BIT);
-		//gluQuadricTexture(q, GL_FALSE);
-		glDisable(GL_BLEND);
-	}
-	else {
-		// Aquí se puede fijar el color de la esfera así:
-		glEnable(GL_COLOR_MATERIAL);
-		glColor3f(0.0, 0.21, 0.45);
-		// Aquí se puede fijar el modo de dibujar la esfera:
-		// Aquí se debe recuperar el color:
-		glColor3f(1.0, 1.0, 1.0);
-	}
+	} // no se cómo, pero me ha salido a la primera :D
 }
