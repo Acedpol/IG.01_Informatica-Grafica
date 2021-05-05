@@ -366,6 +366,25 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado(){
 	return m;
 }
 
+/*void IndexMesh::buildNormalVectors()
+{
+	for (int x = 0; x < nNumVertices; x++) {
+		vNormals.emplace_back(0.0, 0.0, 0.0);
+	}
+	for (int x = 0; x < nNumIndices / 3; x++) {
+		dvec3 h = ;
+		dvec3 l = ;
+		dvec3 u = glm::cross((h), (l));
+		for (int y = x * 3; y < x * 3 + 3; y++) {
+			vNormals[vIndices[y]] += u;
+		}
+	}
+	for (int x = 0; x < nNumVertices; x++) {
+		vNormals[x] = glm::normalize(vNormals[x]);
+	}
+}*/
+
+
 
 //-------------------------------------------------------------------------
 

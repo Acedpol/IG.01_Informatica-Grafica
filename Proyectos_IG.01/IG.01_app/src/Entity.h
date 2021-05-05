@@ -277,13 +277,34 @@ inline EntityWithIndexMesh::EntityWithIndexMesh() {
 class CompoundEntity: public Abs_Entity 
 {
 public:
-	CompoundEntity();
-	~CompoundEntity() {};
-	void addEntity(Abs_Entity* ae);
+	CompoundEntity() {};
+	~CompoundEntity() {
+		for (Abs_Entity* el : gObjects)
+		{
+			delete el;  el = nullptr;
+		}
+		gObjects.clear();
+	};
+	void addEntity(Abs_Entity* ae) {
+		gObjects.push_back(ae);
+	};
 	void render(glm::dmat4 const& modelViewMat) const;
 protected:
 	std::vector<Abs_Entity*> gObjects;
 };
+
+
+
+class TIE : public CompoundEntity
+{
+public:
+	TIE();
+	~TIE() {};
+
+	void render(glm::dmat4 const& modelViewMat) const;
+
+};
+
 
 
 
