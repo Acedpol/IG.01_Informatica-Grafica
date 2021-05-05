@@ -455,6 +455,9 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 Cubo::Cubo(GLdouble l)
 {
 	mMesh = IndexMesh::generaCuboConTapasIndexado(l);
+	IndexMesh* im = dynamic_cast<IndexMesh*>(mMesh);
+	if (im != nullptr)
+		im->buildNormalVectors();
 }
 
 Cubo::~Cubo()

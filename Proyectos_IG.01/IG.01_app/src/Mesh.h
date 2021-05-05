@@ -63,7 +63,7 @@ public:
 
 	static IndexMesh* generaAnilloCuadradoIndexado();
 	static IndexMesh* generaCuboConTapasIndexado(GLdouble l);
-	//void buildNormalVectors();
+	void buildNormalVectors();
 
 	GLuint* indices() { return vIndices; };
 protected:

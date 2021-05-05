@@ -454,12 +454,20 @@ IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
 		m->vIndices[i] = stripIndices[i];
 	}
 
-	m->vNormals.reserve(f);
+	/*m->vNormals.reserve(f);
 	for (int i = 0; i < f; ++i) {
 		m->vNormals.emplace_back(glm::normalize(glm::dvec3{ vertices[i][0], vertices[i][1], vertices[i][2] }));
-	}
+	}*/
 
 	return m;
+}
+
+void IndexMesh::buildNormalVectors() {
+	uint f = vVertices.size();
+	vNormals.reserve(f);
+	for (int i = 0; i < f; ++i) {
+		vNormals.emplace_back(glm::normalize(glm::dvec3{ vVertices[i] }));
+	}
 }
 
 /*void IndexMesh::buildNormalVectors()
