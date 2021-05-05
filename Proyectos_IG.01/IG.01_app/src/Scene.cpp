@@ -101,7 +101,7 @@ void Scene::showScene_QuadricObjects()
 
 void Scene::showScene_imperialTIE()
 {
-	TIE* tie = new TIE();
+	/*TIE* tie = new TIE();
 	gObjects.push_back(tie);
 	Sphere* core = new Sphere(100.0);
 	tie->addEntity(core);
@@ -149,7 +149,7 @@ void Scene::showScene_imperialTIE()
 	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
 	wingR->setModelMat(mAux);
 	tie->addEntity(wingR);
-	gObjects.back()->setTexture(t);
+	gObjects.back()->setTexture(t);*/
 }
 
 //-------------------------------------------------------------------------
@@ -226,7 +226,7 @@ void Scene::resetGL()
 
 void Scene::render(Camera const& cam) const 
 {
-	//sceneDirLight(cam);
+	sceneDirLight(cam); // luces activadas!
 	cam.upload();
 
 	for (Abs_Entity* el : gObjects)

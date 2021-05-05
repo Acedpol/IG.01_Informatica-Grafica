@@ -399,11 +399,15 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
 	m->vIndices = new GLuint[m->nNumIndices];
 	unsigned int stripIndices[] = { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1 };
 	
-	for (int i = 0; i < 8; ++i) {
+	for (int i = 0; i < m->nNumIndices - 2; ++i) {
 		m->vIndices[i] = i;
 	}
 	m->vIndices[8] = 0;
 	m->vIndices[9] = 1;
+
+	for (int i = 0; i < m->nNumIndices; ++i) {
+		m->vNormals.emplace_back(glm::dvec3{ 0, 0, 1 });
+	}
 
 	return m;
 }

@@ -443,6 +443,7 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 
+		glEnable(GL_COLOR_MATERIAL);
 		IndexMesh* im = dynamic_cast<IndexMesh*>(mMesh);
 		if (im != nullptr)
 			im->render();
@@ -472,30 +473,4 @@ void Cubo::render(glm::dmat4 const& modelViewMat) const
 	} // no se cómo, pero me ha salido a la primera :D
 }
 
-
-
-
-void CompoundEntity::render(glm::dmat4 const& modelViewMat) const {
-	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		upload(aMat); // P1
-		mMesh->render();
-		glClear(GL_DEPTH_BUFFER_BIT);
-	} // no se cómo, pero me ha salido a la primera :D
-}
-
 //-------------------------------------------------------------------------
-
-TIE::TIE()
-{
-	;
-}
-
-
-void TIE::render(glm::dmat4 const& modelViewMat) const {
-	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		upload(aMat); // P1
-		glClear(GL_DEPTH_BUFFER_BIT);
-	} // no se cómo, pero me ha salido a la primera :D
-}
