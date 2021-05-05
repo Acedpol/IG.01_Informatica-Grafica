@@ -238,7 +238,21 @@ inline PartialDisk::PartialDisk(GLdouble rrInner, GLdouble rrOuter, GLdouble ssl
 
 //-------------------------------------------------------------------------
 
-class AnilloCuadrado : public Abs_Entity
+class EntityWithIndexMesh : public Abs_Entity
+{
+public:
+	EntityWithIndexMesh() : Abs_Entity() {};
+	virtual ~EntityWithIndexMesh() {};
+
+	IndexMesh* getIndexMesh() { return inMesh; };
+	void setIndexMesh(IndexMesh* im) { inMesh = im; };
+protected:
+	IndexMesh* inMesh = nullptr;
+};
+
+//-------------------------------------------------------------------------
+
+class AnilloCuadrado : public EntityWithIndexMesh
 {
 public:
 	explicit AnilloCuadrado();
@@ -248,7 +262,7 @@ public:
 
 //-------------------------------------------------------------------------
 
-class Cubo : public Abs_Entity
+class Cubo : public EntityWithIndexMesh
 {
 public:
 	explicit Cubo(GLdouble l);
@@ -258,18 +272,7 @@ public:
 
 //-------------------------------------------------------------------------
 
-class EntityWithIndexMesh: public Abs_Entity 
-{
-public:
-	EntityWithIndexMesh();
-	~EntityWithIndexMesh() {};
-protected:
 
-};
-
-inline EntityWithIndexMesh::EntityWithIndexMesh() {
-
-}
 
 
 //-------------------------------------------------------------------------
@@ -278,7 +281,7 @@ class CompoundEntity: public Abs_Entity
 {
 public:
 	CompoundEntity() {};
-	~CompoundEntity() {
+	virtual ~CompoundEntity() {
 		for (Abs_Entity* el : gObjects)
 		{
 			delete el;  el = nullptr;
@@ -288,22 +291,19 @@ public:
 	void addEntity(Abs_Entity* ae) {
 		gObjects.push_back(ae);
 	};
-	void render(glm::dmat4 const& modelViewMat) const {};
+	void render(glm::dmat4 const& modelViewMat) const;
 protected:
 	std::vector<Abs_Entity*> gObjects;
 };
 
 
 
-//class TIE : public CompoundEntity
-//{
-//public:
-//	TIE();
-//	~TIE() {};
-//
-//	void render(glm::dmat4 const& modelViewMat) const;
-//
-//};
+class TIE : public CompoundEntity
+{
+public:
+	TIE(Texture* t);
+	virtual ~TIE() {};
+};
 
 
 

@@ -428,25 +428,23 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const {
 
 AnilloCuadrado::AnilloCuadrado()
 {
-	mMesh = IndexMesh::generaAnilloCuadradoIndexado();
+	inMesh = IndexMesh::generaAnilloCuadradoIndexado();
 }
 
 AnilloCuadrado::~AnilloCuadrado()
 {
-	delete mMesh; mMesh = nullptr;
+	delete inMesh; inMesh = nullptr;
 }
 
 
 void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 {
-	if (mMesh != nullptr) {
+	if (inMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 
 		glEnable(GL_COLOR_MATERIAL);
-		IndexMesh* im = dynamic_cast<IndexMesh*>(mMesh);
-		if (im != nullptr)
-			im->render();
+		inMesh->render();
 	}
 }
 
@@ -454,29 +452,85 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 
 Cubo::Cubo(GLdouble l)
 {
-	mMesh = IndexMesh::generaCuboConTapasIndexado(l);
-	IndexMesh* im = dynamic_cast<IndexMesh*>(mMesh);
-	if (im != nullptr)
-		im->buildNormalVectors();
+	inMesh = IndexMesh::generaCuboConTapasIndexado(l);
+	inMesh->buildNormalVectors();
 }
 
 Cubo::~Cubo()
 {
-	delete mMesh; mMesh = nullptr;
+	delete inMesh; inMesh = nullptr;
 }
 
 
 void Cubo::render(glm::dmat4 const& modelViewMat) const
 {
-	if (mMesh != nullptr) {
+	if (inMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 
 		glEnable(GL_COLOR_MATERIAL);
-		IndexMesh* im = dynamic_cast<IndexMesh*>(mMesh);
-		if (im != nullptr)
-			im->render();
+		inMesh->render();
 	}
 }
 
 //-------------------------------------------------------------------------
+
+void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
+{
+	for (Abs_Entity* el : gObjects)
+	{
+		el->render(modelViewMat);
+	}
+}
+
+TIE::TIE(Texture* t)
+{
+	glm::dmat4 mAux;
+
+	// Ambas alas
+	Disk* wingL = new Disk(0.0, 200.0, 6.0);
+	mAux = wingL->modelMat();
+	mAux = translate(mAux, dvec3(-250, 0, 0));
+	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
+	wingL->setModelMat(mAux);
+	addEntity(wingL);
+	wingL->setTexture(t);
+
+	Disk* wingR = new Disk(0.0, 200.0, 6.0);
+	mAux = wingR->modelMat();
+	mAux = translate(mAux, dvec3(250, 0, 0));
+	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
+	wingR->setModelMat(mAux);
+	addEntity(wingR);
+	wingR->setTexture(t);
+
+	// Core
+	Sphere* core = new Sphere(100.0);
+	addEntity(core);
+
+	// Shaft
+	Cylinder* shaft = new Cylinder(50.0, 50.0, 500.0, 100.0);
+	mAux = shaft->modelMat();
+	mAux = translate(mAux, dvec3(250, 0, 0));
+	mAux = rotate(mAux, radians(-90.0), dvec3(0, 1, 0));
+	shaft->setModelMat(mAux);
+	addEntity(shaft);
+
+	// Front
+	CompoundEntity* front = new CompoundEntity();
+	Cylinder* base = new Cylinder(75.0, 75.0, 100.0, 100.0);
+	mAux = base->modelMat();
+	mAux = translate(mAux, dvec3(0, 0, 25));
+	mAux = rotate(mAux, radians(0.0), dvec3(0, 1, 0));
+	base->setModelMat(mAux);
+	front->addEntity(base);
+
+	Disk* tapa = new Disk(0.0, 75.0, 100.0);
+	mAux = tapa->modelMat();
+	mAux = translate(mAux, dvec3(0, 0, 120));
+	mAux = rotate(mAux, radians(0.0), dvec3(0, 1, 0));
+	tapa->setModelMat(mAux);
+	front->addEntity(tapa);
+	
+	addEntity(front);
+}

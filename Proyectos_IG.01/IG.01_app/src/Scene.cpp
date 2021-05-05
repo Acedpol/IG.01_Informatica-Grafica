@@ -101,6 +101,12 @@ void Scene::showScene_QuadricObjects()
 
 void Scene::showScene_imperialTIE()
 {
+	Texture* t = new Texture();
+	t->load("..\\IG.01_app\\Bmps\\noche.bmp", 200);
+	gTextures.push_back(t);
+
+	TIE* tie = new TIE(t);
+	gObjects.push_back(tie);
 	/*TIE* tie = new TIE();
 	gObjects.push_back(tie);
 	Sphere* core = new Sphere(100.0);
@@ -112,7 +118,6 @@ void Scene::showScene_imperialTIE()
 	mAux = rotate(mAux, radians(-90.0), dvec3(0, 1, 0));
 	shaft->setModelMat(mAux);
 	tie->addEntity(shaft);
-
 
 	CompoundEntity* front = new CompoundEntity();
 	Cylinder* base = new Cylinder(75.0, 75.0, 100.0, 100.0);
@@ -130,7 +135,6 @@ void Scene::showScene_imperialTIE()
 	front->addEntity(tapa);
 	tie->addEntity(front);
 	
-
 	Texture* t = new Texture();
 	t->load("..\\IG.01_app\\Bmps\\noche.bmp", 200);
 	gTextures.push_back(t);
