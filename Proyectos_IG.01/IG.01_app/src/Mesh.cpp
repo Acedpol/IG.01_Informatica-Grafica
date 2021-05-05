@@ -378,8 +378,8 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
 	m->nNumIndices = 10;
 
 	static float vertices[8][3] = {
-				{30.0, 30.0, 0.0}, {10.0, 10.0, 0.0}, {70.0, 30.0, 0.0}, {90.0, 10.0, 0.0},
-				{70.0, 70.0, 0.0}, {90.0, 90.0, 0.0}, {30.0, 70.0, 0.0}, {10.0, 90.0, 0.0}
+		{30.0, 30.0, 0.0}, {10.0, 10.0, 0.0}, {70.0, 30.0, 0.0}, {90.0, 10.0, 0.0},
+		{70.0, 70.0, 0.0}, {90.0, 90.0, 0.0}, {30.0, 70.0, 0.0}, {10.0, 90.0, 0.0}
 	};
 	static float colors[8][3] = {
 		{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0},
@@ -397,16 +397,66 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
 	}
 	
 	m->vIndices = new GLuint[m->nNumIndices];
-	unsigned int stripIndices[] = { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1 };
-	
 	for (int i = 0; i < m->nNumIndices - 2; ++i) {
 		m->vIndices[i] = i;
 	}
 	m->vIndices[8] = 0;
 	m->vIndices[9] = 1;
 
+	m->vNormals.reserve(m->nNumIndices);
 	for (int i = 0; i < m->nNumIndices; ++i) {
 		m->vNormals.emplace_back(glm::dvec3{ 0, 0, 1 });
+	}
+
+	return m;
+}
+
+IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
+{
+	IndexMesh* m = new IndexMesh();
+	m->mPrimitive = GL_TRIANGLES;
+	m->nNumIndices = 36; // 3 vertices x 2 por cuadrado x 6 caras del cubo = indices totales usados por los triangulos
+	const uint f = 8; // 4 vertices x 2 caras = uniendo vertices de ambas caras, se forma el cubo
+
+	GLdouble k = l / 2;
+	static float vertices[f][3] = {
+		{k, k, k}, {k, k, -k}, {k, -k, -k}, {k, -k, k},
+		{-k, -k, -k}, {-k, -k, k}, {-k, k, k}, {-k, k, -k}
+	};
+
+	m->vVertices.reserve(f);
+	for (int i = 0; i < f; ++i) {
+		m->vVertices.emplace_back(glm::dvec3{ vertices[i][0], vertices[i][1], vertices[i][2] });
+	}
+
+	m->vColors.reserve(f);
+	for (int i = 0; i < f; ++i) {
+		m->vColors.emplace_back(glm::dvec4{ 0.0, 1.0, 0.0, 1.0 });
+	}
+
+	m->vIndices = new GLuint[m->nNumIndices];
+	unsigned int stripIndices[] = { 
+		1, 0, 3, 
+		3, 2, 1, 
+		1, 7, 4, 
+		4, 2, 1, 
+		1, 7, 6, 
+		6, 0, 1, 
+		0, 6, 5, 
+		5, 3, 0, 
+		7, 6, 5, 
+		5, 4, 7, 
+		4, 5, 3, 
+		3, 2, 4
+	};
+
+	for (int i = 0; i < m->nNumIndices; ++i) {
+		m->vIndices[i] = stripIndices[i];
+	}
+
+	m->vNormals.reserve(f);
+	for (int i = 0; i < f; ++i) {
+		m->vNormals.emplace_back(glm::normalize(glm::dvec3{ vertices[i][0], vertices[i][1], vertices[i][2] }));
 	}
 
 	return m;

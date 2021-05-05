@@ -184,6 +184,9 @@ void Scene::init()
 
 		AnilloCuadrado* a = new AnilloCuadrado();
 		gObjects.push_back(a);
+
+		Cubo* c = new Cubo(200);
+		gObjects.push_back(c);
 	}
 }
 

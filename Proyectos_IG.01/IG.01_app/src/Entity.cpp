@@ -454,7 +454,7 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 
 Cubo::Cubo(GLdouble l)
 {
-	//mMesh = IndexMesh::generaCuboConTapasIndexado(l);
+	mMesh = IndexMesh::generaCuboConTapasIndexado(l);
 }
 
 Cubo::~Cubo()
@@ -467,10 +467,13 @@ void Cubo::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		upload(aMat); // P1
-		mMesh->render();
-		glClear(GL_DEPTH_BUFFER_BIT);
-	} // no se cómo, pero me ha salido a la primera :D
+		upload(aMat);
+
+		glEnable(GL_COLOR_MATERIAL);
+		IndexMesh* im = dynamic_cast<IndexMesh*>(mMesh);
+		if (im != nullptr)
+			im->render();
+	}
 }
 
 //-------------------------------------------------------------------------

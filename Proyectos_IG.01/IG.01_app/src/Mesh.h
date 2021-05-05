@@ -62,7 +62,7 @@ public:
 	GLuint size() const { return nNumIndices; };   // number of indexs
 
 	static IndexMesh* generaAnilloCuadradoIndexado();
-	//static IndexMesh* generaCuboConTapasIndexado(GLdouble l);
+	static IndexMesh* generaCuboConTapasIndexado(GLdouble l);
 	//void buildNormalVectors();
 
 	GLuint* indices() { return vIndices; };
