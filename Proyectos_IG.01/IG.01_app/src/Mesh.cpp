@@ -336,22 +336,34 @@ Mesh* Mesh::generaContCubo(GLdouble ld) {
 //}
 // -------------------------------------------------------
 
-void IndexMesh::render() const {
+void IndexMesh::render() const
+{
+	// Activación de los vertex arrays
+	if (vVertices.size() > 0) {
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());  // number of coordinates per vertex, type of each coordinate, stride, pointer 
 
-	
+		if (vColors.size() > 0) { // transfer colors
+			glEnableClientState(GL_COLOR_ARRAY);
+			glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
+		}
+		if (vIndices != nullptr) {
+			glEnableClientState(GL_INDEX_ARRAY);
+			glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
+		}
+		if (vNormals.size() > 0) {
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glNormalPointer(GL_DOUBLE, 0, vNormals.data());
+		}
 
-	if (vIndices != nullptr) {
-		glEnableClientState(GL_INDEX_ARRAY);
-		glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
+		draw();
+
+		// Desactivación de los vertex arrays
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_INDEX_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
 	}
-	if (vNormals.size() > 0) {
-		glEnableClientState(GL_NORMAL_ARRAY);
-		glNormalPointer(GL_DOUBLE, 0, vNormals.data());
-	}
-	draw();
-
-	glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_INDEX_ARRAY);
 }
 
 void IndexMesh::draw() const {
@@ -359,9 +371,39 @@ void IndexMesh::draw() const {
 		GL_UNSIGNED_INT, vIndices);
 }
 
-IndexMesh* IndexMesh::generaAnilloCuadradoIndexado(){
+IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
+{
 	IndexMesh* m = new IndexMesh();
+	m->mPrimitive = GL_TRIANGLE_STRIP;
 	m->nNumIndices = 10;
+
+	static float vertices[8][3] = {
+				{30.0, 30.0, 0.0}, {10.0, 10.0, 0.0}, {70.0, 30.0, 0.0}, {90.0, 10.0, 0.0},
+				{70.0, 70.0, 0.0}, {90.0, 90.0, 0.0}, {30.0, 70.0, 0.0}, {10.0, 90.0, 0.0}
+	};
+	static float colors[8][3] = {
+		{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0},
+		{1.0, 1.0, 0.0}, {1.0, 0.0, 1.0}, {0.0, 1.0, 1.0}, {1.0, 0.0, 0.0}
+	};
+
+	m->vVertices.reserve(m->nNumIndices);
+	for (int i = 0; i < 8; ++i) {
+		m->vVertices.emplace_back(glm::dvec3{ vertices[i][0], vertices[i][1], vertices[i][2] });
+	}
+
+	m->vColors.reserve(m->nNumIndices);
+	for (int i = 0; i < 8; ++i) {
+		m->vColors.emplace_back(glm::dvec4{ colors[i][0], colors[i][1], colors[i][2], 1.0 });
+	}
+	
+	m->vIndices = new GLuint[m->nNumIndices];
+	unsigned int stripIndices[] = { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1 };
+	
+	for (int i = 0; i < 8; ++i) {
+		m->vIndices[i] = i;
+	}
+	m->vIndices[8] = 0;
+	m->vIndices[9] = 1;
 
 	return m;
 }

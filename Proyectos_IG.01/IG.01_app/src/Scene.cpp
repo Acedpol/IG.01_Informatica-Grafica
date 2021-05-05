@@ -199,8 +199,8 @@ void Scene::free()
 	{
 		delete txt;  txt = nullptr;
 	}
-	gTextures.clear();
 	gObjects.clear();
+	gTextures.clear();
 }
 //-------------------------------------------------------------------------
 
