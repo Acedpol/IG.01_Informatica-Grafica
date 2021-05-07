@@ -1,19 +1,55 @@
-Autores:
-Pedro Pablo Cubells Talavera
-David Rodríguez Gómez
+Autores: (Grupo 5)
+	Pedro Pablo Cubells Talavera
+	David Rodríguez Gómez
 
 Partes opcionales:
-- Ejercicios del 1 al 7:
-	1. Hemos realizado el ejercicio 7. 
-	2. También hemos puesto la tecla 'b', para ver la parte trasera del render.
 
-- Ejercicios del 21 al 26:
-	1. Hemos añadido función a la combinación: ctrl + clck derecho,
-	de forma que al activar ese modificador en vez de moverse en el plano frontal,
-	realiza las modificaciones en mLook, por tanto, 
-	rota la dirección de vista de la cámara.
+- Ejercicios del 1 al 15: está todo funcionando al 100%.
+- Se ha reorganizado la práctica tal cual se pide en el enunciado,
+	conservando las partes realizadas en la primera práctica,
+	para ello se han redefinido las numeraciones de las escenas.
 
-	2. Hemos tratado de hacer algo parecido en la combinación: (no terminado, falla)
-	ctrl + clck izquierdo + motion, de forma que el método orbit realice 
-	el cambio vertical rotando también conservando un radio de distancia al objeto/escena.
-	
+Cosas a tener en cuenta:
+
+- No hay datos repetidos, es decir, cada vértice se declara una sola vez.
+- Se usan VertexArrays con índices para todos los objetos formados 
+	por IndexMesh.
+- Estos últimos mencionados: 
+	- Heredan de EntityWithIndexMesh y utilizan
+		el método builNormalVectors().
+	- Usan punteros y bucles 'for' con 'dvec3' para 
+		economizar el código y hacerlo más eficiente.
+	- Usan los vectores de forma muy parecida a como
+		los usan los objetos formados por Mesh.
+
+- Las luces están activadas por tanto se ha logrado con éxito
+	el uso de los vectores normales.
+	- Estos vectores se calculan por código, no a mano.
+- Las partes nuevas del código están comentadas.
+
+Comandos:
+
+ESC -> salir de la aplicación.
+'+' -> zoom in.
+'-' -> zoom out.
+'l' -> set camera 3D.
+'o' -> set camera front_2D.
+'b' -> set camera back_2D.
+'p' -> change proyection. (ortogonal / perspective)
+'q' -> camera orbit.
+'k' -> on/off doble vista.
+'j' -> on/off doble escena (la segunda con la cámara en front_2D)
+'h' -> on/off doble escena (la segunda con la cámara en 3D)
+'r' -> resize 400x200px.
+'u' -> on/off movimiento de objetos en escena.
+'1 - 7' -> cambio de escena a la seleccionada.
+
+Escenas:
+
+'1' -> Primer objeto formado como CompoundEntity. (TIE)
+'2' -> CuboConTapas/Cubo3D -> Segundo objeto con IndexMesh -> objeto 3D
+'3' -> AnilloCuadrado -> Primer objeto formado por un IndexMesh -> objeto plano
+'4' -> QuadricObjets -> la malla se contruye directamente cuando se dibuja
+'5' -> Escena 3D -> Perspectiva (Testing Camara)
+'6' -> Escena 3D -> Ortogonal
+'7' -> Escena 2D
