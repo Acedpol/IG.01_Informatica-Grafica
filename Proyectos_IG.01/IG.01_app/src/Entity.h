@@ -272,11 +272,6 @@ public:
 
 //-------------------------------------------------------------------------
 
-
-
-
-//-------------------------------------------------------------------------
-
 class CompoundEntity: public Abs_Entity 
 {
 public:
@@ -296,17 +291,12 @@ protected:
 	std::vector<Abs_Entity*> gObjects;
 };
 
-
-
 class TIE : public CompoundEntity
 {
 public:
 	TIE(Texture* t);
 	virtual ~TIE() {};
 };
-
-
-
 
 //-------------------------------------------------------------------------
 

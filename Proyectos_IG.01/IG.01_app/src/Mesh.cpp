@@ -308,32 +308,6 @@ Mesh* Mesh::generaContCubo(GLdouble ld) {
 	return mesh;
 }
 
-// ---------------------------------------------------------
-//if (vVertices.size() > 0) {  // transfer data
-//	// transfer the coordinates of the vertices
-//	glEnableClientState(GL_VERTEX_ARRAY);
-//	glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());  // number of coordinates per vertex, type of each coordinate, stride, pointer 
-//	if (vColors.size() > 0) { // transfer colors
-//		glEnableClientState(GL_COLOR_ARRAY);
-//		glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
-//
-//	}
-//	if (vTexCoords.size() > 0) {
-//		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-//		glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());  // components number (rgba=2), type of each component, stride, pointer 
-//	}
-//	if (vNormals.size() > 0) {
-//		glEnableClientState(GL_NORMAL_ARRAY);
-//		glNormalPointer(GL_DOUBLE, 0, vNormals.data());
-//	}
-//
-//	draw();
-//	glDisableClientState(GL_NORMAL_ARRAY);
-//	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-//	glDisableClientState(GL_COLOR_ARRAY);
-//	glDisableClientState(GL_VERTEX_ARRAY);
-//
-//}
 // -------------------------------------------------------
 
 void IndexMesh::render() const
@@ -403,10 +377,10 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
 	m->vIndices[8] = 0;
 	m->vIndices[9] = 1;
 
-	m->vNormals.reserve(m->nNumIndices);
+	/*m->vNormals.reserve(m->nNumIndices);
 	for (int i = 0; i < m->nNumIndices; ++i) {
 		m->vNormals.emplace_back(glm::dvec3{ 0, 0, 1 });
-	}
+	}*/
 
 	return m;
 }
@@ -469,26 +443,6 @@ void IndexMesh::buildNormalVectors() {
 		vNormals.emplace_back(glm::normalize(glm::dvec3{ vVertices[i] }));
 	}
 }
-
-/*void IndexMesh::buildNormalVectors()
-{
-	for (int x = 0; x < nNumVertices; x++) {
-		vNormals.emplace_back(0.0, 0.0, 0.0);
-	}
-	for (int x = 0; x < nNumIndices / 3; x++) {
-		dvec3 h = ;
-		dvec3 l = ;
-		dvec3 u = glm::cross((h), (l));
-		for (int y = x * 3; y < x * 3 + 3; y++) {
-			vNormals[vIndices[y]] += u;
-		}
-	}
-	for (int x = 0; x < nNumVertices; x++) {
-		vNormals[x] = glm::normalize(vNormals[x]);
-	}
-}*/
-
-
 
 //-------------------------------------------------------------------------
 

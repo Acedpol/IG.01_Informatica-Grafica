@@ -223,7 +223,7 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case 'j':
 		if (!m2Vistas && !m2Escenas) {
-			chargeDoubleScene(0);
+			chargeDoubleScene(1);
 			mCamera2->set2D_front();
 		}
 		else if (m2Escenas) {
@@ -245,32 +245,20 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'u':
 		movement = !movement;
 		break;
-	case '0':
-		mScene->changeScene(0);
+	case '7':
+		mScene->changeScene(7);
 		cam->set2D_front();
-		break;
-	case '1':
-		scene->changeScene(1);
-		cam->setOrtogonal();
-		break;
-	case '2':
-		scene->changeScene(2);
-		cam->setPerspective();
-		break;
-	case '3':
-		scene->changeScene(3);
-		cam->setPerspective();
-		break;
-	case '4':
-		scene->changeScene(4);
-		cam->setPerspective();
-		break;
-	case '5':
-		scene->changeScene(5);
-		cam->setPerspective();
 		break;
 	case '6':
 		scene->changeScene(6);
+		cam->setOrtogonal();
+		break;
+	case '5':
+	case '4':
+	case '3':
+	case '2':
+	case '1':
+		scene->changeScene(int(key - '0'));
 		cam->setPerspective();
 		break;
 	default:

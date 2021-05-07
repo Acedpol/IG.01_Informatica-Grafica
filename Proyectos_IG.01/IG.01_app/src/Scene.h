@@ -20,6 +20,9 @@ private:
 	void showScene_3D();
 	void showScene_QuadricObjects();
 	void showScene_imperialTIE();
+	void showAnilloCuadrado();
+	void showCuboConTapas();
+
 	void sceneDirLight(Camera const& cam) const;
 public:
 	Scene() {};
@@ -40,7 +43,7 @@ public:
 protected:
 	void setGL();
 	void resetGL();
-	int mId = 5; //
+	int mId = 1; //
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Texture*> gTextures;
 };

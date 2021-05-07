@@ -101,59 +101,30 @@ void Scene::showScene_QuadricObjects()
 
 void Scene::showScene_imperialTIE()
 {
+	gObjects.push_back(new EjesRGB(400.0));
+
 	Texture* t = new Texture();
 	t->load("..\\IG.01_app\\Bmps\\noche.bmp", 200);
 	gTextures.push_back(t);
 
 	TIE* tie = new TIE(t);
 	gObjects.push_back(tie);
-	/*TIE* tie = new TIE();
-	gObjects.push_back(tie);
-	Sphere* core = new Sphere(100.0);
-	tie->addEntity(core);
+}
 
-	Cylinder* shaft = new Cylinder(50.0, 50.0, 500.0, 100.0);
-	glm::dmat4 mAux = shaft->modelMat();
-	mAux = translate(mAux, dvec3(250, 0, 0));
-	mAux = rotate(mAux, radians(-90.0), dvec3(0, 1, 0));
-	shaft->setModelMat(mAux);
-	tie->addEntity(shaft);
+void Scene::showAnilloCuadrado()
+{
+	gObjects.push_back(new EjesRGB(400.0));
 
-	CompoundEntity* front = new CompoundEntity();
-	Cylinder* base = new Cylinder(75.0, 75.0, 100.0, 100.0);
-	mAux = base->modelMat();
-	mAux = translate(mAux, dvec3(0, 0, 25));
-	mAux = rotate(mAux, radians(0.0), dvec3(0, 1, 0));
-	base->setModelMat(mAux);
-	front->addEntity(base);
+	AnilloCuadrado* a = new AnilloCuadrado();
+	gObjects.push_back(a);
+}
 
-	Disk* tapa = new Disk(0.0, 75.0, 100.0);
-	mAux = tapa->modelMat();
-	mAux = translate(mAux, dvec3(0, 0, 120));
-	mAux = rotate(mAux, radians(0.0), dvec3(0, 1, 0));
-	tapa->setModelMat(mAux);
-	front->addEntity(tapa);
-	tie->addEntity(front);
-	
-	Texture* t = new Texture();
-	t->load("..\\IG.01_app\\Bmps\\noche.bmp", 200);
-	gTextures.push_back(t);
+void Scene::showCuboConTapas()
+{
+	gObjects.push_back(new EjesRGB(400.0));
 
-	Disk* wingL = new Disk(0.0, 200.0, 6.0);
-	mAux = wingL->modelMat();
-	mAux = translate(mAux, dvec3(-250, 0, 0));
-	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
-	wingL->setModelMat(mAux);
-	tie->addEntity(wingL);
-	gObjects.back()->setTexture(t);
-
-	Disk* wingR = new Disk(0.0, 200.0, 6.0);
-	mAux = wingR->modelMat();
-	mAux = translate(mAux, dvec3(250, 0, 0));
-	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
-	wingR->setModelMat(mAux);
-	tie->addEntity(wingR);
-	gObjects.back()->setTexture(t);*/
+	Cubo* c = new Cubo(200);
+	gObjects.push_back(c);
 }
 
 //-------------------------------------------------------------------------
@@ -167,30 +138,27 @@ void Scene::init()
     // Textures
 
 	// Graphics objects (entities) of the scene
-	if (mId == 0) { // 2D
+	// el cambio de camara se hace en "void IG1App::key(unsigned char key, int x, int y)"
+	if (mId == 7) {			// Escena 2D
 		showScene_2D();
 	}
-	else if (mId == 1) { // 3D -> Ortogonal
+	else if (mId == 6) {	// Escena 3D -> Ortogonal
 		showScene_3D();
 	}
-	else if (mId == 2) { // 3D -> Perspectiva (Testing Camara)
+	else if (mId == 5) {	// Escena 3D -> Perspectiva (Testing Camara)
 		showScene_3D();
-		// el cambio de camara se hace en "void IG1App::key(unsigned char key, int x, int y)"
 	}
-	else if (mId == 3) {
+	else if (mId == 4) {	// QuadricObjets -> la malla se contruye directamente cuando se dibuja
 		showScene_QuadricObjects();
 	}
-	else if (mId == 4) {
-		showScene_imperialTIE();
+	else if (mId == 3) {	// Primer objeto formado por un IndexMesh -> objeto plano
+		showCuboConTapas();
 	}
-	else if (mId == 5) {
-		gObjects.push_back(new EjesRGB(400.0));
-
-		AnilloCuadrado* a = new AnilloCuadrado();
-		gObjects.push_back(a);
-
-		Cubo* c = new Cubo(200);
-		gObjects.push_back(c);
+	else if (mId == 2) {	// Segundo objeto con IndexMesh -> objeto 3D
+		showAnilloCuadrado();
+	}
+	else if (mId == 1) {	// Primer objeto formado como CompoundEntity
+		showScene_imperialTIE();
 	}
 }
 
