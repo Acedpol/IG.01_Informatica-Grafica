@@ -559,13 +559,25 @@ void Cono::render(glm::dmat4 const& modelViewMat) const
 //-------------------------------------------------------------------------
 
 Esfera::Esfera(GLdouble r, GLuint p, GLuint m){
-	int nPts = 3; 
-	dvec3* perfil = new dvec3[nPts];
-	perfil[0] = dvec3(0.5, 0.0, 0.0);
-	perfil[1] = dvec3(r, 0.0, 0.0);
-	perfil[2] = dvec3(0.5, r, 0.0);
-	this->mMesh = new MbR(m, p, perfil);
+	dvec3* perfil = new dvec3[p];
+	
+	Mesh* mesh = new Mesh();
+
+	// construccion del circulo:
+	double ang = -90.0;
+	double inc = (180.0 / p);
+	for (uint i = 0; i < p; ++i)
+	{
+		double y = 0 + r * cos(radians(ang));
+		double x = 0 + r * sin(radians(ang));
+		ang = ang + inc;
+		perfil[i] = glm::dvec3(x, y, 0);
+	}
+
+	//this->mMesh = new MbR(m, p, perfil);
+	mMesh = MbR::generaIndexMeshByRevolution(m, p, perfil);
 }
+
 void Esfera::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
@@ -573,12 +585,15 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		
-		glLineWidth(2);
-		glPolygonMode(GL_BACK, GL_FILL);
-		glPolygonMode(GL_FRONT, GL_LINE);
-		mMesh->render();
+		glEnable(GL_COLOR_MATERIAL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glLineWidth(1);
+		glColor3f(0.0, 0.25, 0.42);
+
+		mMesh->render();
+
+		glColor3f(1.0, 1.0, 1.0);
+		glDisable(GL_COLOR_MATERIAL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
 

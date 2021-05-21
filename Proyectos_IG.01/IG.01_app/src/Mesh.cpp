@@ -456,42 +456,6 @@ void IndexMesh::buildNormalVectors() {
 
 //-------------------------------------------------------------------------
 
-//void MbR::render() const
-//{
-//	// Activación de los vertex arrays
-//	if (vVertices.size() > 0) {
-//		glEnableClientState(GL_VERTEX_ARRAY);
-//		glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());  // number of coordinates per vertex, type of each coordinate, stride, pointer 
-//
-//		if (vColors.size() > 0) { // transfer colors
-//			glEnableClientState(GL_COLOR_ARRAY);
-//			glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
-//		}
-//		if (vIndices != nullptr) {
-//			glEnableClientState(GL_INDEX_ARRAY);
-//			glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
-//		}
-//		if (vNormals.size() > 0) {
-//			glEnableClientState(GL_NORMAL_ARRAY);
-//			glNormalPointer(GL_DOUBLE, 0, vNormals.data());
-//		}
-//
-//		draw();
-//
-//		// Desactivación de los vertex arrays
-//		glDisableClientState(GL_VERTEX_ARRAY);
-//		glDisableClientState(GL_COLOR_ARRAY);
-//		glDisableClientState(GL_INDEX_ARRAY);
-//		glDisableClientState(GL_NORMAL_ARRAY);
-//	}
-//}
-//
-//void MbR::draw() const
-//{
-//	glDrawElements(mPrimitive, nNumIndices,
-//		GL_UNSIGNED_INT, vIndices);
-//}
-
 MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil) {
 	MbR* mesh = new MbR(mm, nn, perfil);
 	mesh->mPrimitive = GL_TRIANGLES;
@@ -516,7 +480,6 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil) {
 		mesh->vVertices.emplace_back(vertices[i]);
 	}
 
-	//mesh->nNumIndices = nn * mm * 4;
 	mesh->nNumIndices = nn * mm * 6 - (6 * nn);
 	mesh->vIndices = new GLuint[mesh->nNumIndices];
 	int indiceMayor = 0;
@@ -544,135 +507,6 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil) {
 	mesh->buildNormalVectors();
 	return mesh;
 }
-
-// 3. obtiene los vertices de la malla, los indices y los vectores normales:
-//MbR* MbR::generaMallaIndexadaPorRevolucion(int mm, int nn, glm::dvec3* perfil)
-//{
-//	MbR* mesh = new MbR(mm, nn, perfil);
-//	
-//	mesh->mPrimitive = GL_TRIANGLES;
-//	mesh->mNumVertices = nn * mm;
-//	mesh->vVertices.reserve(mesh->mNumVertices);
-//
-//	glm::dvec3* vertices = new glm::dvec3[mesh->mNumVertices];
-//
-//
-//     //mesh->nNumIndices = 6 * (mm - 1) * nn;
-//	 mesh->nNumIndices = nn * mm * 6 - (6 * nn);
-//     mesh->vIndices = new GLuint[mesh->nNumIndices];
-//	// Recorrido de vértices por revoluciones, 
-//	// los índices de las caras se dan en sentido antihorario y van de abajo a arriba:
-//	for (int i = 0; i < nn; i++) {
-//		// Generar la muestra i-ésima de vértices
-//		GLdouble theta = i * 360 / nn;
-//		GLdouble c = cos(radians(theta));
-//		GLdouble s = sin(radians(theta));
-//		// R_ y (theta) es la matriz de rotación alrededor del eje Y
-//		for (int j = 0; j < mm; j++) {
-//			int indice = i * mm + j;
-//			GLdouble x = c * perfil[j].x + s * perfil[j].z;
-//			GLdouble z = -s * perfil[j].x + c * perfil[j].z;
-//			vertices[indice] = glm::dvec3(x, perfil[j].y, z);
-//		}
-//
-//		// 4. Volcado del array auxiliar vertices:
-//		for (int i = 0; i < mesh->mNumVertices; ++i) {
-//			mesh->vVertices.emplace_back(vertices[i]);
-//		}
-//
-//		/*mesh->vColors.reserve(mesh->mNumVertices);
-//		for (int i = 0; i < mesh->mNumVertices; ++i) {
-//			mesh->vColors.emplace_back(glm::dvec4{ 0.0, 0.0, 1.0, 1.0 });
-//		}*/
-//
-//		// 5. Construir los índices de las caras triangulares determinando los índices de las caras cuadrangulares:
-//		//mesh->generaIndices(mm, nn); // 6. y 7.
-//
-//		uint indiceMayor = 0;
-//		for (int i = 0; i < nn; i++) {
-//			for (int j = 0; j < mm - 1; j++) {
-//				int indice = i * mm + j;
-//
-//
-//				//primer triangulo
-//				mesh->vIndices[indiceMayor] = indice;
-//				indiceMayor++;
-//				mesh->vIndices[indiceMayor] = (indice + mm) % (nn * mm);
-//				indiceMayor++;
-//				mesh->vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
-//				indiceMayor++;
-//				//Segundo triangulo
-//				mesh->vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
-//				indiceMayor++;
-//				mesh->vIndices[indiceMayor] = indice + 1;
-//				indiceMayor++;
-//				mesh->vIndices[indiceMayor] = indice;
-//				indiceMayor++;
-//				/*mesh->vIndices[indiceMayor] = indice;
-//				indiceMayor++;
-//				mesh->vIndices[indiceMayor] = (indice + mm) % (nn * mm);
-//				indiceMayor++;
-//				mesh->vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
-//				indiceMayor++;
-//
-//				mesh->vIndices[indiceMayor] = indice;
-//				indiceMayor++;
-//				mesh->vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
-//				indiceMayor++;
-//				mesh->vIndices[indiceMayor] = (indice + 1) % (nn * mm);
-//				indiceMayor++;*/
-//			}
-//		}
-//
-//		// 8. Construir los vectores normales y devolver la malla:
-//		mesh->buildNormalVectors();
-//		return mesh;
-//	} // Fin del métodogeneraMallaIndexadaPorRevolucion(...)
-//}
-
-// 6. determina los índices de las caras cuadrangulares
-void MbR::generaIndices(int mm, int nn)
-{
-	//uint indiceMayor = 0;
-	///*nNumIndices = mNumVertices;
-	//vIndices = new GLuint[nNumIndices];*/
-	//// El contador i recorre las muestras alrededor del eje Y
-	//for (int i = 0; i < nn; i++) {
-	//	// El contador j recorre los vértices del perfil,
-	//	// de abajo arriba. Las caras cuadrangulares resultan
-	//	// al unir la muestra i-ésima con la (i+1)%nn-ésima
-	//	for (int j = 0; j < mm - 1; j++) {
-	//		// El contador indice sirve para llevar cuenta
-	//		// de los índices generados hasta ahora. Se recorre
-	//		// la cara desde la esquina inferior izquierda
-	//		int indice = i * mm + j;
-
-	//		/*
-	//		Los cuatro índices son entonces:
-	//		indice;
-	//		(indice + mm) % (nn * mm);
-	//		(indice + mm + 1) % (nn * mm);
-	//		indice + 1;
-	//		*/
-
-	//		// 7. Añadir seis índices al array mesh->vIndices usando un contador indiceMayor para ir rellenando este array:
-	//		vIndices[indiceMayor] = indice;
-	//		indiceMayor++;
-	//		vIndices[indiceMayor] = (indice + mm) % (nn * mm);
-	//		indiceMayor++;
-	//		vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
-	//		indiceMayor++;
-
-	//		vIndices[indiceMayor] = indice;
-	//		indiceMayor++;
-	//		vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
-	//		indiceMayor++;
-	//		vIndices[indiceMayor] = (indice + 1) % (nn * mm);
-	//		indiceMayor++;
-	//	}
-	//}	
-}
-
 
 IndexMesh* IndexMesh::generaGrid(GLdouble lado, GLuint numDiv) 
 { 

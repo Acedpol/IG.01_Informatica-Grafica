@@ -139,6 +139,21 @@ void Scene::showCono()
 
 void Scene::showDoubleSpheres()
 {
+	glm::dmat4 mAux;
+	gObjects.push_back(new EjesRGB(400.0));
+
+	Esfera* e = new Esfera(200, 16, 20);
+	mAux = e->modelMat();
+	mAux = translate(mAux, dvec3(200, 0, 0));
+	e->setModelMat(mAux);
+	gObjects.push_back(e);
+
+	Sphere* esfera = new Sphere(200.0);
+	mAux = esfera->modelMat();
+	mAux = translate(mAux, dvec3(-200, 0, 0));
+	esfera->setModelMat(mAux);
+	gObjects.push_back(esfera);
+	
 }
 
 void Scene::showGridCube()
