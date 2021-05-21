@@ -50,7 +50,9 @@ protected:
 	std::vector<glm::dvec3> vNormals;
 	virtual void draw() const;
 };
+
 //-------------------------------------------------------------------------
+
 class IndexMesh : public Mesh
 {
 public:
@@ -63,14 +65,37 @@ public:
 
 	static IndexMesh* generaAnilloCuadradoIndexado();
 	static IndexMesh* generaCuboConTapasIndexado(GLdouble l);
+	static IndexMesh* generaGrid(GLdouble lado, GLuint nDiv);
+	static IndexMesh* generaGridTex(GLdouble lado, GLuint nDiv);
 	void buildNormalVectors();
 
 	GLuint* indices() { return vIndices; };
 protected:
 	GLuint* vIndices = nullptr;
 	GLuint nNumIndices = 0;
+};
 
+//-------------------------------------------------------------------------
 
+class MbR : public IndexMesh
+{
+public:
+	MbR(int ptosPerfil, int rotations, glm::dvec3* vertexArray) 
+	{
+		m = ptosPerfil;
+		n = rotations;
+		perfil = vertexArray;
+	};
+	virtual ~MbR() {};
+	/*virtual void render() const;
+	virtual void draw() const;*/
+
+	static MbR* generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil);
+private:
+	int m;			// número de puntos del perfil
+	int n;			// número de rotaciones(muestras) que se toman
+	glm::dvec3* perfil;	// perfil original en el plano XY
+	void generaIndices(int mm, int nn);	// realiza el recorrido de la caras cuadrangulares y asigna los indices
 };
 
 #endif //_H_Scene_H_

@@ -2,6 +2,15 @@ Autores: (Grupo 5)
 	Pedro Pablo Cubells Talavera
 	David Rodríguez Gómez
 
+-> P.2.3 --------------------------------------------------------------
+Partes opcionales:
+
+- Ejercicios del 16 al 22:
+
+
+
+
+-> P.2.2 --------------------------------------------------------------
 Partes opcionales:
 
 - Ejercicios del 1 al 15: está todo funcionando al 100%.
@@ -49,7 +58,9 @@ Escenas:
 '1' -> Primer objeto formado como CompoundEntity. (TIE)
 '2' -> CuboConTapas/Cubo3D -> Segundo objeto con IndexMesh -> objeto 3D
 '3' -> AnilloCuadrado -> Primer objeto formado por un IndexMesh -> objeto plano
-'4' -> QuadricObjets -> la malla se contruye directamente cuando se dibuja
-'5' -> Escena 3D -> Perspectiva (Testing Camara)
-'6' -> Escena 3D -> Ortogonal
-'7' -> Escena 2D
+'4' -> Dos esferas formadas con mallas por revolución
+'5' -> Cubo formado por Grid
+'6' -> QuadricObjets -> la malla se contruye directamente cuando se dibuja
+'7' -> Escena 3D -> Perspectiva (Testing Camara)
+'8' -> Escena 3D -> Ortogonal
+'9' -> Escena 2D

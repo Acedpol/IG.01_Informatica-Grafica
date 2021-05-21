@@ -22,6 +22,9 @@ private:
 	void showScene_imperialTIE();
 	void showAnilloCuadrado();
 	void showCuboConTapas();
+	void showCono();
+	void showDoubleSpheres();
+	void showGridCube();
 
 	void sceneDirLight(Camera const& cam) const;
 public:

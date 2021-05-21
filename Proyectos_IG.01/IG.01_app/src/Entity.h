@@ -291,11 +291,54 @@ protected:
 	std::vector<Abs_Entity*> gObjects;
 };
 
+//-------------------------------------------------------------------------
+
 class TIE : public CompoundEntity
 {
 public:
 	TIE(Texture* t);
 	virtual ~TIE() {};
+};
+
+//-------------------------------------------------------------------------
+
+class Cono : public Abs_Entity
+{
+private:
+	bool renderTy_; // false -> lines; true -> fill
+public:
+	explicit Cono(GLdouble h, GLdouble r, GLuint n, bool renderType);
+	virtual ~Cono() { delete mMesh; mMesh = nullptr; };
+	virtual void render(glm::dmat4 const& modelViewMat) const;	
+};
+
+//-------------------------------------------------------------------------
+
+class Esfera : public Abs_Entity
+{
+public:
+	explicit Esfera(GLdouble r, GLuint p, GLuint m);
+	virtual ~Esfera() {};
+	virtual void render(glm::dmat4 const& modelViewMat) const;	
+};
+
+//-------------------------------------------------------------------------
+
+class Grid : public Abs_Entity
+{
+public:
+	explicit Grid(GLdouble lado, GLuint nDiv);
+	virtual ~Grid() {};
+	virtual void render(glm::dmat4 const& modelViewMat) const;	
+};
+
+//-------------------------------------------------------------------------
+
+class GridCube : public CompoundEntity
+{
+public:
+	explicit GridCube(Texture* t);
+	virtual ~GridCube() {};
 };
 
 //-------------------------------------------------------------------------

@@ -127,6 +127,24 @@ void Scene::showCuboConTapas()
 	gObjects.push_back(c);
 }
 
+void Scene::showCono()
+{
+	gObjects.push_back(new EjesRGB(400.0));
+
+	Cono* c = new Cono(200, 150, 30, false);
+	gObjects.push_back(c);
+}
+
+//-------------------------------------------------------------------------
+
+void Scene::showDoubleSpheres()
+{
+}
+
+void Scene::showGridCube()
+{
+}
+
 //-------------------------------------------------------------------------
 
 void Scene::init()
@@ -139,17 +157,26 @@ void Scene::init()
 
 	// Graphics objects (entities) of the scene
 	// el cambio de camara se hace en "void IG1App::key(unsigned char key, int x, int y)"
-	if (mId == 7) {			// Escena 2D
+	if (mId == 10) {		// Escena 2D
 		showScene_2D();
 	}
-	else if (mId == 6) {	// Escena 3D -> Ortogonal
+	else if (mId == 9) {	// Escena 3D -> Ortogonal
 		showScene_3D();
 	}
-	else if (mId == 5) {	// Escena 3D -> Perspectiva (Testing Camara)
+	else if (mId == 8) {	// Escena 3D -> Perspectiva (Testing Camara)
 		showScene_3D();
 	}
-	else if (mId == 4) {	// QuadricObjets -> la malla se contruye directamente cuando se dibuja
+	else if (mId == 7) {	// QuadricObjets -> la malla se contruye directamente cuando se dibuja
 		showScene_QuadricObjects();
+	}
+	else if (mId == 6) {	// Cono formadas con malla por revolución
+		showCono();
+	}
+	else if (mId == 5) {	// Cubo formado por Grid
+		showGridCube();
+	}
+	else if (mId == 4) {	// Dos esferas formadas con mallas por revolución
+		showDoubleSpheres();
 	}
 	else if (mId == 3) {	// Primer objeto formado por un IndexMesh -> objeto plano
 		showCuboConTapas();

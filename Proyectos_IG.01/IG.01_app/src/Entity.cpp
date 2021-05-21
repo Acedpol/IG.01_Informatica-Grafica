@@ -469,6 +469,8 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
+//-------------------------------------------------------------------------
+
 TIE::TIE(Texture* t)
 {
 	glm::dmat4 mAux;
@@ -522,3 +524,86 @@ TIE::TIE(Texture* t)
 }
 
 //-------------------------------------------------------------------------
+
+Cono::Cono(GLdouble h, GLdouble r, GLuint n, bool renderType){
+	renderTy_ = renderType;
+	// h=altura del cono, r=radio de la base
+    // n=número de muestras, m=número de puntos del perfil
+    int m = 3;
+    dvec3* perfil = new dvec3[m];
+    perfil[0] = dvec3(0.5, 0.0, 0.0);
+    perfil[1] = dvec3(r, 0.0, 0.0);
+    perfil[2] = dvec3(0.5, h, 0.0);
+    mMesh = MbR::generaIndexMeshByRevolution(m,  n,  perfil);
+}
+
+void Cono::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+
+		glEnable(GL_COLOR_MATERIAL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glColor3f(0.0, 0.25, 0.42);
+
+		mMesh->render();
+
+		glColor3f(1.0, 1.0, 1.0);
+		glDisable(GL_COLOR_MATERIAL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+//-------------------------------------------------------------------------
+
+Esfera::Esfera(GLdouble r, GLuint p, GLuint m){
+	int nPts = 3; 
+	dvec3* perfil = new dvec3[nPts];
+	perfil[0] = dvec3(0.5, 0.0, 0.0);
+	perfil[1] = dvec3(r, 0.0, 0.0);
+	perfil[2] = dvec3(0.5, r, 0.0);
+	this->mMesh = new MbR(m, p, perfil);
+}
+void Esfera::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		
+		glLineWidth(2);
+		glPolygonMode(GL_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT, GL_LINE);
+		mMesh->render();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glLineWidth(1);
+	}
+}
+
+//-------------------------------------------------------------------------
+
+Grid::Grid(GLdouble lado, GLuint nDiv)
+{
+}
+
+void Grid::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+
+		mTexture->bind(GL_REPLACE);
+
+		mMesh->render();
+
+		mTexture->unbind();
+	}
+}
+
+//-------------------------------------------------------------------------
+
+GridCube::GridCube(Texture* t)
+{
+}
