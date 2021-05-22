@@ -6,9 +6,34 @@ Autores: (Grupo 5)
 Partes opcionales:
 
 - Ejercicios del 16 al 22:
+	
+	class Abs_Entity -->
+	-> Hemos añadido un bool renderTy_ que indica
+	si se va a dibujar con GL_LINE o GL_FILL (false / true)
+	
+	class Scene -->
+	-> Hemos añadido un método 
+	void setTexture(std::string, GLubyte alpha),
+	que facilita el añadir una textura a la última entidad añadida
+	-> También un método 
+	Texture* loadTexture(std::string, GLubyte alpha)
+	que carga en la escena una textura nueva y la devuelve
 
+	class GridCube_
+	-> Hemos añadido un método para añadir Floor's a
+	una posición y altura dada
+	-> Hemos añadido un método para añadir paredes a
+	una posición y lado concreto dado (definido por un switch)
 
+	class CompoundEntity_
+	-> Dos grupos de objetos para translúcidos y opacos
+	--> también aplicado en class Scene_
 
+	class Texture_
+	-> guarda la variable alpha y permite acceder a ella
+	--> extensión añadida en Entity para mTexture
+	
+	(Limpieza de código en la creación de showScene_3D)
 
 -> P.2.2 --------------------------------------------------------------
 Partes opcionales:
@@ -60,7 +85,8 @@ Escenas:
 '3' -> AnilloCuadrado -> Primer objeto formado por un IndexMesh -> objeto plano
 '4' -> Dos esferas formadas con mallas por revolución
 '5' -> Cubo formado por Grid
-'6' -> QuadricObjets -> la malla se contruye directamente cuando se dibuja
-'7' -> Escena 3D -> Perspectiva (Testing Camara)
-'8' -> Escena 3D -> Ortogonal
-'9' -> Escena 2D
+'6' -> Cono formado por con mallas por revolución
+'7' -> QuadricObjets -> la malla se contruye directamente cuando se dibuja
+'8' -> Escena 3D -> Perspectiva (Testing Camara)
+'9' -> Escena 3D -> Ortogonal
+'0' -> Escena 2D
