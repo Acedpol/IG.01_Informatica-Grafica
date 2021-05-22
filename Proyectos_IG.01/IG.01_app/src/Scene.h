@@ -24,9 +24,18 @@ private:
 	void showCuboConTapas();
 	void showCono();
 	void showDoubleSpheres();
+	void showGrid();
 	void showGridCube();
 
 	void sceneDirLight(Camera const& cam) const;
+
+	void setTexture(std::string fileName, GLuint n, GLubyte alpha = 255);
+	Texture* loadTexture(std::string fileName, GLubyte alpha = 255);
+	Texture* loadColorBuffer(GLint width, GLint height, GLint buffer);
+
+	void addObject(Abs_Entity* en);
+	void addIndexObject(EntityWithIndexMesh* in);
+
 public:
 	Scene() {};
 	~Scene() { free(); resetGL(); }; // al borrar la segunda escena se hacía reseteo y ponía GLColor (global) a color blanco (por defecto)
@@ -46,9 +55,12 @@ public:
 protected:
 	void setGL();
 	void resetGL();
-	int mId = 1; //
-	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
+	int mId = 5; //
 	std::vector<Texture*> gTextures;
+	std::vector<Abs_Entity*> gObjects;					// Entities (graphic objects) of the scene (opacos)
+	std::vector<Abs_Entity*> gBlendObjects;				// Entities (graphic objects) of the scene (translúcidos)
+	std::vector<EntityWithIndexMesh*> gIndexObjects;		// los objetos de EntityWithIndexMesh (opacos)
+	std::vector<EntityWithIndexMesh*> gBlendIndexObjects;	// los objetos de EntityWithIndexMesh (translúcidos)
 };
 //-------------------------------------------------------------------------
 

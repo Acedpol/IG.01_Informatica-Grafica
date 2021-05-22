@@ -26,6 +26,7 @@ void Texture::bind(GLuint mixMode) // modo para la mezcla de los colores
 
 void Texture::load(const std::string & BMP_Name, GLubyte alpha)
 {
+	alpha_ = alpha;
 	if (mId == 0) init();
 	
 	PixMap32RGBA pixMap;	// var. local para cargar la imagen del archivo

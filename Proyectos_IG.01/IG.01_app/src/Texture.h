@@ -27,11 +27,12 @@ public:
 
   GLuint width() const { return mWidth; };
   GLuint height() const { return mHeight; };
+  GLuint alpha() const { return alpha_; }
   
   void setWrap(GLuint wp);  // GL_REPEAT, GL_CLAMP 
 
 protected:
-
+	GLuint alpha_;
   void init();
   
   GLuint mWidth = 0;	// dimensiones de la imagen

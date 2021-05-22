@@ -87,15 +87,12 @@ public:
 		perfil = vertexArray;
 	};
 	virtual ~MbR() {};
-	/*virtual void render() const;
-	virtual void draw() const;*/
 
 	static MbR* generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil);
 private:
-	int m;			// número de puntos del perfil
-	int n;			// número de rotaciones(muestras) que se toman
+	int m;				// número de puntos del perfil
+	int n;				// número de rotaciones(muestras) que se toman
 	glm::dvec3* perfil;	// perfil original en el plano XY
-	void generaIndices(int mm, int nn);	// realiza el recorrido de la caras cuadrangulares y asigna los indices
 };
 
 #endif //_H_Scene_H_

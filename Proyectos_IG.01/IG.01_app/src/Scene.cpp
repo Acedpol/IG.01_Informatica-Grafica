@@ -12,7 +12,7 @@ void Scene::showScene_2D()
 {
 	gObjects.push_back(new EjesRGB(400.0));
 
-	//gObjects.push_back(new Poligono(3, 50, { 1.0,1.0,0.0,1.0 })); // triangulo amarillo
+	gObjects.push_back(new Poligono(3, 50, { 1.0,1.0,0.0,1.0 })); // triangulo amarillo
 	gObjects.push_back(new Poligono(200.0, 200, { 1.0,0.0,1.0,1.0 })); // circulo magenta
 	gObjects.push_back(new Sierpinski(200.0, 4000, { 1.0,1.0,0.0,0.0 })); // sierpinski gris
 	auto t = (new TrianguloRGB(25));
@@ -30,44 +30,30 @@ void Scene::showScene_3D()
 	gObjects.push_back(ejes);
 
 	// suelo
-	Texture* ts = new Texture();
-	gObjects.push_back(new Suelo(600.0, 600.0, 10, 10));
-	ts->load("..\\IG.01_app\\Bmps\\baldosaC.bmp");
-	gTextures.push_back(ts);
-	gObjects.back()->setTexture(ts);
+	Suelo* suelo = new Suelo(600.0, 600.0, 10, 10);
+	suelo->setTexture(loadTexture("..\\IG.01_app\\Bmps\\baldosaC.bmp"));
+	addObject(suelo);
 
 	// estrella 3D
-	Texture* te = new Texture();
-	gObjects.push_back(new Estrella3D(100.0, 6, 50.0));
-	te->load("..\\IG.01_app\\Bmps\\baldosaP.bmp");
-	gTextures.push_back(te);
-	gObjects.back()->setTexture(te);
+	Estrella3D* star3D = new Estrella3D(100.0, 6, 50.0);
+	star3D->setTexture(loadTexture("..\\IG.01_app\\Bmps\\baldosaP.bmp"));
+	addObject(star3D);
 
 	// caja
-	Texture* t = new Texture();
-	Texture* t2 = new Texture();
-	gObjects.push_back(new Caja(100.0));
-	t->load("..\\IG.01_app\\Bmps\\container.bmp");
-	t2->load("..\\IG.01_app\\Bmps\\papelC.bmp");
-	gTextures.push_back(t);
-	gTextures.push_back(t2);
-	gObjects.back()->setTexture(t);
-	gObjects.back()->setTexture2(t2);
+	Caja* box = new Caja(100.0);
+	box->setTexture(loadTexture("..\\IG.01_app\\Bmps\\container.bmp"));
+	box->setTexture2(loadTexture("..\\IG.01_app\\Bmps\\papelC.bmp"));
+	addObject(box);
 
 	// foto
-	Texture* tf = new Texture();
-	gObjects.push_back(new Image(100.0, 100.0, 1, 1));
-	tf->loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), GL_FRONT);
-	gTextures.push_back(tf);
-	gObjects.back()->setTexture(tf);
+	Image* foto = new Image(100.0, 100.0, 1, 1);
+	foto->setTexture(loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), GL_FRONT));
+	addObject(foto);
 
 	// celda con blend (traslúcida)
-	Texture* tc = new Texture();
 	Celda* s = new Celda(600.0, 600.0, 1, 1);
-	gObjects.push_back(s);
-	tc->load("..\\IG.01_app\\Bmps\\windowV.bmp", 100);
-	gTextures.push_back(tc);
-	gObjects.back()->setTexture(tc);
+	s->setTexture(loadTexture("..\\IG.01_app\\Bmps\\windowV.bmp", 100));
+	addObject(s);
 }
 
 void Scene::showScene_QuadricObjects()
@@ -116,7 +102,7 @@ void Scene::showAnilloCuadrado()
 	gObjects.push_back(new EjesRGB(400.0));
 
 	AnilloCuadrado* a = new AnilloCuadrado();
-	gObjects.push_back(a);
+	gIndexObjects.push_back(a);
 }
 
 void Scene::showCuboConTapas()
@@ -124,14 +110,14 @@ void Scene::showCuboConTapas()
 	gObjects.push_back(new EjesRGB(400.0));
 
 	Cubo* c = new Cubo(200);
-	gObjects.push_back(c);
+	gIndexObjects.push_back(c);
 }
 
 void Scene::showCono()
 {
 	gObjects.push_back(new EjesRGB(400.0));
 
-	Cono* c = new Cono(200, 150, 30, false);
+	Cono* c = new Cono(200, 150, 30, true);
 	gObjects.push_back(c);
 }
 
@@ -142,22 +128,43 @@ void Scene::showDoubleSpheres()
 	glm::dmat4 mAux;
 	gObjects.push_back(new EjesRGB(400.0));
 
-	Esfera* e = new Esfera(200, 16, 20);
+	Esfera* e = new Esfera(100, 21, 20, true);
 	mAux = e->modelMat();
-	mAux = translate(mAux, dvec3(200, 0, 0));
+	mAux = translate(mAux, dvec3(200, 100, 0));
 	e->setModelMat(mAux);
 	gObjects.push_back(e);
 
-	Sphere* esfera = new Sphere(200.0);
+	Sphere* esfera = new Sphere(100.0);
 	mAux = esfera->modelMat();
-	mAux = translate(mAux, dvec3(-200, 0, 0));
+	mAux = translate(mAux, dvec3(0, 100, 200));
 	esfera->setModelMat(mAux);
 	gObjects.push_back(esfera);
-	
+}
+
+void Scene::showGrid()
+{
+	glm::dmat4 mAux;
+	GLdouble L = 40;
+	GLdouble scale = 5;
+	gObjects.push_back(new EjesRGB(400.0));
+
+	//Grid* e = new Grid(40, 4, false); -> ejemplo base
+	Grid* gr = new Grid(L * scale, 4 * 5, true, loadTexture("..\\IG.01_app\\Bmps\\container.bmp", 255));
+	mAux = gr->modelMat();
+	mAux = translate(mAux, dvec3(L / 2 * scale, 0, L / 2 * scale));
+	gr->setModelMat(mAux);
+	gObjects.push_back(gr);
 }
 
 void Scene::showGridCube()
 {
+	GLdouble L = 40;
+	GLuint nDiv = 4;
+	GLdouble scale = 5;
+	gObjects.push_back(new EjesRGB(400.0));
+
+	GridCube* gr = new GridCube(L, nDiv, true, scale);
+	gObjects.push_back(gr);
 }
 
 //-------------------------------------------------------------------------
@@ -194,10 +201,10 @@ void Scene::init()
 		showDoubleSpheres();
 	}
 	else if (mId == 3) {	// Primer objeto formado por un IndexMesh -> objeto plano
-		showCuboConTapas();
-	}
-	else if (mId == 2) {	// Segundo objeto con IndexMesh -> objeto 3D
 		showAnilloCuadrado();
+	}
+	else if (mId == 2) {	// Segundo objeto con IndexMesh -> objeto 3D (cubo)
+		showCuboConTapas();
 	}
 	else if (mId == 1) {	// Primer objeto formado como CompoundEntity
 		showScene_imperialTIE();
@@ -216,8 +223,26 @@ void Scene::free()
 	{
 		delete txt;  txt = nullptr;
 	}
+	for (EntityWithIndexMesh* in : gIndexObjects)
+	{
+		delete in;  in = nullptr;
+	}
+
+	gIndexObjects.clear();
 	gObjects.clear();
 	gTextures.clear();
+
+	for (Abs_Entity* el : gBlendObjects)
+	{
+		delete el;  el = nullptr;
+	}
+	for (EntityWithIndexMesh* in : gBlendIndexObjects) 
+	{
+		delete in;  in = nullptr;
+	}
+
+	gBlendIndexObjects.clear();
+	gBlendObjects.clear();
 }
 //-------------------------------------------------------------------------
 
@@ -248,8 +273,28 @@ void Scene::render(Camera const& cam) const
 
 	for (Abs_Entity* el : gObjects)
 	{
-	  el->render(cam.viewMat());
+		el->render(cam.viewMat());
 	}
+
+	for (EntityWithIndexMesh* in : gIndexObjects) {
+		in->render(cam.viewMat());
+	}
+
+	glDepthMask(GL_FALSE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	for (Abs_Entity* el : gBlendObjects)
+	{
+		el->render(cam.viewMat());
+	}
+	for (EntityWithIndexMesh* in : gBlendIndexObjects) {
+		in->render(cam.viewMat());
+	}
+	//glClear(GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_BLEND);
+	glDepthMask(GL_TRUE);
+
+	
 }
 
 //-------------------------------------------------------------------------
@@ -285,5 +330,52 @@ void Scene::sceneDirLight(Camera const&cam) const
 	glLightfv(GL_LIGHT0, GL_AMBIENT, value_ptr(ambient)); 
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse)); 
 	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
+}
+
+// facilita añadir textura a la última entidad añadida
+void Scene::setTexture(std::string fileName, GLuint n, GLubyte alpha)
+{
+	Texture* t = new Texture();
+	switch (n)
+	{
+	case 1:
+		gObjects.back()->setTexture(loadTexture(fileName, alpha));
+		break;
+	case 2:
+		gObjects.back()->setTexture2(loadTexture(fileName, alpha));
+		break;
+	default:
+		delete t; t = nullptr;
+		break;
+	}
+}
+
+// carga una nueva textura a la escena y la devuelve
+Texture* Scene::loadTexture(std::string fileName, GLubyte alpha)
+{
+	Texture* t = new Texture();
+	t->load(fileName, alpha);
+	gTextures.push_back(t);
+	return t;
+}
+
+Texture* Scene::loadColorBuffer(GLint width, GLint height, GLint buffer)
+{
+	Texture* t = new Texture();
+	t->loadColorBuffer(width, height, buffer);
+	gTextures.push_back(t);
+	return t;
+}
+
+void Scene::addObject(Abs_Entity* en)
+{
+	if (en->alphaTex() != 255) gBlendObjects.push_back(en);
+	else gObjects.push_back(en);
+}
+
+void Scene::addIndexObject(EntityWithIndexMesh* in)
+{
+	if (in->alphaTex() != 255) gBlendIndexObjects.push_back(in);
+	else gIndexObjects.push_back(in);
 }
 
