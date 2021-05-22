@@ -356,23 +356,25 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
 	IndexMesh* m = new IndexMesh();
 	m->mPrimitive = GL_TRIANGLE_STRIP;
 	m->nNumIndices = 10;
+	const uint f = 8;
+	m->mNumVertices = f;
 
-	static float vertices[8][3] = {
+	static float vertices[f][3] = {
 		{30.0, 30.0, 0.0}, {10.0, 10.0, 0.0}, {70.0, 30.0, 0.0}, {90.0, 10.0, 0.0},
 		{70.0, 70.0, 0.0}, {90.0, 90.0, 0.0}, {30.0, 70.0, 0.0}, {10.0, 90.0, 0.0}
 	};
-	static float colors[8][3] = {
+	static float colors[f][3] = {
 		{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0},
 		{1.0, 1.0, 0.0}, {1.0, 0.0, 1.0}, {0.0, 1.0, 1.0}, {1.0, 0.0, 0.0}
 	};
 
-	m->vVertices.reserve(m->nNumIndices);
-	for (int i = 0; i < 8; ++i) {
+	m->vVertices.reserve(m->mNumVertices);
+	for (int i = 0; i < f; ++i) {
 		m->vVertices.emplace_back(glm::dvec3{ vertices[i][0], vertices[i][1], vertices[i][2] });
 	}
 
-	m->vColors.reserve(m->nNumIndices);
-	for (int i = 0; i < 8; ++i) {
+	m->vColors.reserve(m->mNumVertices);
+	for (int i = 0; i < f; ++i) {
 		m->vColors.emplace_back(glm::dvec4{ colors[i][0], colors[i][1], colors[i][2], 1.0 });
 	}
 	
@@ -383,10 +385,10 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
 	m->vIndices[8] = 0;
 	m->vIndices[9] = 1;
 
-	/*m->vNormals.reserve(m->nNumIndices);
-	for (int i = 0; i < m->nNumIndices; ++i) {
+	m->vNormals.reserve(m->mNumVertices);
+	for (int i = 0; i < m->mNumVertices; ++i) {
 		m->vNormals.emplace_back(glm::dvec3{ 0, 0, 1 });
-	}*/
+	}
 
 	return m;
 }
@@ -397,26 +399,57 @@ IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
 	m->mPrimitive = GL_TRIANGLES;
 	m->nNumIndices = 36; // 3 vertices x 2 por cuadrado x 6 caras del cubo = indices totales usados por los triangulos
 	const uint f = 8; // 4 vertices x 2 caras = uniendo vertices de ambas caras, se forma el cubo
+	m->mNumVertices = f;
 
 	GLdouble k = l / 2;
 	static float vertices[f][3] = {
-		{k, k, k}, {k, k, -k}, {k, -k, -k}, {k, -k, k},
-		{-k, -k, -k}, {-k, -k, k}, {-k, k, k}, {-k, k, -k}
+		{k, k, -k}, {k, k, k}, {k, -k, k}, {k, -k, -k},
+		{-k, k, -k}, {-k, k, k}, {-k, -k, k}, {-k, -k, -k}
 	};
 
-	m->vVertices.reserve(f);
-	for (int i = 0; i < f; ++i) {
+	m->vVertices.reserve(m->mNumVertices);
+	for (int i = 0; i < m->mNumVertices; ++i) {
 		m->vVertices.emplace_back(glm::dvec3{ vertices[i][0], vertices[i][1], vertices[i][2] });
 	}
 
-	m->vColors.reserve(f);
-	for (int i = 0; i < f; ++i) {
+	m->vColors.reserve(m->mNumVertices);
+	for (int i = 0; i < m->mNumVertices; ++i) {
 		m->vColors.emplace_back(glm::dvec4{ 0.0, 1.0, 0.0, 1.0 });
 	}
 
 	m->vIndices = new GLuint[m->nNumIndices];
 	unsigned int stripIndices[] = { 
-		1, 0, 3, 
+		0,1,2,
+		2,3,0,
+		/*4,7,3,
+		3,0,4,*/
+		0,4,7,
+		7,3,0,
+		5,6,7,
+		7,4,5,
+		1,5,6,
+		6,2,1,
+		4,5,1,
+		1,0,4,
+		/*0,4,5,
+		5,1,0,*/
+		7,6,2,
+		2,3,7		
+		/*3,7,6,
+		6,2,3*/
+		/*0, 1, 2,
+		2, 1, 3,
+		2, 3, 4,
+		4, 3, 5,
+		4, 5, 6,
+		6, 5, 7,
+		6, 7, 0,
+		0, 7, 1,
+		4, 6, 2,
+		2, 6, 0,
+		1, 7, 3,
+		3, 7, 5*/
+		/*1, 0, 3, 
 		3, 2, 1, 
 		1, 7, 4, 
 		4, 2, 1, 
@@ -427,31 +460,53 @@ IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
 		7, 6, 5, 
 		5, 4, 7, 
 		4, 5, 3, 
-		3, 2, 4
+		3, 2, 4*/
 	};
 
 	for (int i = 0; i < m->nNumIndices; ++i) {
 		m->vIndices[i] = stripIndices[i];
 	}
 
-	/*m->vNormals.reserve(f);
+	//m->buildNormalVectors();
+	m->vNormals.reserve(f);
 	for (int i = 0; i < f; ++i) {
 		m->vNormals.emplace_back(glm::normalize(glm::dvec3{ vertices[i][0], vertices[i][1], vertices[i][2] }));
-	}*/
+	}
 
 	return m;
 }
 
-void IndexMesh::buildNormalVectors() {
-	 for (int x = 0; x < mNumVertices; x++) vNormals.emplace_back(0.0, 0.0, 0.0);
-     for (int x = 0; x < nNumIndices / 3; x++) {
-         dvec3 a = ((vVertices[vIndices[x*3+2]] - (vVertices[vIndices[x*3+1]])));
-         dvec3 b = ((vVertices[vIndices[x*3]] - (vVertices[vIndices[x*3+1]])));
-         dvec3 n = glm::normalize(glm::cross((a), (b)));
-         for (int y = x*3; y < x*3+3; y++) vNormals[vIndices[y]] += n;
-    }
-     for (int x = 0; x < mNumVertices; x++) 
-         vNormals[x] = glm::normalize(vNormals[x]);
+void IndexMesh::buildNormalVectors() 
+{
+	vNormals.reserve(mNumVertices);
+	for (int i = 0; i < mNumVertices; i++) 
+		vNormals.emplace_back(0.0, 0.0, 0.0);
+
+	for (int i = 0; i < nNumIndices; i += 3)
+	{
+		dvec3 a = vVertices[vIndices[i]];
+		dvec3 b = vVertices[vIndices[i + 1]];
+		dvec3 c = vVertices[vIndices[i + 2]];
+
+		dvec3 n = cross((b - a), (c - a));
+
+		vNormals[vIndices[i]] = +n;
+		vNormals[vIndices[i + 1]] = +n;
+		vNormals[vIndices[i + 2]] = +n;
+		/*for (int j = i; j < i + 3; j++) 
+			vNormals[vIndices[j]] += n;*/
+   }
+
+	for (int i = 0; i < mNumVertices; i++)
+		vNormals[i] = glm::normalize(vNormals[i]);
+
+	/* Como lo teniamos antes:
+	uint f = vVertices.size();
+	vNormals.reserve(f);
+	for (int i = 0; i < f; ++i) {
+		vNormals.emplace_back(glm::normalize(glm::dvec3{ vVertices[i] }));
+	}
+	*/
 }
 
 //-------------------------------------------------------------------------
@@ -510,43 +565,68 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil) {
 
 IndexMesh* IndexMesh::generaGrid(GLdouble lado, GLuint numDiv) 
 { 
-		/*// Grid cuadrado de lado*lado, centrado en el plano Y=0, 
+		// Grid cuadrado de lado*lado, centrado en el plano Y=0, 
 		// dividido en numDiv*numDiv celdas (cada celda son 2 triángulos)
 		IndexMesh* m = new IndexMesh();
-		GLdouble incr = lado / numDiv; // incremento para la coordenada x, y la c. z
-		GLuint numFC = numDiv + 1; // número de vértices por filas y columnas
+
 		// Generación de vértices
-		m->numVertices = numFC * numFC; 
-		m->vertices = new dvec3[m->numVertices];
-		GLdouble incrXZ = lado / nDiv = 10; GLuint nFC = nDiv + 1 = 5; 
-		m->numVertices = nFC * nFC; m->vertices = new dvec3[m->numVertices];
+		GLdouble incrXZ = lado / numDiv; // = 10 -> incremento para la coordenada x, y la c. z
+		GLuint nFC = numDiv + 1; // = 5 -> número de vértices por filas y columnas
+		m->mNumVertices = nFC * nFC; 
+		m->vVertices.reserve(m->mNumVertices);
+
+		float z = -lado / 2;
+		float x = -lado / 2;
+		// Para cada fila f y Para cada columna c
+		for (float f = 0.0f; f < nFC; f++) {
+			for (float c = 0.0f; c < nFC; c++) {
+				//m->vertices[f * nFC + c] = dvec3(x + c * incrXZ, 0, z + f * incrXZ);
+				m->vVertices.emplace_back(x + c * incrXZ, 0, z + f * incrXZ);
+			}
+		}
+
 		// Generación de índices
-		m->numIndices = numDiv * numDiv * 6; 
-		m->indices = new GLuint[m->numIndices];
-		…; // ->*/
-		return nullptr; 
+		m->nNumIndices = numDiv * numDiv * 6; 
+		m->vIndices = new GLuint[m->nNumIndices];
+
+		int i = 0; // array de índices
+		// Para cada fila h y Para cada columna k
+		for (float f = 0.0f; f < numDiv; f++) {
+			for (float c = 0.0f; c < numDiv; c++) {
+				GLuint iv = f * nFC + c;
+
+				m->vIndices[i++] = iv;
+				m->vIndices[i++] = iv + nFC;
+				m->vIndices[i++] = iv + 1;
+
+				m->vIndices[i++] = iv + 1;
+				m->vIndices[i++] = iv + nFC;
+				m->vIndices[i++] = iv + nFC + 1;
+			}
+		}
+		return m; 
 }
 
 IndexMesh* IndexMesh::generaGridTex(GLdouble lado, GLuint nDiv) 
 { 
-	/*IndexMesh* m = generateGrid(lado, numDiv);
+	IndexMesh* m = IndexMesh::generaGrid(lado, nDiv);
 
-    GLuint numFC = numDiv + 1;
+    GLuint numFC = nDiv + 1;
 
     m->vTexCoords.reserve(m->mNumVertices);
 
-    int s = 0;
-    int t = 1;
+    int s = 0;	// coord horizontal
+    int t = 1;	// coord vertical
 
-    float incremento =  1.0f / numDiv;
+    float incremento =  1.0f / nDiv;
     for (int f = 0; f < numFC; f++) {
         for (int c = 0; c < numFC; c++) {
+			//m->texCoords[f * nFC + c]
             m->vTexCoords.emplace_back(s + incremento * c, t - incremento * f);
         }
     }
 
-    return m;*/
-		return nullptr;
+    return m;
 }
 
 
