@@ -7,11 +7,12 @@ using namespace glm;
 
 //-------------------------------------------------------------------------
 
-void Abs_Entity::upload(dmat4 const& modelViewMat) const 
+void Abs_Entity::upload(dmat4 const& modelViewMat) const
 { 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd(value_ptr(modelViewMat));  // transfers modelView matrix to the GPU
 }
+
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 
@@ -350,12 +351,12 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const {
 	upload(aMat);
 	// Aquí se puede fijar el color de la esfera así:
 	glEnable(GL_COLOR_MATERIAL);
-	glColor3f(0.0, 0.21, 0.45);
+	glColor3f(0.0f, 0.21f, 0.45f);
 	// Aquí se puede fijar el modo de dibujar la esfera:
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluSphere(q, r, 50, 50);
 	// Aquí se debe recuperar el color:
-	glColor3f(1.0, 1.0, 1.0);
+	glColor3f(1.0f, 1.0f, 1.0f);
 }
 
 //-------------------------------------------------------------------------
@@ -377,16 +378,12 @@ void Disk::render(glm::dmat4 const& modelViewMat) const {
 	upload(aMat);
 
 	if (mTexture != nullptr) {
-		glEnable(GL_BLEND);
 		gluQuadricTexture(q, GL_TRUE);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		mTexture->bind(GL_REPLACE);
 		gluQuadricDrawStyle(q, GLU_FILL); //
 		gluDisk(q, rInner, rOutter, slices, 200);
 		mTexture->unbind();
-		glClear(GL_DEPTH_BUFFER_BIT);
 		gluQuadricTexture(q, GL_FALSE);
-		glDisable(GL_BLEND);
 	}
 	else {
 		glEnable(GL_COLOR_MATERIAL);
@@ -414,7 +411,7 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const {
 AnilloCuadrado::AnilloCuadrado()
 {
 	inMesh = IndexMesh::generaAnilloCuadradoIndexado();
-	inMesh->buildNormalVectors();
+	//inMesh->buildNormalVectors();
 }
 
 AnilloCuadrado::~AnilloCuadrado()
@@ -431,6 +428,7 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 
 		glEnable(GL_COLOR_MATERIAL);
 		inMesh->render();
+		//glDisable(GL_COLOR_MATERIAL);
 	}
 }
 
@@ -439,7 +437,7 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 Cubo::Cubo(GLdouble l)
 {
 	inMesh = IndexMesh::generaCuboConTapasIndexado(l);
-	inMesh->buildNormalVectors();
+	//inMesh->buildNormalVectors();
 }
 
 Cubo::~Cubo()
@@ -456,6 +454,7 @@ void Cubo::render(glm::dmat4 const& modelViewMat) const
 
 		glEnable(GL_COLOR_MATERIAL);
 		inMesh->render();
+		//glDisable(GL_COLOR_MATERIAL);
 	}
 }
 
@@ -467,6 +466,17 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 	{
 		el->render(modelViewMat);
 	}
+
+	glDepthMask(GL_FALSE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	for (Abs_Entity* el : gBlendObjects)
+	{
+		el->render(modelViewMat);
+	}
+	//glClear(GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_BLEND);
+	glDepthMask(GL_TRUE);
 }
 
 //-------------------------------------------------------------------------
@@ -481,7 +491,7 @@ TIE::TIE(Texture* t)
 	mAux = translate(mAux, dvec3(-250, 0, 0));
 	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
 	wingL->setModelMat(mAux);
-	addEntity(wingL);
+	addBlendEntity(wingL);
 	wingL->setTexture(t);
 
 	Disk* wingR = new Disk(0.0, 200.0, 6.0);
@@ -489,7 +499,7 @@ TIE::TIE(Texture* t)
 	mAux = translate(mAux, dvec3(250, 0, 0));
 	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
 	wingR->setModelMat(mAux);
-	addEntity(wingR);
+	addBlendEntity(wingR);
 	wingR->setTexture(t);
 
 	// Core
@@ -525,8 +535,8 @@ TIE::TIE(Texture* t)
 
 //-------------------------------------------------------------------------
 
-Cono::Cono(GLdouble h, GLdouble r, GLuint n, bool renderType){
-	renderTy_ = renderType;
+Cono::Cono(GLdouble h, GLdouble r, GLuint n, bool fill){
+	renderTy_ = fill;
 	// h=altura del cono, r=radio de la base
     // n=número de muestras, m=número de puntos del perfil
     int m = 3;
@@ -558,24 +568,23 @@ void Cono::render(glm::dmat4 const& modelViewMat) const
 
 //-------------------------------------------------------------------------
 
-Esfera::Esfera(GLdouble r, GLuint p, GLuint m){
-	dvec3* perfil = new dvec3[p];
-	
-	Mesh* mesh = new Mesh();
+Esfera::Esfera(GLdouble r, GLuint p, GLuint m, bool fill) {
+	renderTy_ = fill;
+	glm::dvec3* perfil = new dvec3[p];
 
 	// construccion del circulo:
-	double ang = -90.0;
-	double inc = (180.0 / p);
-	for (uint i = 0; i < p; ++i)
+	double ang = 0.0;
+	double inc = 180.0 / (p - 1);
+
+	for (uint i = 0; i < p; i++)
 	{
 		double y = 0 + r * cos(radians(ang));
 		double x = 0 + r * sin(radians(ang));
 		ang = ang + inc;
-		perfil[i] = glm::dvec3(x, y, 0);
+		perfil[i] = glm::dvec3(x, -y, 0.0);
 	}
 
-	//this->mMesh = new MbR(m, p, perfil);
-	mMesh = MbR::generaIndexMeshByRevolution(m, p, perfil);
+	mMesh = MbR::generaIndexMeshByRevolution(p, m, perfil);
 }
 
 void Esfera::render(glm::dmat4 const& modelViewMat) const
@@ -586,21 +595,33 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 		
 		glEnable(GL_COLOR_MATERIAL);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glLineWidth(2);
+		if (!renderTy_) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glColor3f(0.0, 0.25, 0.42);
 
 		mMesh->render();
 
 		glColor3f(1.0, 1.0, 1.0);
-		glDisable(GL_COLOR_MATERIAL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glLineWidth(1);
+		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 
 //-------------------------------------------------------------------------
 
-Grid::Grid(GLdouble lado, GLuint nDiv)
+Grid::Grid(GLdouble lado, GLuint nDiv, bool fill, Texture* t)
 {
+	renderTy_ = fill;
+
+	if (t != nullptr) {
+		mMesh = MbR::generaGridTex(lado, nDiv);
+		mTexture = t;
+	}
+	else {
+		mMesh = MbR::generaGrid(lado, nDiv);
+	}
 }
 
 void Grid::render(glm::dmat4 const& modelViewMat) const
@@ -609,16 +630,94 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 
-		mTexture->bind(GL_REPLACE);
+		if (mTexture != nullptr) {
+			mTexture->bind(GL_REPLACE);
+		}
+		glEnable(GL_COLOR_MATERIAL);
+		glLineWidth(2);
+		if (!renderTy_) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glColor3f(0.0, 0.25, 0.42);
 
 		mMesh->render();
 
-		mTexture->unbind();
+		glColor3f(1.0, 1.0, 1.0);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glLineWidth(1);
+		glDisable(GL_COLOR_MATERIAL);
+		if (mTexture != nullptr) {
+			mTexture->unbind();
+		}
 	}
 }
 
 //-------------------------------------------------------------------------
 
-GridCube::GridCube(Texture* t)
+GridCube::GridCube(GLdouble lado, GLuint nDiv, bool fill, GLdouble scale)
 {
+	GLdouble L = lado * scale;		//40*5
+	GLuint nDiv_ = nDiv * scale;	//4*5
+
+	Texture* tex_ = new Texture();
+	tex_->load("..\\IG.01_app\\Bmps\\stones.bmp", 255);
+
+	Texture* tex2_ = new Texture();
+	tex2_->load("..\\IG.01_app\\Bmps\\checker.bmp", 255);
+	
+	addFloor(L, nDiv_, fill, tex2_, 0);
+	for (int i = 0; i < 4; i++) addWall(L, nDiv_, fill, tex_, i);
+	addFloor(L, nDiv_, fill, tex2_, L);
 }
+
+void GridCube::addFloor(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLuint height)
+{
+	glm::dmat4 mAux;
+	Grid* gr;
+	gr = new Grid(lado, nDiv, fill, tex);
+	mAux = gr->modelMat();
+	mAux = translate(mAux, dvec3(lado / 2, height, lado / 2));
+	gr->setModelMat(mAux);
+	gr->setTexture(tex);
+	if (tex->alpha() != 255) gBlendObjects.push_back(gr);
+	else gObjects.push_back(gr);
+}
+
+void GridCube::addWall(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLuint side)
+{
+	glm::dmat4 mAux;
+	Grid* gr;
+	gr = new Grid(lado, nDiv, fill, tex);
+	mAux = gr->modelMat();
+
+	switch (side)
+	{
+	case 0:	// plano ZY
+		mAux = translate(mAux, dvec3(0, lado / 2, lado / 2));
+		//mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 0.0, 1.0));
+		mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 1.0, 0.0));
+		mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0.0, 0.0));
+		break;
+	case 1:	// plano XY
+		mAux = translate(mAux, dvec3(lado / 2, lado / 2, 0));
+		mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		break;
+	case 2:	// paralelo al plano ZY
+		mAux = translate(mAux, dvec3(lado, lado / 2, lado / 2));
+		//mAux = rotate(mAux, radians(90.0), dvec3(0.0, 0.0, 1.0));
+		mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 1.0, 0.0));
+		mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0.0, 0.0));
+		break;
+	case 3:	// paralelo al plano XY
+		mAux = translate(mAux, dvec3(lado / 2, lado / 2, lado));
+		mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0.0, 0.0));
+		break;
+	default:
+		break;
+	}
+	
+	gr->setModelMat(mAux);
+	gr->setTexture(tex);
+	if (tex->alpha() != 255) gBlendObjects.push_back(gr);
+	else gObjects.push_back(gr);
+}
+

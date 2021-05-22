@@ -26,9 +26,12 @@ public:
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
 	void setColor(glm::dvec4 const& color) { mColor = color; };
 	void setTexture(Texture* tex) { mTexture = tex; };
-	void setTexture2(Texture* tex) { mTexture2 = tex; };
+	void setTexture2(Texture* tex) { mTexture2 = tex; };	
 	virtual void update() {};
+
+	GLuint alphaTex() { return mTexture->alpha(); };
 protected:
+	bool renderTy_; // false -> lines; true -> fill
 	Texture* mTexture = nullptr;
 	Texture* mTexture2 = nullptr;
 	Mesh* mMesh = nullptr;		// the mesh
@@ -188,7 +191,7 @@ protected:
 	GLdouble rBase;
 	GLdouble rTop;
 	GLdouble height;
-	GLdouble slices;
+	GLint slices;
 };
 
 inline Cylinder::Cylinder(GLdouble rrBase, GLdouble rrTop, GLdouble hheight, GLdouble sslices) {
@@ -208,7 +211,7 @@ public:
 protected:
 	GLdouble rInner;
 	GLdouble rOutter;
-	GLdouble slices;
+	GLint slices;
 };
 
 inline Disk::Disk(GLdouble rrInner, GLdouble rrOuter, GLdouble sslices) {
@@ -281,14 +284,23 @@ public:
 		{
 			delete el;  el = nullptr;
 		}
+		for (Abs_Entity* el : gBlendObjects)
+		{
+			delete el;  el = nullptr;
+		}
+		gBlendObjects.clear();
 		gObjects.clear();
 	};
 	void addEntity(Abs_Entity* ae) {
 		gObjects.push_back(ae);
 	};
+	void addBlendEntity(Abs_Entity* ae) {
+		gBlendObjects.push_back(ae);
+	};
 	void render(glm::dmat4 const& modelViewMat) const;
 protected:
-	std::vector<Abs_Entity*> gObjects;
+	std::vector<Abs_Entity*> gObjects;			// Entities (graphic objects) of the scene
+	std::vector<Abs_Entity*> gBlendObjects;		// (graphic objects) with Blend apply
 };
 
 //-------------------------------------------------------------------------
@@ -304,10 +316,8 @@ public:
 
 class Cono : public Abs_Entity
 {
-private:
-	bool renderTy_; // false -> lines; true -> fill
 public:
-	explicit Cono(GLdouble h, GLdouble r, GLuint n, bool renderType);
+	explicit Cono(GLdouble h, GLdouble r, GLuint n, bool fill);
 	virtual ~Cono() { delete mMesh; mMesh = nullptr; };
 	virtual void render(glm::dmat4 const& modelViewMat) const;	
 };
@@ -317,7 +327,7 @@ public:
 class Esfera : public Abs_Entity
 {
 public:
-	explicit Esfera(GLdouble r, GLuint p, GLuint m);
+	explicit Esfera(GLdouble r, GLuint p, GLuint m, bool fill);
 	virtual ~Esfera() {};
 	virtual void render(glm::dmat4 const& modelViewMat) const;	
 };
@@ -327,7 +337,7 @@ public:
 class Grid : public Abs_Entity
 {
 public:
-	explicit Grid(GLdouble lado, GLuint nDiv);
+	explicit Grid(GLdouble lado, GLuint nDiv, bool fill, Texture* t = nullptr);
 	virtual ~Grid() {};
 	virtual void render(glm::dmat4 const& modelViewMat) const;	
 };
@@ -337,8 +347,11 @@ public:
 class GridCube : public CompoundEntity
 {
 public:
-	explicit GridCube(Texture* t);
+	explicit GridCube(GLdouble lado, GLuint nDiv, bool fill, GLdouble scale);
 	virtual ~GridCube() {};
+private:
+	void addFloor(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLuint height);
+	void addWall(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLuint side);
 };
 
 //-------------------------------------------------------------------------
