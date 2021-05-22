@@ -372,7 +372,7 @@ void IG1App::motionCamera(Camera* cam, glm::dvec2 mp)
 			cam->orbit(mp.x * 0.25, mp.y + 0.25); // rotate move: orbit
 		}
 		else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
-			int k = glutGet(GLUT_WINDOW_HEIGHT) - mp.y;
+			int k = glutGet(GLUT_WINDOW_HEIGHT) - int(mp.y);
 			cam->orbitBalloon(mp.x * 0.25, k + 0.05); // rotate move: orbit en forma de globo, no funciona bien, no me ha dado tiempo (extra)
 		}
 	}

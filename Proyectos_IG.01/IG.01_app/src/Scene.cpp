@@ -63,21 +63,21 @@ void Scene::showScene_QuadricObjects()
 	Sphere* esfera = new Sphere(100.0);
 	gObjects.push_back(esfera);
 
-	Cylinder* cono = new Cylinder(50.0, 0, 100.0, 100.0);
+	Cylinder* cono = new Cylinder(50.0, 0, 100.0, 100);
 	glm::dmat4 mAux = cono->modelMat();
 	mAux = translate(mAux, dvec3(0, 85, 0));
 	mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
 	cono->setModelMat(mAux);
 	gObjects.push_back(cono);
 
-	Disk* disco = new Disk(100.0, 250.0, 10.0);
+	Disk* disco = new Disk(100.0, 250.0, 10);
 	mAux = disco->modelMat();
 	mAux = translate(mAux, dvec3(0, 250, 0));
 	mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
 	disco->setModelMat(mAux);
 	gObjects.push_back(disco);
 
-	PartialDisk* p_disco = new PartialDisk(100.0, 250.0, 10.0);
+	PartialDisk* p_disco = new PartialDisk(100.0, 250.0, 10);
 	mAux = p_disco->modelMat();
 	mAux = translate(mAux, dvec3(0, 120, 0));
 	mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
@@ -145,7 +145,7 @@ void Scene::showGrid()
 {
 	glm::dmat4 mAux;
 	GLdouble L = 40;
-	GLdouble scale = 5;
+	GLuint scale = 5;
 	gObjects.push_back(new EjesRGB(400.0));
 
 	//Grid* e = new Grid(40, 4, false); -> ejemplo base
@@ -160,7 +160,7 @@ void Scene::showGridCube()
 {
 	GLdouble L = 40;
 	GLuint nDiv = 4;
-	GLdouble scale = 5;
+	GLuint scale = 5;
 	gObjects.push_back(new EjesRGB(400.0));
 
 	GridCube* gr = new GridCube(L, nDiv, true, scale);
@@ -249,7 +249,7 @@ void Scene::free()
 void Scene::setGL() 
 {
 	// OpenGL basic setting
-	glClearColor(0.7, 0.8, 0.9, 1.0);  // background color (alpha=1 -> opaque)
+	glClearColor(0.7f, 0.8f, 0.9f, 1.0f);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test
 	glEnable(GL_TEXTURE_2D);
 

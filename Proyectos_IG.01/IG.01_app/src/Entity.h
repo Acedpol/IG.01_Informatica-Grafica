@@ -185,7 +185,7 @@ inline Sphere::Sphere(GLdouble rr) {
 class Cylinder : public QuadricEntity
 {
 public:
-	Cylinder(GLdouble rBase, GLdouble rTop, GLdouble height, GLdouble slices); // r es el radio de la esfera 
+	Cylinder(GLdouble rBase, GLdouble rTop, GLdouble height, GLint slices); // r es el radio de la esfera 
 	void render(glm::dmat4 const& modelViewMat) const;
 protected:
 	GLdouble rBase;
@@ -194,7 +194,7 @@ protected:
 	GLint slices;
 };
 
-inline Cylinder::Cylinder(GLdouble rrBase, GLdouble rrTop, GLdouble hheight, GLdouble sslices) {
+inline Cylinder::Cylinder(GLdouble rrBase, GLdouble rrTop, GLdouble hheight, GLint sslices) {
 	rBase = rrBase;
 	rTop = rrTop;
 	height = hheight;
@@ -206,7 +206,7 @@ inline Cylinder::Cylinder(GLdouble rrBase, GLdouble rrTop, GLdouble hheight, GLd
 class Disk : public QuadricEntity
 {
 public:
-	Disk(GLdouble rInner, GLdouble rOutter, GLdouble slices); // r es el radio de la esfera 
+	Disk(GLdouble rInner, GLdouble rOutter, GLint slices); // r es el radio de la esfera 
 	void render(glm::dmat4 const& modelViewMat) const;
 protected:
 	GLdouble rInner;
@@ -214,7 +214,7 @@ protected:
 	GLint slices;
 };
 
-inline Disk::Disk(GLdouble rrInner, GLdouble rrOuter, GLdouble sslices) {
+inline Disk::Disk(GLdouble rrInner, GLdouble rrOuter, GLint sslices) {
 	rInner = rrInner;
 	rOutter = rrOuter;
 	slices = sslices;
@@ -225,15 +225,15 @@ inline Disk::Disk(GLdouble rrInner, GLdouble rrOuter, GLdouble sslices) {
 class PartialDisk : public QuadricEntity
 {
 public:
-	PartialDisk(GLdouble rInner, GLdouble rOutter, GLdouble slices); // r es el radio de la esfera 
+	PartialDisk(GLdouble rInner, GLdouble rOutter, GLint slices); // r es el radio de la esfera 
 	void render(glm::dmat4 const& modelViewMat) const;
 protected:
 	GLdouble rInner;
 	GLdouble rOutter;
-	GLdouble slices;
+	GLint slices;
 };
 
-inline PartialDisk::PartialDisk(GLdouble rrInner, GLdouble rrOuter, GLdouble sslices) {
+inline PartialDisk::PartialDisk(GLdouble rrInner, GLdouble rrOuter, GLint sslices) {
 	rInner = rrInner;
 	rOutter = rrOuter;
 	slices = sslices;
@@ -347,7 +347,7 @@ public:
 class GridCube : public CompoundEntity
 {
 public:
-	explicit GridCube(GLdouble lado, GLuint nDiv, bool fill, GLdouble scale);
+	explicit GridCube(GLdouble lado, GLuint nDiv, bool fill, GLuint scale);
 	virtual ~GridCube() {};
 private:
 	void addFloor(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLuint height);

@@ -365,10 +365,10 @@ void Cylinder::render(glm::dmat4 const& modelViewMat) const {
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
 	glEnable(GL_COLOR_MATERIAL);
-	glColor3f(0.0, 0.21, 0.45);
+	glColor3f(0.0f, 0.21f, 0.45f);
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluCylinder(q, rBase, rTop, height, slices, 2);
-	glColor3f(1.0, 1.0, 1.0);
+	glColor3f(1.0f, 1.0f, 1.0f);
 }
 
 //-------------------------------------------------------------------------
@@ -387,10 +387,10 @@ void Disk::render(glm::dmat4 const& modelViewMat) const {
 	}
 	else {
 		glEnable(GL_COLOR_MATERIAL);
-		glColor3f(0.0, 0.21, 0.45);
+		glColor3f(0.0f, 0.21f, 0.45f);
 		gluQuadricDrawStyle(q, GLU_FILL);
 		gluDisk(q, rInner, rOutter, slices, 200);
-		glColor3f(1.0, 1.0, 1.0);
+		glColor3f(1.0f, 1.0f, 1.0f);
 	}
 }
 
@@ -400,10 +400,10 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const {
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
 	glEnable(GL_COLOR_MATERIAL);
-	glColor3f(1.0, 1.0, 0.0);
+	glColor3f(1.0f, 1.0f, 0.0f);
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluPartialDisk(q, rInner, rOutter, slices, 10, 50.0, 90.0);
-	glColor3f(1.0, 1.0, 1.0);
+	glColor3f(1.0f, 1.0f, 1.0f);
 }
 
 //-------------------------------------------------------------------------
@@ -486,7 +486,7 @@ TIE::TIE(Texture* t)
 	glm::dmat4 mAux;
 
 	// Ambas alas
-	Disk* wingL = new Disk(0.0, 200.0, 6.0);
+	Disk* wingL = new Disk(0.0, 200.0, 6);
 	mAux = wingL->modelMat();
 	mAux = translate(mAux, dvec3(-250, 0, 0));
 	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
@@ -494,7 +494,7 @@ TIE::TIE(Texture* t)
 	addBlendEntity(wingL);
 	wingL->setTexture(t);
 
-	Disk* wingR = new Disk(0.0, 200.0, 6.0);
+	Disk* wingR = new Disk(0.0, 200.0, 6);
 	mAux = wingR->modelMat();
 	mAux = translate(mAux, dvec3(250, 0, 0));
 	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
@@ -507,7 +507,7 @@ TIE::TIE(Texture* t)
 	addEntity(core);
 
 	// Shaft
-	Cylinder* shaft = new Cylinder(50.0, 50.0, 500.0, 100.0);
+	Cylinder* shaft = new Cylinder(50.0, 50.0, 500.0, 100);
 	mAux = shaft->modelMat();
 	mAux = translate(mAux, dvec3(250, 0, 0));
 	mAux = rotate(mAux, radians(-90.0), dvec3(0, 1, 0));
@@ -516,14 +516,14 @@ TIE::TIE(Texture* t)
 
 	// Front
 	CompoundEntity* front = new CompoundEntity();
-	Cylinder* base = new Cylinder(75.0, 75.0, 100.0, 100.0);
+	Cylinder* base = new Cylinder(75.0, 75.0, 100.0, 100);
 	mAux = base->modelMat();
 	mAux = translate(mAux, dvec3(0, 0, 25));
 	mAux = rotate(mAux, radians(0.0), dvec3(0, 1, 0));
 	base->setModelMat(mAux);
 	front->addEntity(base);
 
-	Disk* tapa = new Disk(0.0, 75.0, 100.0);
+	Disk* tapa = new Disk(0.0, 75.0, 100);
 	mAux = tapa->modelMat();
 	mAux = translate(mAux, dvec3(0, 0, 120));
 	mAux = rotate(mAux, radians(0.0), dvec3(0, 1, 0));
@@ -556,11 +556,11 @@ void Cono::render(glm::dmat4 const& modelViewMat) const
 
 		glEnable(GL_COLOR_MATERIAL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glColor3f(0.0, 0.25, 0.42);
+		glColor3f(0.0f, 0.25f, 0.42f);
 
 		mMesh->render();
 
-		glColor3f(1.0, 1.0, 1.0);
+		glColor3f(1.0f, 1.0f, 1.0f);
 		glDisable(GL_COLOR_MATERIAL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
@@ -598,11 +598,11 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(2);
 		if (!renderTy_) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glColor3f(0.0, 0.25, 0.42);
+		glColor3f(0.0f, 0.25f, 0.42f);
 
 		mMesh->render();
 
-		glColor3f(1.0, 1.0, 1.0);
+		glColor3f(1.0f, 1.0f, 1.0f);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glLineWidth(1);
 		glDisable(GL_COLOR_MATERIAL);
@@ -637,11 +637,11 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(2);
 		if (!renderTy_) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glColor3f(0.0, 0.25, 0.42);
+		glColor3f(0.0f, 0.25f, 0.42f);
 
 		mMesh->render();
 
-		glColor3f(1.0, 1.0, 1.0);
+		glColor3f(1.0f, 1.0f, 1.0f);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glLineWidth(1);
 		glDisable(GL_COLOR_MATERIAL);
@@ -653,7 +653,7 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 
 //-------------------------------------------------------------------------
 
-GridCube::GridCube(GLdouble lado, GLuint nDiv, bool fill, GLdouble scale)
+GridCube::GridCube(GLdouble lado, GLuint nDiv, bool fill, GLuint scale)
 {
 	GLdouble L = lado * scale;		//40*5
 	GLuint nDiv_ = nDiv * scale;	//4*5
@@ -666,7 +666,7 @@ GridCube::GridCube(GLdouble lado, GLuint nDiv, bool fill, GLdouble scale)
 	
 	addFloor(L, nDiv_, fill, tex2_, 0);
 	for (int i = 0; i < 4; i++) addWall(L, nDiv_, fill, tex_, i);
-	addFloor(L, nDiv_, fill, tex2_, L);
+	addFloor(L, nDiv_, fill, tex2_, GLuint(L));
 }
 
 void GridCube::addFloor(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLuint height)
