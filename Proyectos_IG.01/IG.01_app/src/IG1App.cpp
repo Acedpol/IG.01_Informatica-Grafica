@@ -253,12 +253,15 @@ void IG1App::key(unsigned char key, int x, int y)
 		scene->changeScene(9);
 		cam->setOrtogonal();
 		break;
+	case '3':
+		scene->changeScene(int(key - '0'));
+		cam->set2D_front();
+		break;
 	case '8':
 	case '7':
 	case '6':
 	case '5':
 	case '4':
-	case '3':
 	case '2':
 	case '1':
 		scene->changeScene(int(key - '0'));

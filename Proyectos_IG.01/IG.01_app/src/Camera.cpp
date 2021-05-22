@@ -35,7 +35,7 @@ void Camera::setVM()
 
 void Camera::set2D_front() 
 {
-	mEye = dvec3(0, 0, 500);
+	mEye = dvec3(0, 0, 400);
 	mLook = dvec3(0, 0, 0);
 	mUp = dvec3(0, 1, 0);
 	setVM();
@@ -45,7 +45,7 @@ void Camera::set2D_front()
 
 void Camera::set3D() 
 {
-	mEye = dvec3(500, 500, 500);  
+	mEye = dvec3(400, 400, 400);  
 	mLook = dvec3(0, 10, 0);   
 	mUp = dvec3(0, 1, 0);
 	mAng = -45;
