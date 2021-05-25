@@ -26,6 +26,7 @@ private:
 	void showDoubleSpheres();
 	void showGrid();
 	void showGridCube();
+	void showTieWithPlanet();
 
 	void sceneDirLight(Camera const& cam) const;
 
