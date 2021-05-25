@@ -356,4 +356,14 @@ private:
 
 //-------------------------------------------------------------------------
 
+class EntityWithMaterial : public Abs_Entity {
+public:
+	EntityWithMaterial() : Abs_Entity() { };
+	virtual ~EntityWithMaterial() { };
+	void setMaterial(Material* matl) { material = matl; };
+protected:
+	Material* material = nullptr;
+};
+
+
 #endif //_H_Entities_H_

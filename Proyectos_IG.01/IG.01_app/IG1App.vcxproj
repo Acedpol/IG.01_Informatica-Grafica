@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Material.cpp" />
+    <ClCompile Include="src\Light.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\IG1App.cpp" />
@@ -30,6 +32,8 @@
     <ClCompile Include="src\Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Material.h" />
+    <ClInclude Include="src\Light.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\CheckML.h" />
     <ClInclude Include="src\Entity.h" />
