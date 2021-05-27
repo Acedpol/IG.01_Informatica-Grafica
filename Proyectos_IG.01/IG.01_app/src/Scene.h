@@ -59,7 +59,11 @@ public:
 	DirLight* g_DirLight() { return dirLight; };
 	PosLight* g_PosLight() { return posLight; };
 	SpotLight* g_SpotLight() { return spotLight; };
+	std::vector<Light*> g_Lights() { return lights; };
 	
+	void allLights_OFF();
+	void allLights_ON();
+
 	/*void setPosLight() {
 		posLight->setDiff({ 1,1,0,1 });
 		posLight->setPosDir({ 500,1000,0 });

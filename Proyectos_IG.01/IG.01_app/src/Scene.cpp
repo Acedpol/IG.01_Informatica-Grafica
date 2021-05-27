@@ -217,6 +217,10 @@ void Scene::init()
 	posLight = initPosLight();
 	spotLight = initSpotLight();
 
+	lights.push_back(dirLight);
+	lights.push_back(posLight);
+	lights.push_back(spotLight);
+
 	/*lights.push_back(initDirLight());
 	lights.push_back(initPosLight());*/
     // Textures
@@ -289,13 +293,32 @@ void Scene::free()
 	gBlendIndexObjects.clear();
 	gBlendObjects.clear();
 
-	delete dirLight; dirLight = nullptr;
+	//delete dirLight; dirLight = nullptr;
 	for (Light* li : lights)
 	{
 		delete li;  li = nullptr;
 	}
 	lights.clear();
 }
+
+//-------------------------------------------------------------------------
+
+void Scene::allLights_OFF()
+{
+	for (Light* li : lights)
+	{
+		li->disable();
+	}
+}
+
+void Scene::allLights_ON()
+{
+	for (Light* li : lights)
+	{
+		li->enable();
+	}
+}
+
 //-------------------------------------------------------------------------
 
 void Scene::setGL() 
@@ -330,15 +353,13 @@ PosLight* Scene::initPosLight()
 {
 	PosLight* li = new PosLight();
 	li->setDiff({ 1,1,0,1 });
-	li->setPosDir({ 500,1000,0 });
+	li->setPosDir({ 500,500,0 });
 	return li;
 }
 
 SpotLight* Scene::initSpotLight()
 {
-	SpotLight* li = new SpotLight({ 0,0,100 });
-	li->setDiff({ 0,1,1,1 });
-	//li->setPosDir({ 0,0,-100 });
+	SpotLight* li = new SpotLight({ 0,0,500 });
 	return li;
 }
 
@@ -350,6 +371,7 @@ void Scene::render(Camera const& cam) const
 	glEnable(GL_LIGHTING);
 	dirLight->upload(cam.viewMat());
 	posLight->upload(cam.viewMat());
+	spotLight->upload(cam.viewMat());
 	/*for (Light* li : lights)
 	{
 		li->upload(cam.viewMat());

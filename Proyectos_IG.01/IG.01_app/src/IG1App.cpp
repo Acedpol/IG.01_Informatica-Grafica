@@ -214,6 +214,7 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'p':
 		cam->changePrj();
 		break;
+	//-------------------------------------------------------------------------
 	case 'q':
 		mScene->g_DirLight()->enable();
 		break;
@@ -233,6 +234,13 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'x':
 		mScene->g_SpotLight()->disable();
 		break;
+	case 'e':
+		mScene->allLights_ON();
+		break;
+	case 'r':
+		mScene->allLights_OFF();
+		break;
+	//-------------------------------------------------------------------------
 	case 'k':
 		m2Vistas = !m2Vistas;
 		if (!m2Vistas && m2Escenas) disableDoubleScene();
@@ -255,9 +263,9 @@ void IG1App::key(unsigned char key, int x, int y)
 			disableDoubleScene();
 		}
 		break;
-	case 'r':
+	/*case 'r':
 		s_resize(400, 200);
-		break;
+		break;*/
 	case 'u':
 		movement = !movement;
 		break;
