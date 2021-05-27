@@ -16,14 +16,20 @@ protected:
 	// Añade setter’s para cambiar el valor de los atributos lumínicos
 public:
 	Light();
-	virtual ~Light() { disable(); }
-	virtual void uploadL();
+	virtual ~Light() { disable(); cont--; }
+	void uploadL() const;
 	// Método abstracto
 	virtual void upload(glm::dmat4 const& modelViewMat) const = 0;
 
 	void disable() { if (id < GL_LIGHT0 + GL_MAX_LIGHTS) glDisable(id); };
 	void enable() { if (id < GL_LIGHT0 + GL_MAX_LIGHTS) glEnable(id); };
-	void setAmb(glm::fvec4 amb) { ambient = amb; uploadL(); }; //setDiff(), setSpec()
+
+	void setAmb(glm::fvec4 amb) { ambient = amb; uploadL(); };
+	void setDiff(glm::fvec4 diff) { diffuse = diff; uploadL(); };
+	void setSpec(glm::fvec4 spec) { specular = spec; uploadL(); };
+
+	
+
 };
 
 //--------------------------------------------------------

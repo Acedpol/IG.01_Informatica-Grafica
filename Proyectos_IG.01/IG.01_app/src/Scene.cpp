@@ -94,12 +94,13 @@ void Scene::showScene_imperialTIE()
 	gTextures.push_back(t);
 
 	TIE* tie = new TIE(t);
+	//tie->setModelMat(rotate(tie->modelMat(), radians(-90.0), dvec3(1, 0, 0)));
 	gObjects.push_back(tie);
 
-	glm::dmat4 mAux = tie->modelMat();
-	mAux = translate(mAux, dvec3(0, -500, 0));
-	//mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
-	tie->setModelMat(mAux);
+	//glm::dmat4 mAux = tie->modelMat();
+	//mAux = translate(mAux, dvec3(0, -500, 0));
+	////mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
+	//tie->setModelMat(mAux);
 }
 
 void Scene::showAnilloCuadrado()
@@ -212,7 +213,14 @@ void Scene::init()
 	
 	// allocate memory and load resources
     // Lights
+	dirLight = initDirLight();
+	posLight = initPosLight();
+	spotLight = initSpotLight();
+
+	/*lights.push_back(initDirLight());
+	lights.push_back(initPosLight());*/
     // Textures
+
 
 	// Graphics objects (entities) of the scene
 	// el cambio de camara se hace en "void IG1App::key(unsigned char key, int x, int y)"
@@ -228,7 +236,7 @@ void Scene::init()
 	else if (mId == 7) {	// QuadricObjets -> la malla se contruye directamente cuando se dibuja
 		showScene_QuadricObjects();
 	}
-	else if (mId == 6) {	// Cono formadas con malla por revolución
+	else if (mId == 6) {	// Familia feliz de TIE's
 		showTieWithPlanet();
 	}
 	else if (mId == 5) {	// Cubo formado por Grid
@@ -280,6 +288,13 @@ void Scene::free()
 
 	gBlendIndexObjects.clear();
 	gBlendObjects.clear();
+
+	delete dirLight; dirLight = nullptr;
+	for (Light* li : lights)
+	{
+		delete li;  li = nullptr;
+	}
+	lights.clear();
 }
 //-------------------------------------------------------------------------
 
@@ -301,11 +316,46 @@ void Scene::resetGL()
 	glDisable(GL_TEXTURE_2D);
 }
 
+DirLight* Scene::initDirLight()
+{
+	DirLight* li = new DirLight();
+	li->setAmb({ 0,0,0,1 });
+	li->setDiff({ 1,1,1,1 });
+	li->setSpec({ 0.5,0.5,0.5,1 });
+	li->setPosDir({ 1,1,1 });
+	return li;
+}
+
+PosLight* Scene::initPosLight()
+{
+	PosLight* li = new PosLight();
+	li->setDiff({ 1,1,0,1 });
+	li->setPosDir({ 500,1000,0 });
+	return li;
+}
+
+SpotLight* Scene::initSpotLight()
+{
+	SpotLight* li = new SpotLight({ 0,0,100 });
+	li->setDiff({ 0,1,1,1 });
+	//li->setPosDir({ 0,0,-100 });
+	return li;
+}
+
 //-------------------------------------------------------------------------
 
 void Scene::render(Camera const& cam) const 
 {
-	sceneDirLight(cam); // luces activadas!
+	// upload de todas las luces
+	glEnable(GL_LIGHTING);
+	dirLight->upload(cam.viewMat());
+	posLight->upload(cam.viewMat());
+	/*for (Light* li : lights)
+	{
+		li->upload(cam.viewMat());
+	}*/
+
+	//sceneDirLight(cam); // luces activadas!
 	cam.upload();
 
 	for (Abs_Entity* el : gObjects)
@@ -330,7 +380,6 @@ void Scene::render(Camera const& cam) const
 	//glClear(GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_BLEND);
 	glDepthMask(GL_TRUE);
-
 	
 }
 
@@ -414,5 +463,11 @@ void Scene::addIndexObject(EntityWithIndexMesh* in)
 {
 	if (in->alphaTex() != 255) gBlendIndexObjects.push_back(in);
 	else gIndexObjects.push_back(in);
+}
+
+// crea todas las luces
+void Scene::setLights()
+{
+
 }
 

@@ -331,6 +331,7 @@ class EntityWithMaterial : public Abs_Entity {
 public:
 	EntityWithMaterial() : Abs_Entity() {};
 	virtual ~EntityWithMaterial() {};
+	virtual void render(glm::dmat4 const& modelViewMat) const;
 	void setMaterial(Material* matl) { material = matl; };
 protected:
 	Material* material = nullptr;

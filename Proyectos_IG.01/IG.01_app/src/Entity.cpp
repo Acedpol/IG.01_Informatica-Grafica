@@ -379,7 +379,7 @@ void Disk::render(glm::dmat4 const& modelViewMat) const {
 
 	if (mTexture != nullptr) {
 		gluQuadricTexture(q, GL_TRUE);
-		mTexture->bind(GL_REPLACE);
+		mTexture->bind(GL_MODULATE); //
 		gluQuadricDrawStyle(q, GLU_FILL); //
 		gluDisk(q, rInner, rOutter, slices, 200);
 		mTexture->unbind();
@@ -462,9 +462,12 @@ void Cubo::render(glm::dmat4 const& modelViewMat) const
 
 void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 {
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+
 	for (Abs_Entity* el : gObjects)
 	{
-		el->render(modelViewMat);
+		el->render(aMat);
 	}
 
 	glDepthMask(GL_FALSE);
@@ -472,7 +475,7 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	for (Abs_Entity* el : gBlendObjects)
 	{
-		el->render(modelViewMat);
+		el->render(aMat);
 	}
 	//glClear(GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_BLEND);
@@ -725,3 +728,29 @@ void GridCube::addWall(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLui
 	else gObjects.push_back(gr);
 }
 
+void EntityWithMaterial::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+
+		if (mTexture != nullptr) {
+			mTexture->bind(GL_REPLACE);
+		}
+		glEnable(GL_COLOR_MATERIAL);
+		glLineWidth(2);
+		if (!renderTy_) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glColor3f(0.0f, 0.25f, 0.42f);
+
+		mMesh->render();
+
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glLineWidth(1);
+		glDisable(GL_COLOR_MATERIAL);
+		if (mTexture != nullptr) {
+			mTexture->unbind();
+		}
+	}
+}

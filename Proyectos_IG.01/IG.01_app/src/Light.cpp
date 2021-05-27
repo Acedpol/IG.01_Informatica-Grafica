@@ -11,7 +11,7 @@ Light::Light() {
 		glEnable(id);
 	}
 };
-void Light::uploadL() {
+void Light::uploadL() const {
 	// Transfiere las características de la luz a la GPU
 	glLightfv(id, GL_AMBIENT, value_ptr(ambient));
 	glLightfv(id, GL_DIFFUSE, value_ptr(diffuse));
@@ -24,7 +24,7 @@ void DirLight::upload(glm::dmat4 const& modelViewMat) const {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd(value_ptr(modelViewMat));
 	glLightfv(id, GL_POSITION, value_ptr(posDir));
-	//uploadL();
+	uploadL();
 }
 
 // Ojo al 0.0 que determina que la luz sea remota
@@ -42,7 +42,7 @@ void PosLight::upload(glm::dmat4 const& modelViewMat) const {
 	glLightf(id, GL_CONSTANT_ATTENUATION, kc);
 	glLightf(id, GL_LINEAR_ATTENUATION, kl);
 	glLightf(id, GL_QUADRATIC_ATTENUATION, kq);
-	//uploadL();
+	uploadL();
 }
 
 // Ojo al 1.0 que determina que la luz sea local

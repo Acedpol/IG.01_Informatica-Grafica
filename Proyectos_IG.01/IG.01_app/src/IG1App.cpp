@@ -215,7 +215,23 @@ void IG1App::key(unsigned char key, int x, int y)
 		cam->changePrj();
 		break;
 	case 'q':
-		cam->orbit(1.0, 1.0);
+		mScene->g_DirLight()->enable();
+		break;
+	case 'w':
+		//cam->orbit(1.0, 1.0);
+		mScene->g_DirLight()->disable();
+		break;
+	case 'a':
+		mScene->g_PosLight()->enable();
+		break;
+	case 's':
+		mScene->g_PosLight()->disable();
+		break;
+	case 'z':
+		mScene->g_SpotLight()->enable();
+		break;
+	case 'x':
+		mScene->g_SpotLight()->disable();
 		break;
 	case 'k':
 		m2Vistas = !m2Vistas;

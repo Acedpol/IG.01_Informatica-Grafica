@@ -7,6 +7,7 @@
 
 #include "Camera.h"
 #include "Entity.h"
+#include "Light.h"
 
 
 #include <vector>
@@ -37,6 +38,8 @@ private:
 	void addObject(Abs_Entity* en);
 	void addIndexObject(EntityWithIndexMesh* in);
 
+	void setLights();
+
 public:
 	Scene() {};
 	~Scene() { free(); resetGL(); }; // al borrar la segunda escena se hacía reseteo y ponía GLColor (global) a color blanco (por defecto)
@@ -52,16 +55,34 @@ public:
 	void changeScene(int id);
 	
 	void free(); // ahora es público para poder vaciar la memoria de la segunda escena
+
+	DirLight* g_DirLight() { return dirLight; };
+	PosLight* g_PosLight() { return posLight; };
+	SpotLight* g_SpotLight() { return spotLight; };
 	
+	/*void setPosLight() {
+		posLight->setDiff({ 1,1,0,1 });
+		posLight->setPosDir({ 500,1000,0 });
+	};*/
+
 protected:
 	void setGL();
 	void resetGL();
 	int mId = 1; //
+	DirLight* dirLight = nullptr;
+	PosLight* posLight = nullptr;
+	SpotLight* spotLight = nullptr;
+	std::vector<Light*> lights;
 	std::vector<Texture*> gTextures;
 	std::vector<Abs_Entity*> gObjects;					// Entities (graphic objects) of the scene (opacos)
 	std::vector<Abs_Entity*> gBlendObjects;				// Entities (graphic objects) of the scene (translúcidos)
 	std::vector<EntityWithIndexMesh*> gIndexObjects;		// los objetos de EntityWithIndexMesh (opacos)
 	std::vector<EntityWithIndexMesh*> gBlendIndexObjects;	// los objetos de EntityWithIndexMesh (translúcidos)
+
+private:
+	DirLight* initDirLight();
+	PosLight* initPosLight();
+	SpotLight* initSpotLight();
 };
 //-------------------------------------------------------------------------
 
