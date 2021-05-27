@@ -214,6 +214,12 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'p':
 		cam->changePrj();
 		break;
+	case 'c':
+		cam->moveFB(500);
+		break;
+	case 'v':
+		cam->moveFB(-500);
+		break;
 	//-------------------------------------------------------------------------
 	case 'q':
 		mScene->g_DirLight()->enable();
@@ -289,7 +295,7 @@ void IG1App::key(unsigned char key, int x, int y)
 	case '2':
 	case '1':
 		scene->changeScene(int(key - '0'));
-		cam->setPerspective();
+		cam->setPerspective();		
 		break;
 	default:
 		need_redisplay = false;

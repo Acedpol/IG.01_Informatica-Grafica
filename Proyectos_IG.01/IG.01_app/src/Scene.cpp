@@ -175,7 +175,6 @@ void Scene::showGridCube()
 
 //-------------------------------------------------------------------------
 
-
 void Scene::showTieWithPlanet() {
 	glm::dmat4 mAux;
 	gObjects.push_back(new EjesRGB(400.0));
@@ -184,26 +183,20 @@ void Scene::showTieWithPlanet() {
 	t->load("..\\IG.01_app\\Bmps\\noche.bmp", 200);
 	gTextures.push_back(t);
 
-	TIE* tie1 = new TIE(t);
-	gObjects.push_back(tie1);
-	TIE* tie2 = new TIE(t);
-	mAux = tie2->modelMat();
-	mAux = translate(mAux, dvec3(200, 100, 0));
-	mAux = scale(mAux, dvec3(0.3, 0.3, 0.3));
-	tie2->setModelMat(mAux);
-	gObjects.push_back(tie2);
+	familyTIE* fam = new familyTIE(t);
+	mAux = fam->modelMat();
+	mAux = translate(mAux, dvec3(0, 520, 520));
+	fam->setModelMat(mAux);
+	gObjects.push_back(fam);
 
-	TIE* tie3 = new TIE(t);
-	mAux = tie3->modelMat();
-	mAux = translate(mAux, dvec3(-200, 100, 0));
-	mAux = scale(mAux, dvec3(0.3, 0.3, 0.3));
-	tie3->setModelMat(mAux);
-	gObjects.push_back(tie3);
-
-	Esfera* e = new Esfera(100, 21, 20, true);
-	mAux = e->modelMat();
+	Esfera* e = new Esfera(500, 100, 100, true);
+	/*mAux = e->modelMat();
 	mAux = translate(mAux, dvec3(0, -100, 0));
-	e->setModelMat(mAux);
+	e->setModelMat(mAux);*/
+
+	Material* m = new Material();
+	m->setBrass();
+	e->setMaterial(m);
 	gObjects.push_back(e);
 }
 
@@ -241,6 +234,7 @@ void Scene::init()
 		showScene_QuadricObjects();
 	}
 	else if (mId == 6) {	// Familia feliz de TIE's
+		//showCono();
 		showTieWithPlanet();
 	}
 	else if (mId == 5) {	// Cubo formado por Grid

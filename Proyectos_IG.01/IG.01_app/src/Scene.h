@@ -72,7 +72,7 @@ public:
 protected:
 	void setGL();
 	void resetGL();
-	int mId = 1; //
+	int mId = 6; //
 	DirLight* dirLight = nullptr;
 	PosLight* posLight = nullptr;
 	SpotLight* spotLight = nullptr;

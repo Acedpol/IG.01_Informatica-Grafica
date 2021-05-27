@@ -754,3 +754,38 @@ void EntityWithMaterial::render(glm::dmat4 const& modelViewMat) const
 		}
 	}
 }
+
+//-------------------------------------------------------------------------
+
+familyTIE::familyTIE(Texture* t)
+{
+	glm::dmat4 mAux;
+
+	TIE* tie1 = new TIE(t);
+	gObjects.push_back(tie1);
+	family.push_back(tie1);
+	TIE* tie2 = new TIE(t);
+	mAux = tie2->modelMat();
+	mAux = translate(mAux, dvec3(200, 100, 0));
+	mAux = scale(mAux, dvec3(0.3, 0.3, 0.3));
+	tie2->setModelMat(mAux);
+	gObjects.push_back(tie2);
+	family.push_back(tie2);
+
+	TIE* tie3 = new TIE(t);
+	mAux = tie3->modelMat();
+	mAux = translate(mAux, dvec3(-200, 100, 0));
+	mAux = scale(mAux, dvec3(0.3, 0.3, 0.3));
+	tie3->setModelMat(mAux);
+	gObjects.push_back(tie3);
+	family.push_back(tie3);
+}
+
+//familyTIE::~familyTIE()
+//{
+//	for (TIE* tie : family)
+//	{
+//		delete tie;  tie = nullptr;
+//	}
+//	family.clear();
+//}

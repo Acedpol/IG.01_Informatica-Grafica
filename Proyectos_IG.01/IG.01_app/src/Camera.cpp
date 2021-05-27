@@ -142,12 +142,14 @@ void Camera::setPerspective()
 
 //--- Move Eye -------------------------------------------------------------
 
+// zoom (out/in)
 void Camera::moveFB(GLdouble cs) // mFront = eje N
 {
 	mEye += -mFront * cs; 
 	setVM(); 
 }
 
+// eje horizontal
 void Camera::moveLR(GLdouble cs) // mRight = eje U
 {
 	mEye += mRight * -cs; 
@@ -155,6 +157,7 @@ void Camera::moveLR(GLdouble cs) // mRight = eje U
 	setVM();
 }
 
+// eje vertical
 void Camera::moveUD(GLdouble cs) // mUpward = eje V
 {
 	mEye += mUpward * cs; 

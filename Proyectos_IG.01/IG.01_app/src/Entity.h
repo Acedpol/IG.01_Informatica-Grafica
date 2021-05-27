@@ -317,6 +317,17 @@ public:
 
 //-------------------------------------------------------------------------
 
+class familyTIE : public CompoundEntity
+{
+private:
+	std::vector<TIE*> family;
+public:
+	familyTIE(Texture* t);
+	virtual ~familyTIE() {};
+};
+
+//-------------------------------------------------------------------------
+
 class Cono : public Abs_Entity
 {
 public:

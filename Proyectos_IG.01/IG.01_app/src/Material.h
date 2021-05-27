@@ -17,4 +17,5 @@ public:
 	virtual ~Material() {};
 	virtual void upload();
 	void setCopper();
+	void setBrass();
 };

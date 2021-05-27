@@ -15,3 +15,11 @@ void Material::setCopper() {
 	specular = { 0.256777, 0.137622, 0.086014, 1 };
 	expF = 12.8;
 }
+
+void Material::setBrass()
+{
+	ambient = { 0.329412, 0.223529, 0.027451, 1 };
+	diffuse = { 0.780392, 0.568627, 0.113725, 1 };
+	specular = { 0.992157, 0.941176, 0.807843, 1 };
+	expF = 27.8974;
+}
