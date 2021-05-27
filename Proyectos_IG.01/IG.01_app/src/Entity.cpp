@@ -531,11 +531,13 @@ TIE::TIE(Texture* t)
 	front->addEntity(tapa);
 	
 	addEntity(front);
+
+
 }
 
 //-------------------------------------------------------------------------
 
-Cono::Cono(GLdouble h, GLdouble r, GLuint n, bool fill){
+Cono::Cono(GLdouble h, GLdouble r, GLuint n, bool fill) {
 	renderTy_ = fill;
 	// h=altura del cono, r=radio de la base
     // n=número de muestras, m=número de puntos del perfil
@@ -591,21 +593,23 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		
+		if (material != nullptr){
+			material->upload();
+		}
+		else{
+			glEnable(GL_COLOR_MATERIAL);
+			glColor3f(mColor.r, mColor.g, mColor.b);
+		}
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		
-		glEnable(GL_COLOR_MATERIAL);
-		glLineWidth(2);
-		if (!renderTy_) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glColor3f(0.0f, 0.25f, 0.42f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		mMesh->render();
+		if(material==nullptr){
+			glColor3f(1.0f, 1.0f, 1.0f);
+			glDisable(GL_COLOR_MATERIAL);
+		}
 
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glLineWidth(1);
-		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 

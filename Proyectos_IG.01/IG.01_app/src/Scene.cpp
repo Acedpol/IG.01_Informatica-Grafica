@@ -95,6 +95,11 @@ void Scene::showScene_imperialTIE()
 
 	TIE* tie = new TIE(t);
 	gObjects.push_back(tie);
+
+	glm::dmat4 mAux = tie->modelMat();
+	mAux = translate(mAux, dvec3(0, -500, 0));
+	//mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
+	tie->setModelMat(mAux);
 }
 
 void Scene::showAnilloCuadrado()

@@ -56,7 +56,7 @@ public:
 protected:
 	void setGL();
 	void resetGL();
-	int mId = 5; //
+	int mId = 1; //
 	std::vector<Texture*> gTextures;
 	std::vector<Abs_Entity*> gObjects;					// Entities (graphic objects) of the scene (opacos)
 	std::vector<Abs_Entity*> gBlendObjects;				// Entities (graphic objects) of the scene (translúcidos)
