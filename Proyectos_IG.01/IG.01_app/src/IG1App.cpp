@@ -220,6 +220,12 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'v':
 		cam->moveFB(-500);
 		break;
+	case 't':
+		mScene->TIEsLightsOn();
+		break;
+	case 'g':
+		mScene->TIEsLightsOff();
+		break;
 	//-------------------------------------------------------------------------
 	case 'q':
 		mScene->g_DirLight()->enable();

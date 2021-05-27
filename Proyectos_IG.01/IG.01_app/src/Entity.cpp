@@ -507,6 +507,8 @@ TIE::TIE(Texture* t)
 
 	// Core
 	Sphere* core = new Sphere(100.0);
+	light = new SpotLight({ 0,-50,0 });
+	light->setSpot({ 0,-1,0 }, 120,20);
 	addEntity(core);
 
 	// Shaft
@@ -757,29 +759,76 @@ void EntityWithMaterial::render(glm::dmat4 const& modelViewMat) const
 
 //-------------------------------------------------------------------------
 
-familyTIE::familyTIE(Texture* t)
+TIE* familyTIE::newTIE(Texture* t, int x, int z)
 {
 	glm::dmat4 mAux;
 
-	TIE* tie1 = new TIE(t);
-	gObjects.push_back(tie1);
-	family.push_back(tie1);
-	TIE* tie2 = new TIE(t);
-	mAux = tie2->modelMat();
-	mAux = translate(mAux, dvec3(200, 100, 0));
-	mAux = scale(mAux, dvec3(0.3, 0.3, 0.3));
-	tie2->setModelMat(mAux);
-	gObjects.push_back(tie2);
-	family.push_back(tie2);
+	TIE* tie = new TIE(t);
 
-	TIE* tie3 = new TIE(t);
-	mAux = tie3->modelMat();
-	mAux = translate(mAux, dvec3(-200, 100, 0));
+	mAux = tie->modelMat();
+	mAux = translate(mAux, dvec3(x, 0, z));
 	mAux = scale(mAux, dvec3(0.3, 0.3, 0.3));
-	tie3->setModelMat(mAux);
-	gObjects.push_back(tie3);
-	family.push_back(tie3);
+	tie->setModelMat(mAux);
+
+	gObjects.push_back(tie);
+	family.push_back(tie);
+	lights.push_back(tie->getLight());
+
+	return tie;
 }
+
+familyTIE::familyTIE(Texture* t, bool mode)
+{
+	glm::dmat4 mAux;
+
+	if (mode) {
+		TIE* tie1 = new TIE(t);
+		gObjects.push_back(tie1);
+		family.push_back(tie1);
+		lights.push_back(tie1->getLight());
+
+		TIE* tie2 = new TIE(t);
+		mAux = tie2->modelMat();
+		mAux = translate(mAux, dvec3(200, 100, 0));
+		mAux = scale(mAux, dvec3(0.3, 0.3, 0.3));
+		tie2->setModelMat(mAux);
+		gObjects.push_back(tie2);
+		family.push_back(tie2);
+		lights.push_back(tie2->getLight());
+
+		TIE* tie3 = new TIE(t);
+		mAux = tie3->modelMat();
+		mAux = translate(mAux, dvec3(-200, 100, 0));
+		mAux = scale(mAux, dvec3(0.3, 0.3, 0.3));
+		tie3->setModelMat(mAux);
+		gObjects.push_back(tie3);
+		family.push_back(tie3);
+		lights.push_back(tie2->getLight());
+	}
+	else {
+		TIE* tie1 = newTIE(t, 0, 150);
+
+		TIE* tie2 = newTIE(t, 150, 0);
+
+		TIE* tie3 = newTIE(t, -150, 0);
+	}
+}
+
+//void familyTIE::TIEsLightsOn()
+//{
+//	for (Light* li : lights)
+//	{
+//		li->enable();
+//	}
+//}
+//
+//void familyTIE::TIEsLightsOff()
+//{
+//	for (Light* li : lights)
+//	{
+//		li->disable();
+//	}
+//}
 
 //familyTIE::~familyTIE()
 //{

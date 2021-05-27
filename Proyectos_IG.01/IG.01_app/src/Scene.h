@@ -64,6 +64,9 @@ public:
 	void allLights_OFF();
 	void allLights_ON();
 
+	void TIEsLightsOn();
+	void TIEsLightsOff();
+
 	/*void setPosLight() {
 		posLight->setDiff({ 1,1,0,1 });
 		posLight->setPosDir({ 500,1000,0 });

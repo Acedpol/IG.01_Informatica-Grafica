@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Material.h"
+#include "Light.h"
 
 
 
@@ -32,7 +33,10 @@ public:
 	void setTexture2(Texture* tex) { mTexture2 = tex; };	
 	virtual void update() {};
 
-	GLuint alphaTex() { return mTexture->alpha(); };
+	GLuint alphaTex() { 
+		if (mTexture != nullptr) return mTexture->alpha();
+		else return false;
+	};
 protected:
 	bool renderTy_; // false -> lines; true -> fill
 	Texture* mTexture = nullptr;
@@ -310,9 +314,13 @@ protected:
 
 class TIE : public CompoundEntity
 {
+private:
+	SpotLight* light;
 public:
 	TIE(Texture* t);
 	virtual ~TIE() {};
+
+	Light* getLight() { return light; };
 };
 
 //-------------------------------------------------------------------------
@@ -321,9 +329,23 @@ class familyTIE : public CompoundEntity
 {
 private:
 	std::vector<TIE*> family;
+	std::vector<Light*> lights;
+	TIE* newTIE(Texture* t, int x, int y);
 public:
-	familyTIE(Texture* t);
-	virtual ~familyTIE() {};
+	familyTIE(Texture* t, bool mode);
+	virtual ~familyTIE() {
+		for (Light* li : lights)
+		{
+			delete li; li = nullptr;
+		}
+		lights.clear();
+	};
+
+	/*void TIEsLightsOn(); 
+	void TIEsLightsOff();
+	void uploadLights();*/
+
+	std::vector<Light*> getLights() { return lights; };
 };
 
 //-------------------------------------------------------------------------

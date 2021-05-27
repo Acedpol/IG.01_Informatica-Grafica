@@ -183,21 +183,22 @@ void Scene::showTieWithPlanet() {
 	t->load("..\\IG.01_app\\Bmps\\noche.bmp", 200);
 	gTextures.push_back(t);
 
-	familyTIE* fam = new familyTIE(t);
+	familyTIE* fam = new familyTIE(t, false);
 	mAux = fam->modelMat();
-	mAux = translate(mAux, dvec3(0, 520, 520));
+	mAux = translate(mAux, dvec3(0, 40, 0));
 	fam->setModelMat(mAux);
-	gObjects.push_back(fam);
+	addObject(fam);
+	lights = fam->getLights();
 
-	Esfera* e = new Esfera(500, 100, 100, true);
-	/*mAux = e->modelMat();
-	mAux = translate(mAux, dvec3(0, -100, 0));
-	e->setModelMat(mAux);*/
+	Esfera* e = new Esfera(10000, 100, 100, true);
+	mAux = e->modelMat();
+	mAux = translate(mAux, dvec3(0, -10000, 0));
+	e->setModelMat(mAux);
 
 	Material* m = new Material();
 	m->setBrass();
 	e->setMaterial(m);
-	gObjects.push_back(e);
+	addObject(e);
 }
 
 void Scene::init()
@@ -287,7 +288,9 @@ void Scene::free()
 	gBlendIndexObjects.clear();
 	gBlendObjects.clear();
 
-	//delete dirLight; dirLight = nullptr;
+	delete dirLight; dirLight = nullptr;
+	delete posLight; posLight = nullptr;
+	delete spotLight; spotLight = nullptr;
 	for (Light* li : lights)
 	{
 		delete li;  li = nullptr;
@@ -299,6 +302,9 @@ void Scene::free()
 
 void Scene::allLights_OFF()
 {
+	dirLight->disable();
+	posLight->disable();
+	spotLight->disable();
 	for (Light* li : lights)
 	{
 		li->disable();
@@ -307,10 +313,41 @@ void Scene::allLights_OFF()
 
 void Scene::allLights_ON()
 {
+	dirLight->enable();
+	posLight->enable();
+	spotLight->enable();
 	for (Light* li : lights)
 	{
 		li->enable();
 	}
+}
+
+void Scene::TIEsLightsOn()
+{
+	for (Light* li : lights)
+	{
+		li->enable();
+	}
+	/*for (Abs_Entity* el : gObjects)
+	{
+		familyTIE* fam = dynamic_cast<familyTIE*>(el);
+		if (fam != nullptr)
+			fam->TIEsLightsOn();
+	}*/
+}
+
+void Scene::TIEsLightsOff()
+{
+	for (Light* li : lights)
+	{
+		li->disable();
+	}
+	/*for (Abs_Entity* el : gObjects)
+	{
+		familyTIE* fam = dynamic_cast<familyTIE*>(el);
+		if (fam != nullptr)
+			fam->TIEsLightsOff();
+	}*/
 }
 
 //-------------------------------------------------------------------------
@@ -366,10 +403,10 @@ void Scene::render(Camera const& cam) const
 	dirLight->upload(cam.viewMat());
 	posLight->upload(cam.viewMat());
 	spotLight->upload(cam.viewMat());
-	/*for (Light* li : lights)
+	for (Light* li : lights)
 	{
 		li->upload(cam.viewMat());
-	}*/
+	}
 
 	//sceneDirLight(cam); // luces activadas!
 	cam.upload();
