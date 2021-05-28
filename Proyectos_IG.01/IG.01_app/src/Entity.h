@@ -287,6 +287,11 @@ class CompoundEntity: public Abs_Entity
 public:
 	CompoundEntity() {};
 	virtual ~CompoundEntity() {
+		for (Light* li : lights)
+		{
+			delete li; li = nullptr;
+		}
+		lights.clear();
 		for (Abs_Entity* el : gObjects)
 		{
 			delete el;  el = nullptr;
@@ -305,9 +310,13 @@ public:
 		gBlendObjects.push_back(ae);
 	};
 	void render(glm::dmat4 const& modelViewMat) const;
+
+	std::vector<Light*> getLights() { return lights; };
+
 protected:
 	std::vector<Abs_Entity*> gObjects;			// Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gBlendObjects;		// (graphic objects) with Blend apply
+	std::vector<Light*> lights;
 };
 
 //-------------------------------------------------------------------------
@@ -317,10 +326,19 @@ class TIE : public CompoundEntity
 private:
 	SpotLight* light;
 public:
-	TIE(Texture* t);
+	TIE(Texture* t, bool scale);
 	virtual ~TIE() {};
 
 	Light* getLight() { return light; };
+	void setLight();
+
+	void render(glm::dmat4 const& modelViewMat) const {
+		CompoundEntity::render(modelViewMat);
+		if (light != nullptr) {
+			glm::dmat4 auxMat = modelViewMat * modelMat();
+			light->upload(auxMat);
+		}
+	};	
 };
 
 //-------------------------------------------------------------------------
@@ -328,24 +346,24 @@ public:
 class familyTIE : public CompoundEntity
 {
 private:
-	std::vector<TIE*> family;
-	std::vector<Light*> lights;
 	TIE* newTIE(Texture* t, int x, int y);
+	//double rot_orbit;	// angulo respecto al planeta
+	//double rot_squad;	// angulo del escuadron = direccion a la que se mueven
+	bool s_orbit;
+	bool s_turn;
 public:
 	familyTIE(Texture* t, bool mode);
-	virtual ~familyTIE() {
-		for (Light* li : lights)
-		{
-			delete li; li = nullptr;
-		}
-		lights.clear();
-	};
+	virtual ~familyTIE() {};
 
+	virtual void update();
+	void toggleOrbit() { s_orbit = !s_orbit; };
+	void toggleTurn() { s_turn = !s_turn; };
+	void orbit();
+	void rota();
 	/*void TIEsLightsOn(); 
 	void TIEsLightsOff();
 	void uploadLights();*/
 
-	std::vector<Light*> getLights() { return lights; };
 };
 
 //-------------------------------------------------------------------------

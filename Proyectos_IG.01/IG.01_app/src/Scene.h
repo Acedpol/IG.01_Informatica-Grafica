@@ -67,6 +67,10 @@ public:
 	void TIEsLightsOn();
 	void TIEsLightsOff();
 
+	void toggleSquadOrbit() { squadTIE->toggleOrbit(); };
+	void toggleSquadTurn() { squadTIE->toggleTurn(); };
+	void orbitSquad() { squadTIE->orbit(); };
+	void rotateSquad() { squadTIE->rota(); };
 	/*void setPosLight() {
 		posLight->setDiff({ 1,1,0,1 });
 		posLight->setPosDir({ 500,1000,0 });
@@ -75,7 +79,7 @@ public:
 protected:
 	void setGL();
 	void resetGL();
-	int mId = 6; //
+	int mId = 1; //
 	DirLight* dirLight = nullptr;
 	PosLight* posLight = nullptr;
 	SpotLight* spotLight = nullptr;
@@ -85,6 +89,8 @@ protected:
 	std::vector<Abs_Entity*> gBlendObjects;				// Entities (graphic objects) of the scene (translúcidos)
 	std::vector<EntityWithIndexMesh*> gIndexObjects;		// los objetos de EntityWithIndexMesh (opacos)
 	std::vector<EntityWithIndexMesh*> gBlendIndexObjects;	// los objetos de EntityWithIndexMesh (translúcidos)
+
+	familyTIE* squadTIE = nullptr;
 
 private:
 	DirLight* initDirLight();

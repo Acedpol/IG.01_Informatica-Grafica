@@ -93,7 +93,7 @@ void Scene::showScene_imperialTIE()
 	t->load("..\\IG.01_app\\Bmps\\noche.bmp", 200);
 	gTextures.push_back(t);
 
-	TIE* tie = new TIE(t);
+	TIE* tie = new TIE(t, false);
 	//tie->setModelMat(rotate(tie->modelMat(), radians(-90.0), dvec3(1, 0, 0)));
 	gObjects.push_back(tie);
 
@@ -134,9 +134,10 @@ void Scene::showDoubleSpheres()
 	glm::dmat4 mAux;
 	gObjects.push_back(new EjesRGB(400.0));
 
-	Esfera* e = new Esfera(100, 21, 20, true);
+	Esfera* e = new Esfera(100, 21, 20, false);
 	mAux = e->modelMat();
 	mAux = translate(mAux, dvec3(200, 100, 0));
+	e->setColor({ 0,0.25,0.45,1 });
 	e->setModelMat(mAux);
 	gObjects.push_back(e);
 
@@ -177,7 +178,23 @@ void Scene::showGridCube()
 
 void Scene::showTieWithPlanet() {
 	glm::dmat4 mAux;
-	gObjects.push_back(new EjesRGB(400.0));
+	gObjects.push_back(new EjesRGB(1200.0));
+
+	/*Esfera* e = new Esfera(100, 21, 20, false);
+	mAux = e->modelMat();
+	mAux = translate(mAux, dvec3(200, 100, 0));
+	e->setColor({ 0,0.25,0.45,1 });
+	e->setModelMat(mAux);
+	gObjects.push_back(e);*/
+
+	Esfera* e = new Esfera(500, 90, 180, true);
+	e->setColor({ 0,1,0,1 });
+
+	Material* m = new Material();
+	m->setBrass();
+	e->setMaterial(m);
+
+	gObjects.push_back(e);
 
 	Texture* t = new Texture();
 	t->load("..\\IG.01_app\\Bmps\\noche.bmp", 200);
@@ -185,20 +202,11 @@ void Scene::showTieWithPlanet() {
 
 	familyTIE* fam = new familyTIE(t, false);
 	mAux = fam->modelMat();
-	mAux = translate(mAux, dvec3(0, 40, 0));
+	mAux = translate(mAux, dvec3(0, 520, 0));
 	fam->setModelMat(mAux);
 	addObject(fam);
 	lights = fam->getLights();
-
-	Esfera* e = new Esfera(10000, 100, 100, true);
-	mAux = e->modelMat();
-	mAux = translate(mAux, dvec3(0, -10000, 0));
-	e->setModelMat(mAux);
-
-	Material* m = new Material();
-	m->setBrass();
-	e->setMaterial(m);
-	addObject(e);
+	squadTIE = fam;
 }
 
 void Scene::init()
@@ -211,9 +219,9 @@ void Scene::init()
 	posLight = initPosLight();
 	spotLight = initSpotLight();
 
-	lights.push_back(dirLight);
+	/*lights.push_back(dirLight);
 	lights.push_back(posLight);
-	lights.push_back(spotLight);
+	lights.push_back(spotLight);*/
 
 	/*lights.push_back(initDirLight());
 	lights.push_back(initPosLight());*/
@@ -291,11 +299,11 @@ void Scene::free()
 	delete dirLight; dirLight = nullptr;
 	delete posLight; posLight = nullptr;
 	delete spotLight; spotLight = nullptr;
-	for (Light* li : lights)
+	/*for (Light* li : lights)
 	{
 		delete li;  li = nullptr;
 	}
-	lights.clear();
+	lights.clear();*/
 }
 
 //-------------------------------------------------------------------------
@@ -355,10 +363,11 @@ void Scene::TIEsLightsOff()
 void Scene::setGL() 
 {
 	// OpenGL basic setting
-	glClearColor(0.7f, 0.8f, 0.9f, 1.0f);  // background color (alpha=1 -> opaque)
+	//glClearColor(0.7f, 0.8f, 0.9f, 1.0f);  // background color (alpha=1 -> opaque)
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test
 	glEnable(GL_TEXTURE_2D);
-
+	glEnable(GL_NORMALIZE);
 }
 
 //-------------------------------------------------------------------------
@@ -368,6 +377,7 @@ void Scene::resetGL()
 	glClearColor(.0, .0, .0, .0);  // background color (alpha=1 -> opaque)
 	glDisable(GL_DEPTH_TEST);  // disable Depth test 	
 	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_NORMALIZE);
 }
 
 DirLight* Scene::initDirLight()
@@ -390,7 +400,8 @@ PosLight* Scene::initPosLight()
 
 SpotLight* Scene::initSpotLight()
 {
-	SpotLight* li = new SpotLight({ 0,0,500 });
+	SpotLight* li = new SpotLight({ 0,0,1000 });
+	li->setSpot({ 0,0,-1 }, 10, 0);
 	return li;
 }
 
@@ -400,13 +411,14 @@ void Scene::render(Camera const& cam) const
 {
 	// upload de todas las luces
 	glEnable(GL_LIGHTING);
+	//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, default);
 	dirLight->upload(cam.viewMat());
 	posLight->upload(cam.viewMat());
 	spotLight->upload(cam.viewMat());
-	for (Light* li : lights)
+	/*for (Light* li : lights)
 	{
 		li->upload(cam.viewMat());
-	}
+	}*/
 
 	//sceneDirLight(cam); // luces activadas!
 	cam.upload();
@@ -443,6 +455,19 @@ void Scene::update()
 	for (Abs_Entity* el : gObjects)
 	{
 		el->update();
+	}
+
+	for (EntityWithIndexMesh* in : gIndexObjects) {
+		in->update();
+	}
+
+	for (Abs_Entity* el : gBlendObjects)
+	{
+		el->update();
+	}
+
+	for (EntityWithIndexMesh* in : gBlendIndexObjects) {
+		in->update();
 	}
 }
 

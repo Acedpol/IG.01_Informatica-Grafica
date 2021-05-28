@@ -33,9 +33,12 @@ void EjesRGB::render(dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
+
 		glLineWidth(2);
+		glEnable(GL_COLOR_MATERIAL);
 		mMesh->render();
 		glLineWidth(1);
+		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 
@@ -57,11 +60,14 @@ void Sierpinski::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
+
+		glEnable(GL_COLOR_MATERIAL);
 		glColor4dv(value_ptr(mColor));
 		glPointSize(2);
 		mMesh->render();
 		glColor4d( 1.0, 1.0, 1.0, 1.0 );
 		glPointSize(1);
+		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 
@@ -357,6 +363,7 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const {
 	gluSphere(q, r, 50, 50);
 	// Aquí se debe recuperar el color:
 	glColor3f(1.0f, 1.0f, 1.0f);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 //-------------------------------------------------------------------------
@@ -369,6 +376,7 @@ void Cylinder::render(glm::dmat4 const& modelViewMat) const {
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluCylinder(q, rBase, rTop, height, slices, 2);
 	glColor3f(1.0f, 1.0f, 1.0f);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 //-------------------------------------------------------------------------
@@ -391,6 +399,7 @@ void Disk::render(glm::dmat4 const& modelViewMat) const {
 		gluQuadricDrawStyle(q, GLU_FILL);
 		gluDisk(q, rInner, rOutter, slices, 200);
 		glColor3f(1.0f, 1.0f, 1.0f);
+		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 
@@ -404,6 +413,7 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const {
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluPartialDisk(q, rInner, rOutter, slices, 10, 50.0, 90.0);
 	glColor3f(1.0f, 1.0f, 1.0f);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 //-------------------------------------------------------------------------
@@ -427,8 +437,10 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 
 		glEnable(GL_COLOR_MATERIAL);
+		glColor3f(mColor.r, mColor.g, mColor.b);
 		inMesh->render();
-		//glDisable(GL_COLOR_MATERIAL);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 
@@ -454,7 +466,7 @@ void Cubo::render(glm::dmat4 const& modelViewMat) const
 
 		glEnable(GL_COLOR_MATERIAL);
 		inMesh->render();
-		//glDisable(GL_COLOR_MATERIAL);
+		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 
@@ -470,6 +482,14 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 		el->render(aMat);
 	}
 
+	/*if (!lights.empty()) {
+		for (Light* li : lights)
+		{
+			glm::dmat4 auxMat = modelViewMat * mModelMat;
+			li->upload(auxMat);
+		}
+	}*/
+
 	glDepthMask(GL_FALSE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -484,7 +504,7 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 
 //-------------------------------------------------------------------------
 
-TIE::TIE(Texture* t)
+TIE::TIE(Texture* t, bool SCALE)
 {
 	glm::dmat4 mAux;
 
@@ -507,8 +527,6 @@ TIE::TIE(Texture* t)
 
 	// Core
 	Sphere* core = new Sphere(100.0);
-	light = new SpotLight({ 0,-50,0 });
-	light->setSpot({ 0,-1,0 }, 120,20);
 	addEntity(core);
 
 	// Shaft
@@ -534,10 +552,29 @@ TIE::TIE(Texture* t)
 	mAux = rotate(mAux, radians(0.0), dvec3(0, 1, 0));
 	tapa->setModelMat(mAux);
 	front->addEntity(tapa);
-	
+
 	addEntity(front);
 
+	if (SCALE) {
+		mAux = modelMat();
+		mAux = scale(mAux, dvec3(0.1, 0.1, 0.1));
+		setModelMat(mAux);
+	}
 
+	// Light
+	setLight();
+}
+
+void TIE::setLight()
+{
+	light = new SpotLight();
+	light->setPosDir(dvec3(0.0, 0.0, 0.0));
+	light->setAmb(fvec4(0.0, 0.0, 0.0, 1.0));
+	light->setDiff(fvec4(1.0, 1.0, 1.0, 1.0));
+	light->setSpec(fvec4(0.5, 0.5, 0.5, 1.0));
+	light->setSpot(fvec3(0.0, -1.0, 0.0), 45.0, 0.2);
+	light->disable();
+	light->enable();
 }
 
 //-------------------------------------------------------------------------
@@ -597,20 +634,22 @@ Esfera::Esfera(GLdouble r, GLuint p, GLuint m, bool fill) {
 void Esfera::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
-		
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+
 		if (material != nullptr){
+			glShadeModel(GL_FLAT);
 			material->upload();
 		}
 		else{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glEnable(GL_COLOR_MATERIAL);
 			glColor3f(mColor.r, mColor.g, mColor.b);
-		}
-		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		upload(aMat);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}		
 
 		mMesh->render();
-		if(material==nullptr){
+
+		if (material==nullptr) {
 			glColor3f(1.0f, 1.0f, 1.0f);
 			glDisable(GL_COLOR_MATERIAL);
 		}
@@ -763,15 +802,14 @@ TIE* familyTIE::newTIE(Texture* t, int x, int z)
 {
 	glm::dmat4 mAux;
 
-	TIE* tie = new TIE(t);
+	TIE* tie = new TIE(t, true);
 
 	mAux = tie->modelMat();
 	mAux = translate(mAux, dvec3(x, 0, z));
-	mAux = scale(mAux, dvec3(0.3, 0.3, 0.3));
+	//mAux = scale(mAux, dvec3(0.1, 0.1, 0.1));
 	tie->setModelMat(mAux);
 
 	gObjects.push_back(tie);
-	family.push_back(tie);
 	lights.push_back(tie->getLight());
 
 	return tie;
@@ -781,37 +819,65 @@ familyTIE::familyTIE(Texture* t, bool mode)
 {
 	glm::dmat4 mAux;
 
+	s_orbit = false;
+	s_turn = false;
+
 	if (mode) {
-		TIE* tie1 = new TIE(t);
+		TIE* tie1 = new TIE(t, false);
 		gObjects.push_back(tie1);
-		family.push_back(tie1);
 		lights.push_back(tie1->getLight());
 
-		TIE* tie2 = new TIE(t);
+		TIE* tie2 = new TIE(t, false);
 		mAux = tie2->modelMat();
 		mAux = translate(mAux, dvec3(200, 100, 0));
 		mAux = scale(mAux, dvec3(0.3, 0.3, 0.3));
 		tie2->setModelMat(mAux);
 		gObjects.push_back(tie2);
-		family.push_back(tie2);
 		lights.push_back(tie2->getLight());
 
-		TIE* tie3 = new TIE(t);
+		TIE* tie3 = new TIE(t, false);
 		mAux = tie3->modelMat();
 		mAux = translate(mAux, dvec3(-200, 100, 0));
 		mAux = scale(mAux, dvec3(0.3, 0.3, 0.3));
 		tie3->setModelMat(mAux);
 		gObjects.push_back(tie3);
-		family.push_back(tie3);
 		lights.push_back(tie2->getLight());
 	}
 	else {
-		TIE* tie1 = newTIE(t, 0, 150);
+		TIE* tie1 = newTIE(t, 0, 500);
 
-		TIE* tie2 = newTIE(t, 150, 0);
+		TIE* tie2 = newTIE(t, 500, 0);
+		mAux = tie2->modelMat();
+		mAux = rotate(mAux, radians(-30.0), dvec3(0.0, 1.0, 1.0));
+		tie2->setModelMat(mAux);
 
-		TIE* tie3 = newTIE(t, -150, 0);
+		TIE* tie3 = newTIE(t, -500, 0);
+		mAux = tie3->modelMat();
+		mAux = rotate(mAux, radians(30.0), dvec3(0.0, 0.0, 1.0));
+		tie3->setModelMat(mAux);
 	}
+}
+
+void familyTIE::update()
+{
+	if (s_orbit) {
+		orbit();
+	}
+	if (s_turn) {
+		rota();
+	}
+}
+
+void familyTIE::orbit()
+{
+	mModelMat = translate(mModelMat, dvec3(0, -520, 0));
+	mModelMat = rotate(mModelMat, radians(-1.0), dvec3(0, 0, 1));
+	mModelMat = translate(mModelMat, dvec3(0, 520, 0));
+}
+
+void familyTIE::rota()
+{
+	mModelMat = rotate(mModelMat, radians(1.0), dvec3(0, 1, 0));
 }
 
 //void familyTIE::TIEsLightsOn()

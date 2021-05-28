@@ -193,6 +193,9 @@ void IG1App::key(unsigned char key, int x, int y)
 	if (scene01) scene = mScene;
 	else if (scene02) scene = mScene2;
 
+	GLfloat* amb = new GLfloat[4]{ 0.2f,0.2f,0.2f,1.0 };
+	GLfloat* dark = new GLfloat[4]{ 0.0f,0.0f,0.0f,1.0 };
+
 	switch (key) {
 	case 27:  // Escape key 
 		glutLeaveMainLoop();  // stops main loop and destroy the OpenGL context
@@ -208,9 +211,9 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'o':
 		cam->set2D_front();
 		break;
-	case 'b':
+	/*case 'b':
 		cam->set2D_back();
-		break;
+		break;*/
 	case 'p':
 		cam->changePrj();
 		break;
@@ -228,29 +231,44 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	//-------------------------------------------------------------------------
 	case 'q':
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 		mScene->g_DirLight()->enable();
 		break;
 	case 'w':
-		//cam->orbit(1.0, 1.0);
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 		mScene->g_DirLight()->disable();
 		break;
 	case 'a':
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 		mScene->g_PosLight()->enable();
 		break;
 	case 's':
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 		mScene->g_PosLight()->disable();
 		break;
 	case 'z':
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 		mScene->g_SpotLight()->enable();
 		break;
 	case 'x':
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 		mScene->g_SpotLight()->disable();
 		break;
 	case 'e':
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, dark);
 		mScene->allLights_ON();
 		break;
 	case 'r':
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, dark);
 		mScene->allLights_OFF();
+		break;
+	case 'y':
+		//mScene->toggleSquadOrbit();
+		mScene->orbitSquad();
+		break;
+	case 'b':
+		//mScene->toggleSquadTurn();
+		mScene->rotateSquad();
 		break;
 	//-------------------------------------------------------------------------
 	case 'k':
@@ -280,28 +298,39 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;*/
 	case 'u':
 		movement = !movement;
+		mScene->toggleSquadOrbit();
+		mScene->toggleSquadTurn();
 		break;
 	case '0':
 		mScene->changeScene(10);
 		cam->set2D_front();
+		cam->moveFB(500);
 		break;
 	case '9':
 		scene->changeScene(9);
 		cam->setOrtogonal();
+		cam->moveFB(500);
 		break;
 	case '3':
 		scene->changeScene(int(key - '0'));
 		cam->set2D_front();
+		cam->moveFB(500);
 		break;
 	case '8':
 	case '7':
-	case '6':
 	case '5':
 	case '4':
 	case '2':
 	case '1':
 		scene->changeScene(int(key - '0'));
-		cam->setPerspective();		
+		cam->setPerspective();	
+		cam->moveFB(500);
+		break;
+	case '6':
+		scene->changeScene(int(key - '0'));
+		cam->setPerspective();
+		cam->moveFB(1000);
+		//cam->setCenital();
 		break;
 	default:
 		need_redisplay = false;
@@ -405,11 +434,11 @@ void IG1App::motionCamera(Camera* cam, glm::dvec2 mp)
 	// click izquierdo mantenido
 	if (leftMouseButtonDown) {
 		if (mdf == 0) {
-			cam->orbit(mp.x * 0.25, mp.y + 0.25); // rotate move: orbit
+			cam->orbit(mp.x * 0.6, mp.y + 0.8); // rotate move: orbit
 		}
 		else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
 			int k = glutGet(GLUT_WINDOW_HEIGHT) - int(mp.y);
-			cam->orbitBalloon(mp.x * 0.25, k + 0.05); // rotate move: orbit en forma de globo, no funciona bien, no me ha dado tiempo (extra)
+			cam->orbitBalloon(mp.x * 0.6, k + 0.8); // rotate move: orbit en forma de globo, no funciona bien, no me ha dado tiempo (extra)
 		}
 	}
 	// click derecho mantenido
