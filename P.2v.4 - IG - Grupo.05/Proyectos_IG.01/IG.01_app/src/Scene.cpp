@@ -405,8 +405,10 @@ PosLight* Scene::initPosLight()
 
 SpotLight* Scene::initSpotLight()
 {
-	SpotLight* li = new SpotLight({ 0,0,1000 });
-	li->setSpot({ 0,0,-1 }, 50, 10);
+	//SpotLight* li = new SpotLight({ 0,0,1000 });
+	SpotLight* li = new SpotLight({ 0,0,750 });
+	//li->setSpot({ 0,0,-1 }, 50, 5);
+	//li->setSpot({ 0,0,-1 }, 50, 10);
 	return li;
 }
 

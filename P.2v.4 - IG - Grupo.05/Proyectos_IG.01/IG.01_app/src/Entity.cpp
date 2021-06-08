@@ -711,7 +711,7 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 
 GridCube::GridCube(GLdouble lado, GLuint nDiv, bool fill, GLuint scale)
 {
-	GLdouble L = lado * scale;		//40*5
+	GLdouble L = lado * scale;		//50*5 = 250
 	GLuint nDiv_ = nDiv * scale;	//4*5
 
 	Texture* tex_ = new Texture();
@@ -754,23 +754,27 @@ void GridCube::addWall(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLui
 	{
 	case 0:	// plano ZY
 		mAux = translate(mAux, dvec3(0, lado / 2, lado / 2));
-		//mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 0.0, 1.0));
-		mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
-		mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		//mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
+		//mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 0.0, 1.0));
 		break;
 	case 1:	// plano XY
 		mAux = translate(mAux, dvec3(lado / 2, lado / 2, 0));
+		//mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
 		mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
 		break;
 	case 2:	// paralelo al plano ZY
 		mAux = translate(mAux, dvec3(lado, lado / 2, lado / 2));
-		//mAux = rotate(mAux, radians(90.0), dvec3(0.0, 0.0, 1.0));
-		mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
-		mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		//mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
+		//mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 0.0, 1.0));
 		break;
 	case 3:	// paralelo al plano XY
 		mAux = translate(mAux, dvec3(lado / 2, lado / 2, lado));
+		//mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
 		mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
 		break;
 	default:
 		break;
