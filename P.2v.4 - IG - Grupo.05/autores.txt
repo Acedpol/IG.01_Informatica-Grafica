@@ -1,0 +1,92 @@
+Autores: (Grupo 5)
+	Pedro Pablo Cubells Talavera
+	David Rodríguez Gómez
+
+-> P.2.3 --------------------------------------------------------------
+Partes opcionales:
+
+- Ejercicios del 16 al 22:
+	
+	class Abs_Entity -->
+	-> Hemos añadido un bool renderTy_ que indica
+	si se va a dibujar con GL_LINE o GL_FILL (false / true)
+	
+	class Scene -->
+	-> Hemos añadido un método 
+	void setTexture(std::string, GLubyte alpha),
+	que facilita el añadir una textura a la última entidad añadida
+	-> También un método 
+	Texture* loadTexture(std::string, GLubyte alpha)
+	que carga en la escena una textura nueva y la devuelve
+
+	class GridCube_
+	-> Hemos añadido un método para añadir Floor's a
+	una posición y altura dada
+	-> Hemos añadido un método para añadir paredes a
+	una posición y lado concreto dado (definido por un switch)
+
+	class CompoundEntity_
+	-> Dos grupos de objetos para translúcidos y opacos
+	--> también aplicado en class Scene_
+
+	class Texture_
+	-> guarda la variable alpha y permite acceder a ella
+	--> extensión añadida en Entity para mTexture
+	
+	(Limpieza de código en la creación de showScene_3D)
+
+-> P.2.2 --------------------------------------------------------------
+Partes opcionales:
+
+- Ejercicios del 1 al 15: está todo funcionando al 100%.
+- Se ha reorganizado la práctica tal cual se pide en el enunciado,
+	conservando las partes realizadas en la primera práctica,
+	para ello se han redefinido las numeraciones de las escenas.
+
+Cosas a tener en cuenta:
+
+- No hay datos repetidos, es decir, cada vértice se declara una sola vez.
+- Se usan VertexArrays con índices para todos los objetos formados 
+	por IndexMesh.
+- Estos últimos mencionados: 
+	- Heredan de EntityWithIndexMesh y utilizan
+		el método builNormalVectors().
+	- Usan punteros y bucles 'for' con 'dvec3' para 
+		economizar el código y hacerlo más eficiente.
+	- Usan los vectores de forma muy parecida a como
+		los usan los objetos formados por Mesh.
+
+- Las luces están activadas por tanto se ha logrado con éxito
+	el uso de los vectores normales.
+	- Estos vectores se calculan por código, no a mano.
+- Las partes nuevas del código están comentadas.
+
+Comandos:
+
+ESC -> salir de la aplicación.
+'+' -> zoom in.
+'-' -> zoom out.
+'l' -> set camera 3D.
+'o' -> set camera front_2D.
+'b' -> set camera back_2D.
+'p' -> change proyection. (ortogonal / perspective)
+'q' -> camera orbit.
+'k' -> on/off doble vista.
+'j' -> on/off doble escena (la segunda con la cámara en front_2D)
+'h' -> on/off doble escena (la segunda con la cámara en 3D)
+'r' -> resize 400x200px.
+'u' -> on/off movimiento de objetos en escena.
+'1 - 7' -> cambio de escena a la seleccionada.
+
+Escenas:
+
+'1' -> Primer objeto formado como CompoundEntity. (TIE)
+'2' -> CuboConTapas/Cubo3D -> Segundo objeto con IndexMesh -> objeto 3D
+'3' -> AnilloCuadrado -> Primer objeto formado por un IndexMesh -> objeto plano
+'4' -> Dos esferas formadas con mallas por revolución
+'5' -> Cubo formado por Grid
+'6' -> Cono formado por con mallas por revolución
+'7' -> QuadricObjets -> la malla se contruye directamente cuando se dibuja
+'8' -> Escena 3D -> Perspectiva (Testing Camara)
+'9' -> Escena 3D -> Ortogonal
+'0' -> Escena 2D

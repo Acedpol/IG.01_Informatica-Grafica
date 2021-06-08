@@ -1,0 +1,82 @@
+﻿  Camera.cpp
+  Entity.cpp
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Entity.cpp(353,27): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Entity.cpp(367,27): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Entity.cpp(369,38): warning C4244: 'argumento': conversión de 'const GLdouble' a 'GLint'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Entity.cpp(385,31): warning C4244: 'argumento': conversión de 'const GLdouble' a 'GLint'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Entity.cpp(393,28): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Entity.cpp(395,31): warning C4244: 'argumento': conversión de 'const GLdouble' a 'GLint'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Entity.cpp(408,37): warning C4244: 'argumento': conversión de 'const GLdouble' a 'GLint'; posible pérdida de datos
+  IG1App.cpp
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\IG1App.cpp(372,10): warning C4244: 'inicializando': conversión de 'T' a 'int'; posible pérdida de datos
+          with
+          [
+              T=glm::f64
+          ]
+  main.cpp
+  Mesh.cpp
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(237,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(374,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,4): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,4): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,7): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,7): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,10): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,10): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,15): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,15): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,18): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,18): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,21): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,21): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,27): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,27): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,30): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,30): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,34): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,34): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,40): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,40): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,43): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,43): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,47): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(397,47): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,4): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,4): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,8): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,8): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,12): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,12): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,18): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,18): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,22): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,22): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,26): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,26): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,31): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,31): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,35): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,35): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,38): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,38): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,43): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,43): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,47): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,47): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,50): warning C4838: la conversión de 'GLdouble' en 'float' requiere una conversión de restricción
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(398,50): warning C4244: 'inicializando': conversión de 'GLdouble' a 'float'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(427,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(440,27): warning C4267: 'inicializando': conversión de 'size_t' a 'glm::uint'; posible pérdida de datos
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(442,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(514,21): warning C4018: '<': no coinciden signed/unsigned
+  Pixmap32RGBA.cpp
+  Scene.cpp
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Scene.cpp(212,33): warning C4305: 'argumento': truncamiento de 'double' a 'GLclampf'
+  Texture.cpp
+  Viewport.cpp
+  Generando código
+  Previous IPDB not found, fall back to full compilation.
+C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\IG.01_app\src\Mesh.cpp(524): warning C4715: 'MbR::generaMallaIndexadaPorRevolucion': no todas las rutas de acceso de control devuelven un valor
+  All 828 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Generación de código finalizada
+  IG1App.vcxproj -> C:\Users\Pablo\Desktop\2do Cuatrimestre\IG - Informática Gráfica\PROYECTO\Proyectos_IG.01\bin\IG1AppRelease.exe
