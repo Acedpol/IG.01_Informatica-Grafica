@@ -171,7 +171,7 @@ void Scene::showGridCube()
 	gObjects.push_back(new EjesRGB(400.0));
 
 	glm::dmat4 mAux;
-	GridCube* gr = new GridCube(L, nDiv, true, scale);
+	GridCube* gr = new GridCube(L, nDiv, true, scale, true);
 	mAux = gr->modelMat();
 	mAux = translate(mAux, dvec3(-(L / 2 * scale), -(L / 2 * scale), -(L / 2 * scale)));
 	gr->setModelMat(mAux);
@@ -182,7 +182,7 @@ void Scene::showGridCube()
 	//spotLight->setAmb({ 0.0f, 0.0f, 0.0f, 1 });
 	spotLight->setDiff({1.0,1.0,1.0,1.0});
 	//spotLight->setSpec({-1.0,-1.0,-1.0,1.0});
-	spotLight->setSpot({ 0.0,0.0,-1.0 }, 6, 0); // 4.5 cutoff
+	spotLight->setSpot({ 0.0,0.0,-1.0 }, 4.5, 0); // 4.5 cutoff
 }
 
 //-------------------------------------------------------------------------

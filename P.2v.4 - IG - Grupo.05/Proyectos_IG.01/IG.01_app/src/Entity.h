@@ -413,7 +413,7 @@ public:
 class GridCube : public CompoundEntity
 {
 public:
-	explicit GridCube(GLdouble lado, GLuint nDiv, bool fill, GLuint scale);
+	explicit GridCube(GLdouble lado, GLuint nDiv, bool fill, GLuint scale, bool tex);
 	virtual ~GridCube() {};
 	//virtual void render(glm::dmat4 const& modelViewMat) const;
 private:

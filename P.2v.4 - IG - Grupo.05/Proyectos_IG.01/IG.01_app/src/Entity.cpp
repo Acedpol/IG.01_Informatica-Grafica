@@ -443,7 +443,7 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 
 		glEnable(GL_COLOR_MATERIAL);
-		glColor3f(mColor.r, mColor.g, mColor.b);
+		glColor3f(GLfloat(mColor.r), GLfloat(mColor.g), GLfloat(mColor.b));
 		inMesh->render();
 		glColor3f(1.0f, 1.0f, 1.0f);
 		glDisable(GL_COLOR_MATERIAL);
@@ -578,7 +578,7 @@ void TIE::setLight()
 	light->setAmb(fvec4(0.0, 0.0, 0.0, 1.0));
 	light->setDiff(fvec4(1.0, 1.0, 1.0, 1.0));
 	light->setSpec(fvec4(0.5, 0.5, 0.5, 1.0));
-	light->setSpot(fvec3(0.0, -1.0, 0.0), 45.0, 0.2);
+	light->setSpot(fvec3(0.0, -1.0, 0.0), 45.0, 0.2f);
 	light->disable();
 	light->enable();
 }
@@ -650,7 +650,7 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		else{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glEnable(GL_COLOR_MATERIAL);
-			glColor3f(mColor.r, mColor.g, mColor.b);
+			glColor3f(GLfloat(mColor.r), GLfloat(mColor.g), GLfloat(mColor.b));
 		}		
 
 		mMesh->render();
@@ -689,20 +689,20 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 			mTexture->bind(GL_MODULATE);
 		}
 		else {
+			glEnable(GL_COLOR_MATERIAL);
 			glColor3f(0.0f, 0.25f, 0.42f);
 			glLineWidth(2);
 		}
 
-		glEnable(GL_COLOR_MATERIAL);
 		//glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 		//glColorMaterial(GL_FRONT, GL_SPECULAR);
-		glColorMaterial(GL_BACK, GL_SHININESS);
+		//glColorMaterial(GL_BACK, GL_SHININESS);
 		/*glColorMaterial(GL_FRONT, GL_SPECULAR);
 		glColorMaterial(GL_FRONT, GL_SPECULAR);
 		glColorMaterial(GL_BACK, GL_SPECULAR);
 		glColorMaterial(GL_BACK, GL_SPECULAR);
 		glColorMaterial(GL_BACK, GL_SPECULAR);*/
-		glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+		//glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
 		if (!renderTy_) {
 			glPolygonMode(GL_FRONT, GL_LINE);
@@ -713,8 +713,8 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 			glPolygonMode(GL_BACK, GL_LINE);
 		}
 
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
+		/*glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);*/
 
 		mMesh->render();
 
@@ -730,16 +730,20 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 
 //-------------------------------------------------------------------------
 
-GridCube::GridCube(GLdouble lado, GLuint nDiv, bool fill, GLuint scale)
+GridCube::GridCube(GLdouble lado, GLuint nDiv, bool fill, GLuint scale, bool tex)
 {
 	GLdouble L = lado * scale;		//50*5 = 250
 	GLuint nDiv_ = nDiv * scale;	//4*5
 
-	Texture* tex_ = new Texture();
-	tex_->load("..\\IG.01_app\\Bmps\\stones.bmp", 255);
+	Texture* tex_ = nullptr;
+	Texture* tex2_ = nullptr;
+	if (tex) {
+		tex_ = new Texture();
+		tex_->load("..\\IG.01_app\\Bmps\\stones.bmp", 255);
 
-	Texture* tex2_ = new Texture();
-	tex2_->load("..\\IG.01_app\\Bmps\\checker.bmp", 255);
+		tex2_ = new Texture();
+		tex2_->load("..\\IG.01_app\\Bmps\\checker.bmp", 255);
+	}
 	
 	addFloor(L, nDiv_, fill, tex2_, 0, 180.0);
 	for (int i = 0; i < 4; i++) addWall(L, nDiv_, fill, tex_, i);
@@ -761,7 +765,7 @@ void GridCube::addFloor(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLu
 	mAux = rotate(mAux, radians(alphaZ), dvec3(0.0, 0.0, 1.0));
 	gr->setModelMat(mAux);
 	gr->setTexture(tex);
-	if (tex->alpha() != 255) gBlendObjects.push_back(gr);
+	if (tex != nullptr && tex->alpha() != 255) gBlendObjects.push_back(gr);
 	else gObjects.push_back(gr);
 }
 
@@ -806,7 +810,7 @@ void GridCube::addWall(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLui
 	
 	gr->setModelMat(mAux);
 	gr->setTexture(tex);
-	if (tex->alpha() != 255) gBlendObjects.push_back(gr);
+	if (tex != nullptr && tex->alpha() != 255) gBlendObjects.push_back(gr);
 	else gObjects.push_back(gr);
 }
 
