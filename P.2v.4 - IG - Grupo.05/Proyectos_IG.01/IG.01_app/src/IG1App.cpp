@@ -452,13 +452,13 @@ void IG1App::motionCamera(Camera* cam, glm::dvec2 mp)
 				cam->moveUD(mp.y); // move: up / down
 			}
 			else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
-				cam->lookUD(mp.y); // look: up / down (extra)
+				cam->lookUD(-mp.y); // look: up / down (extra)
 			}
 		}
 		// LEFT / RIGHT
 		if (mp.x != 0) {
 			if (mdf == 0) {
-				cam->moveLR(mp.x); // move: left / right
+				cam->moveLR(-mp.x); // move: left / right
 			}
 			else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
 				cam->lookLR(mp.x); // look: left / right (extra)
