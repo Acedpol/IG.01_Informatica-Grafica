@@ -417,7 +417,7 @@ public:
 	virtual ~GridCube() {};
 	//virtual void render(glm::dmat4 const& modelViewMat) const;
 private:
-	void addFloor(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLuint height);
+	void addFloor(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLuint height, double alphaZ);
 	void addWall(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLuint side);
 };
 

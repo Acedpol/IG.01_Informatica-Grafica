@@ -1,0 +1,30 @@
+// lo último en escribirse es lo primero en ejecutarse, A*B != B*A // X = R * T
+	switch (side)
+	{
+	case 0:	// plano ZY
+		mAux = translate(mAux, dvec3(0, lado / 2, lado / 2));
+		//mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
+		//mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 0.0, 1.0));
+		break;
+	case 1:	// plano XY
+		mAux = translate(mAux, dvec3(lado / 2, lado / 2, 0));
+		//mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
+		break;
+	case 2:	// paralelo al plano ZY
+		mAux = translate(mAux, dvec3(lado, lado / 2, lado / 2));
+		//mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
+		//mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 0.0, 1.0));
+		break;
+	case 3:	// paralelo al plano XY
+		mAux = translate(mAux, dvec3(lado / 2, lado / 2, lado));
+		//mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
+		break;
+	default:
+		break;
+	}

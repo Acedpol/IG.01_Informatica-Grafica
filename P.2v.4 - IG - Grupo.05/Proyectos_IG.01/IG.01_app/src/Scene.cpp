@@ -165,8 +165,8 @@ void Scene::showGrid()
 
 void Scene::showGridCube()
 {
-	GLdouble L = 50;
-	GLuint nDiv = 4;
+	GLdouble L = 60;
+	GLuint nDiv = 5;
 	GLuint scale = 5;
 	gObjects.push_back(new EjesRGB(400.0));
 
@@ -176,6 +176,13 @@ void Scene::showGridCube()
 	mAux = translate(mAux, dvec3(-(L / 2 * scale), -(L / 2 * scale), -(L / 2 * scale)));
 	gr->setModelMat(mAux);
 	gObjects.push_back(gr);
+
+	spotLight->setPosDir({ 0,0,L * scale + 1250 });
+	//spotLight->setSpot({ 2.0,1.0,-4.0 }, 45.0, 4.00);
+	//spotLight->setAmb({ 0.0f, 0.0f, 0.0f, 1 });
+	spotLight->setDiff({0.0,0.0,0.0,1.0});
+	//spotLight->setSpec({-1.0,-1.0,-1.0,1.0});
+	spotLight->setSpot({ 0.0,0.0,-1.0 }, 6, 0); // 4.5 cutoff
 }
 
 //-------------------------------------------------------------------------
@@ -191,8 +198,12 @@ void Scene::showTieWithPlanet() {
 	e->setModelMat(mAux);
 	gObjects.push_back(e);*/
 
+	GLdouble r = 500;
 	Esfera* e = new Esfera(500, 90, 180, true);
 	e->setColor({ 0,1,0,1 });
+
+	spotLight->setPosDir({ 0,r + 50,0 });
+	spotLight->setSpot({ 0,-1,0 }, 90, 2);
 
 	Material* m = new Material();
 	m->setBrass();
@@ -406,8 +417,8 @@ PosLight* Scene::initPosLight()
 SpotLight* Scene::initSpotLight()
 {
 	//SpotLight* li = new SpotLight({ 0,0,1000 });
-	SpotLight* li = new SpotLight({ 900,0,0 });
-	li->setSpot({ -1,0,0 }, 15, 15);
+	SpotLight* li = new SpotLight({ 0,0,600 });
+	li->setSpot({ 0,0,-1 }, 90, 2);
 	//li->setSpot({ 0,0,-1 }, 50, 10);
 	return li;
 }

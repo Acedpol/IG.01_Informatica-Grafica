@@ -193,7 +193,7 @@ void IG1App::key(unsigned char key, int x, int y)
 	if (scene01) scene = mScene;
 	else if (scene02) scene = mScene2;
 
-	GLfloat* amb = new GLfloat[4]{ 0.2f,0.2f,0.2f,1.0 };
+	GLfloat* amb = new GLfloat[4]{ 0.1f,0.1f,0.1f,1.0 };
 	GLfloat* dark = new GLfloat[4]{ 0.0f,0.0f,0.0f,1.0 };
 
 	switch (key) {
@@ -248,10 +248,12 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case 'z':
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+		//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, dark);
 		mScene->g_SpotLight()->enable();
 		break;
 	case 'x':
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+		//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, dark);
 		mScene->g_SpotLight()->disable();
 		break;
 	case 'e':
