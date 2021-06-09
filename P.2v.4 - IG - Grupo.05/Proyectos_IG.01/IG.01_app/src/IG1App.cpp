@@ -419,6 +419,7 @@ void IG1App::mouse(int button, int state, int x, int y)
 
 void IG1App::motion(int x, int y)
 {
+	y = glutGet(GLUT_WINDOW_HEIGHT) - y;
 	glm::dvec2 mp_ = mCoord - glm::dvec2(x, y);
 	mCoord = { x,y };
 
@@ -436,7 +437,7 @@ void IG1App::motionCamera(Camera* cam, glm::dvec2 mp)
 	// click izquierdo mantenido
 	if (leftMouseButtonDown) {
 		if (mdf == 0) {
-			cam->orbit(mp.x * 0.6, mp.y + 0.8); // rotate move: orbit
+			cam->orbit(mp.x * 0.5, mp.y * 5); // rotate move: orbit
 		}
 		else if (mdf > 0 && mdf == GLUT_ACTIVE_CTRL) {
 			int k = glutGet(GLUT_WINDOW_HEIGHT) - int(mp.y);

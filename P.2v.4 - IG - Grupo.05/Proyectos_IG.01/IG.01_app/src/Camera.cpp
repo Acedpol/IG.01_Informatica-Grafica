@@ -145,6 +145,7 @@ void Camera::setPerspective()
 // zoom (out/in)
 void Camera::moveFB(GLdouble cs) // mFront = eje N
 {
+	mRadio += cs;
 	mEye += -mFront * cs; 
 	setVM(); 
 }

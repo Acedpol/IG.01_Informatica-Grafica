@@ -694,7 +694,15 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 		}
 
 		glEnable(GL_COLOR_MATERIAL);
+		//glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+		//glColorMaterial(GL_FRONT, GL_SPECULAR);
+		glColorMaterial(GL_BACK, GL_SHININESS);
+		/*glColorMaterial(GL_FRONT, GL_SPECULAR);
 		glColorMaterial(GL_FRONT, GL_SPECULAR);
+		glColorMaterial(GL_BACK, GL_SPECULAR);
+		glColorMaterial(GL_BACK, GL_SPECULAR);
+		glColorMaterial(GL_BACK, GL_SPECULAR);*/
+		glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
 		if (!renderTy_) {
 			glPolygonMode(GL_FRONT, GL_LINE);
@@ -704,6 +712,9 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 			glPolygonMode(GL_FRONT, GL_FILL);
 			glPolygonMode(GL_BACK, GL_LINE);
 		}
+
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 
 		mMesh->render();
 
@@ -746,7 +757,7 @@ void GridCube::addFloor(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLu
 	gr = new Grid(lado, nDiv, fill, tex);
 	mAux = gr->modelMat();
 	mAux = translate(mAux, dvec3(lado / 2, height, lado / 2));
-	//mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
+	mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
 	mAux = rotate(mAux, radians(alphaZ), dvec3(0.0, 0.0, 1.0));
 	gr->setModelMat(mAux);
 	gr->setTexture(tex);
@@ -767,7 +778,7 @@ void GridCube::addWall(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLui
 	case 0:	// plano ZY
 		mAux = translate(mAux, dvec3(0, lado / 2, lado / 2));
 		//mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
-		//mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		//mAux = rotate(mAux, radians(180.0), dvec3(1.0, 0.0, 0.0));
 		//mAux = rotate(mAux, radians(180.0), dvec3(0.0, 1.0, 0.0));
 		mAux = rotate(mAux, radians(90.0), dvec3(0.0, 0.0, 1.0));
 		break;
@@ -780,7 +791,7 @@ void GridCube::addWall(GLdouble lado, GLuint nDiv, bool fill, Texture* tex, GLui
 	case 2:	// paralelo al plano ZY
 		mAux = translate(mAux, dvec3(lado, lado / 2, lado / 2));
 		//mAux = rotate(mAux, radians(90.0), dvec3(0.0, 1.0, 0.0));
-		//mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		//mAux = rotate(mAux, radians(180.0), dvec3(1.0, 0.0, 0.0));
 		mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 0.0, 1.0));
 		break;
 	case 3:	// paralelo al plano XY

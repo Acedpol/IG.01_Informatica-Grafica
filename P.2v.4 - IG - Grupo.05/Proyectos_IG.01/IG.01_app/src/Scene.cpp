@@ -180,7 +180,7 @@ void Scene::showGridCube()
 	spotLight->setPosDir({ 0,0,L * scale + 1250 });
 	//spotLight->setSpot({ 2.0,1.0,-4.0 }, 45.0, 4.00);
 	//spotLight->setAmb({ 0.0f, 0.0f, 0.0f, 1 });
-	spotLight->setDiff({0.0,0.0,0.0,1.0});
+	spotLight->setDiff({1.0,1.0,1.0,1.0});
 	//spotLight->setSpec({-1.0,-1.0,-1.0,1.0});
 	spotLight->setSpot({ 0.0,0.0,-1.0 }, 6, 0); // 4.5 cutoff
 }
